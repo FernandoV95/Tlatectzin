@@ -1,13 +1,23 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LoginForm } from "../../schema/RegisterUser";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "../../Api/UserApi";
 import { toast } from "react-toastify";
 import Errors from "../../components/Errors";
+import { useState } from "react";
+import 'bootstrap-icons/font/bootstrap-icons.css';
+ 
 
 
 export default function Login() {
+
+    const [hiden, setHiden] = useState(false)
+    const Show = () => {
+        setHiden((prevHiden: any) => !prevHiden);
+        return hiden;
+    };
+
     const goMenu = useNavigate();
 
     const initialValues: LoginForm = {
@@ -37,26 +47,53 @@ export default function Login() {
     }
     return (
         <>
-            <form onSubmit={handleSubmit(onSub)} noValidate >
+            <div className="caja h-lvh">
+                <div className="pt-36">
+                    <h1 className="  font-fascinate text-center text-white">Inicia Sesión</h1>
+
+                    <form onSubmit={handleSubmit(onSub)} noValidate className="w-1/2 m-auto" >
+
+                        <div className=" flex flex-col mt-3">
+                            <input id="email" type="email" placeholder="Ej: corre@dominio.com" className="input-field" {...register('email', { required: true })} />
+                            {errors.email?.type === 'required' && <Errors>{'¡Tu correo es obligatorio!'}</Errors>}
+                        </div>
+ 
+
+                        <div className="flex flex-col mt-3"> 
+                            <div className="relative">
+                                <input id="pass" type={hiden ? 'text' : 'password'} placeholder="contraseña" className="input-field" {...register('pass', { required: true })} />
+                                {hiden ?
+                                    <i className="bi bi-eye-slash-fill absolute text-2xl top-2 right-2 hover:cursor-pointer" onClick={Show}></i>
+                                    :
+                                    <i className="bi bi-eye-fill absolute text-2xl top-2 right-2 hover:cursor-pointer" onClick={Show}></i>
+                                }
+                                {errors.pass?.type === 'required' && <Errors>{'¡La contraseña es obligatoria!'}</Errors>}
+                            </div>
+                        </div>
 
 
-                <div className=" flex flex-col mt-3">
-                    <label htmlFor="email"><span className="text-red-700">*</span> E-mail</label>
-                    <input id="email" type="email" placeholder="Ej: corre@dominio.com" className=" form-control" {...register('email', { required: true })} />
-                    {errors.email?.type === 'required' && <Errors>{'¡Tu correo es obligatorio!'}</Errors>}
-                </div>
 
-                <div className=" flex flex-col mt-3">
-                    <label htmlFor="pass"><span className="text-red-700">*</span> Contraseña</label>
-                    <input id="pass" type='password' {...register('pass', { required: true })} />
-                    {errors.pass?.type === 'required' && <Errors>{'¡La contraseña es obligatoria!'}</Errors>}
-                </div>
+                        <div className=" flex justify-center gap-6 mt-3 text-white text-lg">
+                            <Link to={"/auth/forgot-pass"}
+                                className="no-underline text-white transform scale-90 hover:scale-100 transition-transform duration-200" >
+                                ¿Olvidate tu contraseña?</Link>
+                            <div className="flex">
+                                <p> ¿No tienes cuenta?  </p>
+                                &nbsp;
+                                <Link
+                                    to={"/auth/new-user"}
+                                    className="no-underline text-white transform scale-90 hover:scale-100 transition-transform duration-200"
+                                >
+                                    Crear cuenta
+                                </Link>
 
+                            </div>
+                        </div>
 
-
-                <input type="submit" value="Enviar" />
-
-            </form>
+                        <input type="submit" value="Iniciar" className=" sub mt-3 w-full text-center text-black font-bold text-xl" />
+                    </form>
+                </div >
+            </div >
         </>
     )
 }

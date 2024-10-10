@@ -3,37 +3,70 @@ import Veterinarios from "../models/Veterinary";
 import Token from "../models/Token";
 import { generateToken } from "../util/GeneraToken";
 import { AuthEmail } from "../email/AuthUser";
+import User from "../models/Users";
 
 export class veterinaryControllers {
     static createVeterinary = async (req: Request, res: Response) => {
         try {
-            const { email } = req.body
-            const newVeterinary = new Veterinarios(req.body)
+            const { email } = req.body;
 
             // Prevenir duplicados
-            const vetExists = await Veterinarios.findOne({ email })
-            if (vetExists) {
-                const error = new Error('El veterinario ya esta registrado')
-                return res.status(409).json({ error: error.message })
+            const [extUser, extVet] = await Promise.all([
+                User.findOne({ email }),
+                Veterinarios.findOne({ email }),
+            ]);
+            const cuenta = extUser || extVet;
+            if (cuenta) {
+                return res.status(409).json({ error: '¡Este correo ya está registrado!' });
             }
 
-            //General el token
-            const token = new Token;
-            token.token = generateToken()
-            token.user = newVeterinary.id
+            const newVety = new Veterinarios(req.body);
 
-            //Enviar Email
-            AuthEmail.confimVeterinary({
-                email: newVeterinary.email,
-                name: newVeterinary.nombres,
-                apPat: newVeterinary.apPat,
-                token: token.token
-            })
+            // Generar el token
+            const tkn = new Token();
+            tkn.token = generateToken();
+            tkn.user = newVety.id;
 
-            await Promise.allSettled([token.save(), newVeterinary.save()])
-            res.send('Nuevo Veterinario registrado')
+            // Guardar usuario y token
+            const [TknScc, NvScc] = await Promise.allSettled([tkn.save(), newVety.save()]);
+
+            // Comprobar resultados
+            if (NvScc.status === 'rejected') {
+                console.error('Error al guardar veterinario:', NvScc.reason);
+                return res.status(500).json({ error: '¡Error al registrarte!', details: NvScc.reason });
+            }
+
+            if (TknScc.status === 'rejected') {
+                return res.status(500).json({ error: '¡Error al generar token!' });
+            }
+
+            // Enviar Email
+            await AuthEmail.confimVeterinary({
+                email: newVety.email,
+                name: newVety.nombres,
+                apPat: newVety.apPat,
+                token: tkn.token
+            });
+
+            res.status(201).json({ message: '¡Datos del veterinario almacenados!' });
         } catch (error) {
             return res.status(404).json({ error: error })
         }
     }
+
+    static deleteVeterinary = async (req: Request, res: Response) => {
+        try {
+            const { idV } = req.params
+            const vety = await Veterinarios.findById(idV)
+            if (!vety) {
+                const error = new Error('¡Veterinario no encontrado!')
+                return res.status(404).json({ error: error.message })
+            }
+            await vety.deleteOne()
+            res.send('¡Veterinario Eliminado!')
+        } catch (error) {
+            return res.status(404).json({ error: error.message })
+        }
+    }
+
 }

@@ -4,33 +4,39 @@ import { body } from "express-validator";
 import { meetingControllers } from "../controllers/MettingController";
 
 
-const routerMetting= Router() 
+const MttngRt= Router() 
 //-----------------Rutas para Agendar Cita -----------------
 
-routerMetting.post('/new',
+//Crear una reunion
+MttngRt.post('/new',
     InputErrors,
     meetingControllers.newMeeting
 )
 
-routerMetting.get('/all',
+//Muetsra todas las reuniones
+MttngRt.get('/',
     InputErrors,
     meetingControllers.getMetting
 )
 
-routerMetting.get('/meeting-id/:idM',
+//Busca la reunion por su Id
+MttngRt.get('/:idM',
     InputErrors,
     meetingControllers.getByMttng
 )
 
-routerMetting.put('/update/:idM',
+//Actualiza los datos de la reunion
+MttngRt.put('/:idM',
     InputErrors,
     meetingControllers.updateMttng
 )
 
-routerMetting.delete('/cancel/:idM',
+
+//Cancela la reunion
+MttngRt.delete('/:idM',
     InputErrors,
     meetingControllers.cancelledMttng
 )
 
 
-export default routerMetting
+export default MttngRt

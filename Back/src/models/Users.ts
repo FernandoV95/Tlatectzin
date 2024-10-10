@@ -8,7 +8,7 @@ export interface IUser extends Document {
     tel: number
     email: string
     pass: string
-    confirm: boolean
+    confirmed: boolean
 }
 
 const UserSchema: Schema = new Schema({
@@ -36,7 +36,7 @@ const UserSchema: Schema = new Schema({
         type: String,
         required: true
     },
-    confirm: {
+    confirmed: {
         type: Boolean,
         default: false
     },

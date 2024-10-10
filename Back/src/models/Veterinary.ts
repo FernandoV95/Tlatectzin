@@ -4,11 +4,11 @@ interface IVeterinary extends Document {
     nombres: string
     apPat: string
     apMat: string
-    cedula: string
-    telefono: number
+    tel: number
     email: string
     pass: string
     confirmed: boolean
+    cedula: string
 }
 
 export const VeterinarySchema: Schema = new Schema({
@@ -40,9 +40,9 @@ export const VeterinarySchema: Schema = new Schema({
     pass: {
         type: String,
         required: true,
-        default:"12345"
+        default:"hola"
     },
-    confirm: {
+    confirmed: {
         type: Boolean,
         default: false
     },

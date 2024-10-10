@@ -5,30 +5,30 @@ import saveImg from "../middleware/saveImg";
 import { petsImgControllers } from "../controllers/PetsImgCntlls";
 import validatePet from "../middleware/validatePet";
 
-const routerPets = Router()
+const PetsRt = Router()
 
 //Rutas para las mascotas
-routerPets.post('/',
+PetsRt.post('/',
     InputErrors,
     petsControllers.createPet
 )
 
-routerPets.get('/',
+PetsRt.get('/',
     InputErrors,
     petsControllers.getAllPets
 )
 
-routerPets.get('/:idPet',
+PetsRt.get('/:idPet',
     InputErrors,
     petsControllers.getPetsById
 )
 
-routerPets.put('/:idPet',
+PetsRt .put('/:idPet',
     InputErrors,
     petsControllers.updatePet
 )
 
-routerPets.delete('/:idPet',
+PetsRt.delete('/:idPet',
     InputErrors,
     validatePet,
     petsControllers.deletePet
@@ -37,23 +37,23 @@ routerPets.delete('/:idPet',
 
 
 //Rutas para las imagenes de las mascotas
-routerPets.post('/:idPet/imgs/',
+PetsRt.post('/:idPet/imgs/',
     saveImg,
     InputErrors,
     validatePet, 
     petsImgControllers.createImg
 )
 
-routerPets.delete('/:idPet/imgs/:idIP',
+PetsRt.delete('/:idPet/imgs/:idIP',
     InputErrors,
     validatePet, 
     petsImgControllers.deleteImgPetById
 )
 
-routerPets.delete('/:idPet/imgs/',
+PetsRt.delete('/:idPet/imgs/',
     InputErrors,
     validatePet, 
     petsImgControllers.deleteAllImg
 )
 
-export default routerPets
+export default PetsRt 
