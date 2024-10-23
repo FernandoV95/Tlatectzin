@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom'
 import { PassResetForm, ValidTokenForm } from '../../schema/RegisterUser'
 import { resetPass } from '../../Api/UserApi'
 import Errors from '../Errors'
+import { useState } from 'react'
+import { FaLock } from 'react-icons/fa'
 
 
 type NewPasswordFormProps = {
@@ -16,13 +18,24 @@ type NewPasswordFormProps = {
 
 
 function NewPass({ token }: NewPasswordFormProps) {
+
+  const [hiden, setHiden] = useState<boolean>(false);
+  const [hiden2, setHiden2] = useState<boolean>(false);
+
+  const Show = () => {
+    setHiden(prevHiden => !prevHiden);
+  };
+
+  const Show2 = () => {
+    setHiden2(prevHiden => !prevHiden);
+  };
   const goMenu = useNavigate()
 
   const initialValues: PassResetForm = {
     pass: '',
     pass_confirm: ''
   }
-  const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues });
+  const { register, getValues, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues });
 
   const { mutate } = useMutation({
     mutationFn: resetPass,
@@ -31,7 +44,7 @@ function NewPass({ token }: NewPasswordFormProps) {
     },
     onSuccess: (datos) => {
       toast.success(datos)
-      goMenu('/')
+      goMenu('/auth/login')
     }
   })
 
@@ -45,31 +58,49 @@ function NewPass({ token }: NewPasswordFormProps) {
   }
   return (
     <>
-      <form
-        onSubmit={handleSubmit(handleNewPassword)}
-        className="space-y-8 p-10  bg-white mt-10"
-        noValidate
-      >
+      <div className="caja h-lvh">
+        <div className="pt-8">
+          <h1 className="  font-fascinate text-center text-white">Actualiza tu contraseña</h1>
 
-        <div className=" flex flex-col mt-3">
-          <label htmlFor="pass"><span className="text-red-700">*</span> Contraseña</label>
-          <input id="pass" type='password' {...register('pass', { required: true })} />
-          {errors.pass?.type === 'required' && <Errors>{'¡La contraseña es obligatoria!'}</Errors>}
+          <form onSubmit={handleSubmit(handleNewPassword)} noValidate className="w-4/5 m-auto" >
+
+
+            <div className=" flex flex-col mt-3 ">
+              <div className="relative">
+                <input id="pass" type={hiden ? 'text' : 'password'} placeholder="Contraseña" className="input-field" {...register('pass', { required: true })} />
+                <FaLock className="absolute left-4 top-5 text-white" />
+                {hiden ?
+                  <i className="bi bi-eye-slash-fill absolute text-2xl top-2 right-2 hover:cursor-pointer" onClick={Show}></i>
+                  :
+                  <i className="bi bi-eye-fill absolute text-2xl top-2 right-2 hover:cursor-pointer" onClick={Show}></i>
+                }
+                {errors.pass?.type === 'required' && <Errors>{'¡Tu contraseña es obligatoria!'}</Errors>}
+              </div>
+            </div>
+
+
+            <div className=" flex flex-col mt-3 ">
+              <div className="relative">
+                <input id="pass_confirm" type={hiden2 ? 'text' : 'password'} placeholder="Repite tu contraseña" className="input-field" {...register("pass_confirm",
+                  {
+                    required: "¡Repite tu contraseña!",
+                    validate: v => v === getValues('pass') || "¡Las contraseñas no coinciden!"
+                  })} />
+                <FaLock className="absolute left-4 top-5 text-white" />
+                {hiden2 ?
+                  <i className="bi bi-eye-slash-fill absolute text-2xl top-2 right-2 hover:cursor-pointer" onClick={Show2}></i>
+                  :
+                  <i className="bi bi-eye-fill absolute text-2xl top-2 right-2 hover:cursor-pointer" onClick={Show2}></i>
+                }
+                {errors.pass_confirm && <Errors>{errors.pass_confirm.message}</Errors>}
+              </div>
+            </div>
+            <input type="submit" value="Actualizar" className=" sub mt-2 w-full text-center text-black font-bold text-xl" />
+          </form>
+
         </div>
+      </div>
 
-        <div className=" flex flex-col mt-3">
-          <label htmlFor="confirm_pass"><span className="text-red-700">*</span> Confirmar contraseña</label>
-          <input id="confirm_pass" type="password" className="form-control" {...register("pass_confirm", {
-              required: "¡Repite tu contraseña!",
-              validate: value => value === initialValues.pass || 'Los passwords no son iguales'
-            })}
-          />
-          {errors.pass_confirm && <p>{errors.pass_confirm.message}</p>}
-        </div>
-
-        <input type="submit" value='Reestablecer contraseña'
-        />
-      </form>
     </>
 
   )

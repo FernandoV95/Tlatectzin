@@ -5,8 +5,22 @@ import { useMutation } from "@tanstack/react-query";
 import { newUser } from "../../Api/UserApi";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { FaLock, FaUser, FaPhone, FaEnvelope } from 'react-icons/fa';
+import { useState } from "react";
 
 function NewUser() {
+
+    const [hiden, setHiden] = useState<boolean>(false);
+    const [hiden2, setHiden2] = useState<boolean>(false);
+
+    const Show = () => {
+        setHiden(prevHiden => !prevHiden);
+    };
+
+    const Show2 = () => {
+        setHiden2(prevHiden => !prevHiden);
+    };
+
     const goToken = useNavigate();
 
     const initialValues: RegisterUserForm = {
@@ -19,7 +33,7 @@ function NewUser() {
         pass_confirm: '',
     };
 
-    const { register,getValues, handleSubmit, formState: { errors } } = useForm<RegisterUserForm>({
+    const { register, getValues, handleSubmit, formState: { errors } } = useForm<RegisterUserForm>({
         defaultValues: initialValues
     });
 
@@ -30,7 +44,7 @@ function NewUser() {
         },
         onSuccess: (data) => {
             toast.success(data)
-            goToken('/auth/confirm-account')
+            goToken('/auth/valAcct')
         }
     })
 
@@ -44,57 +58,101 @@ function NewUser() {
 
     return (
         <>
-            <form onSubmit={handleSubmit(onSub)} noValidate >
+            <div className="caja h-lvh">
+                <div className="pt-8">
+                    <h1 className="  font-fascinate text-center text-white">Ingresa tus datos</h1>
+                    <form onSubmit={handleSubmit(onSub)} noValidate className=" w-2/3 m-auto" >
 
-                <div className=" flex flex-col mt-3">
-                    <label htmlFor="nombres"><span className="text-red-700">*</span> Nombre(s)</label>
-                    <input id="nombres" type="text" placeholder="Ej: Andres Manuel " className=" form-control" {...register('nombres', { required: true })} />
-                    {errors.nombres?.type === 'required' && <Errors>{'¡Tu Nombre es obligatorio!'}</Errors>}
+                        <div className="flex justify-between gap-4">
+                            <div className=" flex flex-col mt-3">
+                                <div className="relative">
+                                    <input id="nombres" type="text" placeholder="Nombre(s)" className="input-field" {...register('nombres', { required: true })} />
+                                    <FaUser className="absolute left-4 top-5 text-white" />
+                                    {errors.nombres?.type === 'required' && <Errors>{'¡Tu nombre es obligatorio!'}</Errors>}
+                                </div>
+                            </div>
+
+                            <div className=" flex flex-col mt-3">
+                                <div className="relative">
+                                    <input id="apPat" type="text" placeholder="Apellido Paterno" className="input-field" {...register('apPat', { required: true })} />
+                                    <FaUser className="absolute left-4 top-5 text-white" />
+                                    {errors.apPat?.type === 'required' && <Errors>{'¡Tu apellido es obligatorio!'}</Errors>}
+                                </div>
+                            </div>
+
+
+                            <div className=" flex flex-col mt-3">
+                                <div className="relative">
+                                    <input id="apMat" type="text" placeholder="Apellido Materno" className="input-field" />
+                                    <FaUser className="absolute left-4 top-5 text-white" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex gap-4 ">
+                            <div className=" flex flex-col mt-3 w-1/2">
+                                <div className="relative">
+                                    <input id="tel" type="tel" placeholder="Telefono" className="input-field" {...register('tel', { required: true })} />
+                                    <FaPhone className="absolute left-4 top-5 text-white" />
+                                    {errors.tel?.type === 'required' && <Errors>{'¡Tu telefono es obligatorio!'}</Errors>}
+                                </div>
+                            </div>
+
+                            <div className=" flex flex-col mt-3 w-1/2">
+                                <div className="relative">
+                                    <input id="email" type="email" placeholder="Ej: corre@dominio.com" className="input-field" {...register("email", {
+                                        required: "¡Tu Correo es obligatorio!",
+                                        pattern: {
+                                            value: /\S+@\S+\.\S+/,
+                                            message: "E-mail no válido",
+                                        },
+                                    })} />
+                                    <FaEnvelope className="absolute left-4 top-5 text-white" />
+                                    {errors.email?.type === 'required' && <Errors>{'¡Tu correo es obligatorio!'}</Errors>}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex gap-4 " >
+                            <div className=" flex flex-col mt-3 w-1/2">
+                                <div className="relative">
+                                    <input id="pass" type={hiden ? 'text' : 'password'} placeholder="Contraseña" className="input-field" {...register('pass', { required: true })} />
+                                    <FaLock className="absolute left-4 top-5 text-white" />
+                                    {hiden ?
+                                        <i className="bi bi-eye-slash-fill absolute text-2xl top-2 right-2 hover:cursor-pointer" onClick={Show}></i>
+                                        :
+                                        <i className="bi bi-eye-fill absolute text-2xl top-2 right-2 hover:cursor-pointer" onClick={Show}></i>
+                                    }
+                                    {errors.pass?.type === 'required' && <Errors>{'¡Tu contraseña es obligatoria!'}</Errors>}
+                                </div>
+                            </div>
+
+
+                            <div className=" flex flex-col mt-3 w-1/2">
+                                <div className="relative">
+                                    <input id="pass_confirm" type={hiden2 ? 'text' : 'password'} placeholder="Repite tu contraseña" className="input-field" {...register("pass_confirm",
+                                        {
+                                            required: "¡Repite tu contraseña!",
+                                            validate: v => v === getValues('pass') || "¡Las contraseñas no coinciden!"
+                                        })} />
+                                    <FaLock className="absolute left-4 top-5 text-white" />
+                                    {hiden2 ?
+                                        <i className="bi bi-eye-slash-fill absolute text-2xl top-2 right-2 hover:cursor-pointer" onClick={Show2}></i>
+                                        :
+                                        <i className="bi bi-eye-fill absolute text-2xl top-2 right-2 hover:cursor-pointer" onClick={Show2}></i>
+                                    }
+                                    {errors.pass_confirm && <Errors>{errors.pass_confirm.message}</Errors>}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/*------------------------------------ */}
+
+                        <input type="submit" value="Registrar" className=" sub mt-2 w-full text-center text-black font-bold text-xl" />
+
+                    </form>
                 </div>
-
-                <div className=" flex flex-col mt-3">
-                    <label htmlFor="apPat"><span className="text-red-700">*</span> Apellido Paterno</label>
-                    <input id="apPat" type="text" placeholder="Ej: Lopez" className=" form-control" {...register('apPat', { required: true })} />
-                    {errors.apPat?.type === 'required' && <Errors>{'¡Tu apellido es obligatorio!'}</Errors>}
-                </div>
-
-                <div className=" flex flex-col mt-3">
-                    <label htmlFor="apMat">Apellido Materno</label>
-                    <input id="apMat" type="text" placeholder="Ej: Obrador" className=" form-control" {...register('apMat', { required: false })} />
-                </div>
-
-                <div className=" flex flex-col mt-3">
-                    <label htmlFor="tel"><span className="text-red-700">*</span> Telefono</label>
-                    <input id="tel" type="tel" placeholder="Ej: 5596374125" className=" form-control" {...register('tel', { required: true })} />
-                    {errors.tel?.type === 'required' && <Errors>{'¡Tu telefono es obligatorio!'}</Errors>}
-                </div>
-
-                <div className=" flex flex-col mt-3">
-                    <label htmlFor="email"><span className="text-red-700">*</span> E-mail</label>
-                    <input id="email" type="email" placeholder="Ej: corre@dominio.com" className=" form-control" {...register('email', { required: true })} />
-                    {errors.email?.type === 'required' && <Errors>{'¡Tu correo es obligatorio!'}</Errors>}
-                </div>
-
-                <div className=" flex flex-col mt-3">
-                    <label htmlFor="pass"><span className="text-red-700">*</span> Contraseña</label>
-                    <input id="pass" type='password' {...register('pass', { required: true })} />
-                    {errors.pass?.type === 'required' && <Errors>{'¡La contraseña es obligatoria!'}</Errors>}
-                </div>
-
-                <div className=" flex flex-col mt-3">
-                    <label htmlFor="pass_confirm"><span className="text-red-700">*</span> Confirmar contraseña</label>
-                    <input id="pass_confirm" type="password" {...register("pass_confirm",
-                        {
-                            required: "¡Repite tu contraseña!",
-                            validate: value => value ===  getValues('pass') || "¡Las contraseñas no coinciden!"
-                        })} />
-                    {errors.pass_confirm && <Errors>{errors.pass_confirm.message}</Errors>}
-                </div>
-
-                <input type="submit" value="Enviar" />
-
-            </form>
-
+            </div>
         </>
     )
 }

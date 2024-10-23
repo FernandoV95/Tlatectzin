@@ -5,25 +5,25 @@ import { InputErrors } from "../middleware/inputErrors";
 
 
 const AuthRt = Router()
-//Logear cualquie cuenta
-AuthRt.post('/',
+//Logear cualquier cuenta
+AuthRt.post('/login',
     Accounts.login
 )
 
 //Validar el token de cualquier cuenta
-AuthRt.get('/valAcct',
+AuthRt.post('/valAcct',
     InputErrors,
     Accounts.validateAccountToken
 )
 
 //Solicitar Token de cualquier cuenta para cambiar la contraseña
-AuthRt.post('/fgtPss',
+AuthRt.post('/forgotPass',
     InputErrors,
     Accounts.forgotPass
 )
 
 //Validar el token para cambiar contraseña
-AuthRt.get('/valTokn',
+AuthRt.post('/valTokn',
     InputErrors,
     Accounts.validateResetToken
 )

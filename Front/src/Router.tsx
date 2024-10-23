@@ -19,14 +19,24 @@ export default function Router() {
             <Routes>
                 <Route element={<Layout />} >
                     <Route path='/' element={<App />} index />
-                    <Route path='/auth/new-user' element={<NewUser />} />
-                    <Route path='/auth/confirm-account' element={<ValidToken />} />
-                    <Route path='/auth/forgot-pass' element={<ForgotPass />} />
-                    <Route path='/auth/new-pass' element={<ResetPass />} />
-                    <Route path='/auth/login' element={<Login />} />
-                    <Route path='/auth/request-token' element={<RequestToken />} />
 
+                    {/* Iniciar sesion usuarios/Veterinarios/administradores */}
+                    <Route path='/auth/login' element={<Login />} />
+                    {/*Crea un nuevo usuario */}
+                    <Route path='/auth/user' element={<NewUser />} />
+                    {/*Crea una nueva cita*/}
                     <Route path='/meeting' element={<NewMeeting />} />
+                    {/*Validar la cuenta por token */}
+                    <Route path='/auth/valAcct' element={<ValidToken />} />
+                    {/*Solicita un nuevo token*/}
+                    <Route path='/auth/ReqToken' element={<RequestToken />} />
+
+                    {/*Se envia un token mediante tu correo*/}
+                    <Route path='/auth/forgotPass' element={<ForgotPass />} />
+                    {/*Cambiar contraseña */}
+                    <Route path='/auth/valTokn' element={<ResetPass />} />
+
+
                 </Route>
 
             </Routes>

@@ -6,7 +6,7 @@ import { EmailForm, LoginForm, PassResetForm, RegisterUserForm, ValidTokenForm }
  
 export async function newUser(formData: RegisterUserForm){
     try{
-        const { data } = await api.post('/auth/new-user',formData)
+        const { data } = await api.post('/user',formData)
         return data
     }catch(error){
        if(isAxiosError(error) && error.response)
@@ -16,7 +16,7 @@ export async function newUser(formData: RegisterUserForm){
 
 export async function validateAccountToken(formData: ValidTokenForm){
     try{
-        const { data } = await api.post('/auth/confirm-account',formData)
+        const { data } = await api.post('/auth/valAcct', formData)
         return data
     }catch(error){
        if(isAxiosError(error) && error.response)
@@ -26,7 +26,7 @@ export async function validateAccountToken(formData: ValidTokenForm){
 
 export async function forgotPass(formData: EmailForm){
     try{
-        const { data } = await api.post('/auth/forgot-pass',formData)
+        const { data } = await api.post('/auth/forgotPass',formData)
         return data
     }catch(error){
        if(isAxiosError(error) && error.response)
@@ -36,7 +36,7 @@ export async function forgotPass(formData: EmailForm){
 
 export async function validateResetToken(formData: ValidTokenForm){
     try{
-        const url =`/auth/valid-reset-token`
+        const url =`/auth/valTokn`
         const { data } = await api.post<string>(url,formData)
         return data
     }catch(error){
@@ -47,8 +47,8 @@ export async function validateResetToken(formData: ValidTokenForm){
 
 export async function resetPass({formData,token}:{formData: PassResetForm,token:ValidTokenForm['token']}){
     try{
-        const url = `/auth/reset-pass/${token}`
-        const { data } = await api.post<string>(url,formData)
+        const url = `/auth/updtPss/${token}`
+        const { data } = await api.patch<string>(url,formData)
         return data
     }catch(error){
        if(isAxiosError(error) && error.response)
@@ -69,7 +69,7 @@ export async function login(formData:LoginForm){
 
 export async function requestToken(formData: EmailForm){
     try{
-        const { data } = await api.post('/auth/request-token',formData)
+        const { data } = await api.post('/auth/ReqToken',formData)
         return data
     }catch(error){
        if(isAxiosError(error) && error.response)

@@ -20,16 +20,20 @@ server.use(cors(corsConfig))
 server.use(express.json())
 
 //Rutas
+//Para crear usuarios
+server.use('/api/user',UserRt);
 //Para agendar reuniones
 server.use('/api/mtng',MttngRt)
 //Para agregar mascotas
 server.use('/api/pets',PetsRt)
-//Para autenticar cuentas
-server.use('/api/auth',AuthRt)
-//Para crear usuarios
-server.use('/api/user',UserRt);
 //Para crear veterinarios
 server.use('/api/vets',VtrnRt)
+//Para autenticar cuentas
+server.use('/api/auth',AuthRt)
+
 
 
 export default server
+
+
+

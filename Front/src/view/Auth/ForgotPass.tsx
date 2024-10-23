@@ -5,6 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { forgotPass } from "../../Api/UserApi";
 import { useNavigate } from "react-router-dom";
+import { FaEnvelope } from "react-icons/fa";
 
 
 
@@ -25,7 +26,7 @@ function ForgotPass() {
         },
         onSuccess: (data) => {
             toast.success(data) //El data es del Backend y en front está en Servicios
-            goMenu('/')
+            goMenu('/auth/valTokn')
         }
     })
 
@@ -35,32 +36,27 @@ function ForgotPass() {
 
     return (
         <>
-            <h1>Ingresa tu correo</h1>
-            <form onSubmit={handleSubmit(onSub)} noValidate >
-
-                <div>
-                    <label>Correo</label>
-                    <input
-                        id="email"
-                        type="email"
-                        placeholder="Email de Registro"
-                        {...register("email", {
-                            required: "El Email es obligatorio",
-                            pattern: {
-                                value: /\S+@\S+\.\S+/,
-                                message: "E-mail no válido",
-                            },
-                        })}
-                    />
-                    {errors.email && (
-                        <Errors>{errors.email.message}</Errors>
-                    )}
+            <div className="caja h-lvh">
+                <div className="pt-36 w-4/5 m-auto">
+                    <h1 className="  font-fascinate text-center text-white">Ingresa tu correo</h1>
+                    <form onSubmit={handleSubmit(onSub)} noValidate >
+                        <div className=" flex flex-col mt-3">
+                            <div className="relative">
+                                <input id="email" type="email" placeholder="Email" className="input-field  " {...register("email", {
+                                    required: "¡Tu Correo es obligatorio!",
+                                    pattern: {
+                                        value: /\S+@\S+\.\S+/,
+                                        message: "E-mail no válido",
+                                    },
+                                })} />
+                                <FaEnvelope className="absolute left-4 top-5 text-white" />
+                                {errors.email?.type === 'required' && <Errors>{'¡Tu correo es obligatorio!'}</Errors>}
+                            </div>
+                        </div>
+                        <input type="submit" value="Enviar" className=" sub mt-4 w-full text-center text-black font-bold text-xl" />
+                    </form>
                 </div>
-
-
-                <input type="submit" value="Enviar" />
-
-            </form>
+            </div>
         </>
     )
 }

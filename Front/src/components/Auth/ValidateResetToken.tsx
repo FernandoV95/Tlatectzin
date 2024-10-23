@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query" 
+import { useMutation } from "@tanstack/react-query"
 import { toast } from "react-toastify"
 import { PinInput, PinInputField } from "@chakra-ui/pin-input"
 import React from "react"
@@ -36,15 +36,21 @@ export default function ValidateResetToken({ token, setToken, setIsVldTkn }: Val
 
   return (
     <>
-      <h1>Validar el token para modificar la contraseña</h1>
-      <PinInput type={'alphanumeric'} value={token} onChange={handlChange} onComplete={handleComplete}>
-        <PinInputField />
-        <PinInputField />
-        <PinInputField />
-        <PinInputField />
-        <PinInputField />
-        <PinInputField />
-      </PinInput >
+      <div className='caja h-lvh '>
+        <div className="pt-36">
+          <h1 className="  font-fascinate text-center text-white">Ingresa tu codigo de verificación</h1>
+          <PinInput type={'alphanumeric'} value={token} onChange={handlChange} onComplete={handleComplete}>
+            <div className=" w-4/5 pt-8 m-auto flex justify-evenly">
+              <PinInputField className="w-16 h-24 border-4 border-green-700 rounded text-center text-6xl font-silkscreen" />
+              <PinInputField className="w-16 h-24 border-4 border-green-700 rounded text-center text-6xl font-silkscreen " />
+              <PinInputField className="w-16 h-24 border-4 border-green-700 rounded text-center text-6xl font-silkscreen" />
+              <PinInputField className="w-16 h-24 border-4 border-green-700 rounded text-center text-6xl font-silkscreen" />
+              <PinInputField className="w-16 h-24 border-4 border-green-700 rounded text-center text-6xl font-silkscreen" />
+              <PinInputField className="w-16 h-24 border-4 border-green-700 rounded text-center text-6xl font-silkscreen" />
+            </div>
+          </PinInput >
+        </div>
+      </div>
     </>
   )
 }

@@ -53,7 +53,7 @@ export class UserController {
                 token: tkn.token
             })
 
-            res.status(201).json({ message: 'Revisa tu correo para confirmar tu registro' });
+            res.send('Hemos enviado tu codigo a tu correo')
 
         } catch (error) {
             return res.status(404).json({ error: error.message })

@@ -161,6 +161,7 @@ export class Accounts {
         }
     }
 
+    //Solicita un nuevo token para validar la cuenta
     static requestToken = async (req: Request, res: Response) => {
         try {
             const { email } = req.body
@@ -174,21 +175,21 @@ export class Accounts {
 
             //Buscar la cuenta
 
-            if(!accnt) {
+            if (!accnt) {
                 const error = new Error('Cuenta No registrada!')
                 return res.status(401).json({ error: error.message })
             }
 
             //Verificar si esta autenticado
-            if(accnt.confirmed) {
+            if (accnt.confirmed) {
                 const error = new Error('¡Cuenta Ya Autenticada!')
                 return res.status(401).json({ error: error.message })
             }
 
             //General el token
-            const token = new Token;
-            token.token = generateToken()
-            token.user = accnt.id
+            const tkn = new Token;
+            tkn.token = generateToken()
+            tkn.user = accnt.id
 
             //Enviar Email
             const emailMethod = exstUser ? 'reqTokenUser' : 'reqTokenVet';
@@ -197,11 +198,11 @@ export class Accounts {
                 email: accnt.email,
                 name: accnt.nombres,
                 apPat: accnt.apPat,
-                token: token.token
+                token: tkn.token
             })
-            
+
             //Guardar el token
-            await token.save()
+            await tkn.save()
 
             res.send('Revisa tu correo para autenticar tu cuenta')
 

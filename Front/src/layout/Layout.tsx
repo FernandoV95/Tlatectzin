@@ -26,7 +26,7 @@ export default function AppLayout() {
     setDarkTheme(!darkTheme)
   }
 
-  const rutas=['/auth/login','/auth/new-user','/auth/forgot-pass']
+  const rutas=['/auth/login','/auth/user','/auth/forgot-pass']
 
   useEffect(() => { 
     setIsLogin(!rutas.includes(pathname));
