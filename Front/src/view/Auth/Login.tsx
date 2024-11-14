@@ -8,6 +8,7 @@ import Errors from "../../components/Errors";
 import { useState } from "react";
 import { FaLock, FaUser } from 'react-icons/fa';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import TAza from "../../components/animations/TAza";
 
 
 
@@ -35,8 +36,8 @@ export default function Login() {
         onError: (error) => {
             toast.error(error.message)
         },
-        onSuccess: (data) => {
-            toast.success(data)
+        onSuccess: () => {
+            toast.success('Bienvenido')
             goMenu('/')
         }
     })
@@ -49,6 +50,7 @@ export default function Login() {
     return (
         <>
             <div className="caja h-lvh">
+
                 <div className="pt-36">
                     <h1 className="  font-fascinate text-center text-white">Inicia Sesión</h1>
 
@@ -74,9 +76,9 @@ export default function Login() {
                                 <input id="pass" type={hiden ? 'text' : 'password'} placeholder="contraseña" className="input-field" {...register('pass', { required: true })} />
                                 <FaLock className="absolute left-4 top-5  text-white" />
                                 {hiden ?
-                                    <i className="bi bi-eye-slash-fill absolute text-2xl top-2 right-2 hover:cursor-pointer" onClick={Show}></i>
+                                    <i className="bi bi-eye-slash-fill absolute text-2xl top-2 right-2 z-20 hover:cursor-pointer" onClick={Show}></i>
                                     :
-                                    <i className="bi bi-eye-fill absolute text-2xl top-2 right-2 hover:cursor-pointer" onClick={Show}></i>
+                                    <i className="bi bi-eye-fill absolute text-2xl top-2 right-2 z-20 hover:cursor-pointer" onClick={Show}></i>
                                 }
 
                                 {errors.pass?.type === 'required' && <Errors>{'¡La contraseña es obligatoria!'}</Errors>}
@@ -85,7 +87,7 @@ export default function Login() {
 
 
 
-                        <div className=" w-4/5 m-auto flex justify-between text-white text-lg mt-4">
+                        <div className=" w-4/5 m-auto flex justify-between text-white text-lg mt-4 relative">
                             <Link to={"/auth/forgotPass"}
                                 className="no-underline text-white transform  hover:scale-110 transition-transform duration-200" >
                                 ¿Olvidate tu contraseña?

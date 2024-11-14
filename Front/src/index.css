@@ -3,21 +3,89 @@
 @tailwind utilities;
 
 
-.caja-calendario {
-  height: 95vh;
-  width: 70vw;
+/*Footer*/
+.contenedor {
+  width: 4rem;
+  height: 4rem;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.50);
+  border-radius: 50%;
+  transition: .3s ease;
 }
 
-
-.rbc-time-slot {
-  background-color: white;
+.contenedor.facebook:hover {
+  background-color: #1DA1F2;
+  box-shadow: 0 0 15px #1DA1F2,
+    0 0 45px #1DA1F2,
+    0 0 75px #1DA1F2,
+    0 0 155px #1DA1F2;
 }
 
-.sidebar{
-  color:white
+.contenedor.youtube:hover {
+  background-color: #FF0000;
+  color: white;
+  box-shadow: 0 0 15px #FF0000,
+    0 0 45px #FF0000,
+    0 0 75px #FF0000,
+    0 0 155px #FF0000;
 }
 
-.logo-icon{
+.contenedor.instagram:hover {
+  background-color: #FF3E00;
+  color: white;
+  box-shadow: 0 0 15px #FF3E00,
+    0 0 45px #FF3E00,
+    0 0 75px #FF3E00,
+    0 0 155px #FF3E00;
+}
+
+/*********************/
+
+/*Inputs*/
+.input-field,
+.input-select {
+  font-size: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  height: 50px;
+  width: 100%;
+  padding: 0 10px 0 45px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.50);
+  border-radius: 30px;
+  outline: none;
+  transition: .5 ease-in-out;
+  position: relative;
+  z-index: 10;
+}
+
+.input-field:hover,
+.input-field:focus {
+  background: rgba(255, 255, 255, 0.25);
+}
+ 
+.area {
+  font-size: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff; 
+  padding: 0 10px 0 45px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.50);
+  border-radius: 30px;
+  outline: none;
+  transition: .5 ease-in-out;
+  position: relative; 
+}
+
+/*********************/
+
+
+
+/*Menu*/
+.sidebar {
+  color: white
+}
+
+.logo-icon {
   width: 40px;
   height: 40px;
   display: flex;
@@ -25,7 +93,7 @@
   justify-content: center;
 }
 
-.menu-bar{
+.menu-bar {
   height: 88vh;
   margin-top: 2rem;
   display: flex;
@@ -34,7 +102,7 @@
   font-size: 1.1rem;
 }
 
-.toggle-theme-btn{
+.toggle-theme-btn {
   position: absolute;
   bottom: 30px;
   left: 20px;
@@ -44,15 +112,25 @@
   font-size: 1rem;
 }
 
-.toggle{
+.toggle {
   margin-left: 15px;
 }
 
+/*********************/
+
 
 /*Fondo del Login*/
-.caja{
-  background-image: linear-gradient(
-      rgba(0,0,0,0.7),rgba(0,0,0,0.7)),url(/G.jpg);
+.caja {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(/G.jpg);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: right top;
+  min-height: 45vh;
+}
+
+/*Fondo para las citas*/
+.fondo{
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(/fondo2.jpg);
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: right top;
@@ -60,42 +138,19 @@
 }
 
 /*Boton de enviar Login*/
-.sub{  
-  height: 45px; 
-  border:none;
-  border-radius:30px;
+.sub {
+  height: 45px;
+  border: none;
+  border-radius: 30px;
   outline: none;
-  background: rgba(255,255,255,0.7);
-  cursor:pointer;
+  background: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
   transition: .3s ease-in-out;
 }
-.sub:hover{
-  scale: 1.1; 
+
+.sub:hover {
+  scale: 1.1;
   background: white
 }
 
- /*Inputs*/
- .input-field {
-  font-size: 20px;
-  background: rgba(255, 255, 255, 0.2);  
-  color: #fff;  
-  height: 50px;  
-  width: 100%;  
-  padding: 0 10px 0 45px; 
-  overflow: hidden;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-  border-radius: 30px; 
-  outline: none;  
-  transition: .5 ease-in-out;
-}
-
-.input-field:hover,
-.input-field:focus {
-  background: rgba(255, 255, 255, 0.25); /* Cambio de fondo al pasar el mouse o al enfocar */
-}
-
-/* Color del placeholder */
-::-webkit-input-placeholder {
-  color: #fff; /* Color del texto del placeholder */
-}
-
+/*********************/

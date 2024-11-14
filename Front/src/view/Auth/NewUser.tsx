@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { FaLock, FaUser, FaPhone, FaEnvelope } from 'react-icons/fa';
 import { useState } from "react";
+import TAza from "../../components/animations/TAza";
 
 function NewUser() {
 
@@ -59,6 +60,8 @@ function NewUser() {
     return (
         <>
             <div className="caja h-lvh">
+
+            <TAza/>
                 <div className="pt-8">
                     <h1 className="  font-fascinate text-center text-white">Ingresa tus datos</h1>
                     <form onSubmit={handleSubmit(onSub)} noValidate className=" w-2/3 m-auto" >
@@ -119,9 +122,9 @@ function NewUser() {
                                     <input id="pass" type={hiden ? 'text' : 'password'} placeholder="Contraseña" className="input-field" {...register('pass', { required: true })} />
                                     <FaLock className="absolute left-4 top-5 text-white" />
                                     {hiden ?
-                                        <i className="bi bi-eye-slash-fill absolute text-2xl top-2 right-2 hover:cursor-pointer" onClick={Show}></i>
+                                        <i className="bi bi-eye-slash-fill absolute text-2xl text-white top-2 right-3 z-20 hover:cursor-pointer" onClick={Show}></i>
                                         :
-                                        <i className="bi bi-eye-fill absolute text-2xl top-2 right-2 hover:cursor-pointer" onClick={Show}></i>
+                                        <i className="bi bi-eye-fill absolute text-2xl text-white top-2 right-3 z-20 hover:cursor-pointer" onClick={Show}></i>
                                     }
                                     {errors.pass?.type === 'required' && <Errors>{'¡Tu contraseña es obligatoria!'}</Errors>}
                                 </div>
@@ -135,11 +138,11 @@ function NewUser() {
                                             required: "¡Repite tu contraseña!",
                                             validate: v => v === getValues('pass') || "¡Las contraseñas no coinciden!"
                                         })} />
-                                    <FaLock className="absolute left-4 top-5 text-white" />
+                                    <FaLock className="absolute left-4 top-5 text-white z-20" />
                                     {hiden2 ?
-                                        <i className="bi bi-eye-slash-fill absolute text-2xl top-2 right-2 hover:cursor-pointer" onClick={Show2}></i>
+                                        <i className="bi bi-eye-slash-fill absolute text-2xl text-white top-2 right-3 z-20  hover:cursor-pointer" onClick={Show2}></i>
                                         :
-                                        <i className="bi bi-eye-fill absolute text-2xl top-2 right-2 hover:cursor-pointer" onClick={Show2}></i>
+                                        <i className="bi bi-eye-fill absolute text-2xl text-white top-2 right-3 z-20 hover:cursor-pointer" onClick={Show2}></i>
                                     }
                                     {errors.pass_confirm && <Errors>{errors.pass_confirm.message}</Errors>}
                                 </div>
@@ -148,7 +151,7 @@ function NewUser() {
 
                         {/*------------------------------------ */}
 
-                        <input type="submit" value="Registrar" className=" sub mt-2 w-full text-center text-black font-bold text-xl" />
+                        <input type="submit" value="Registrar" className=" sub mt-2 w-full text-center text-black font-bold text-xl relative z-10 " />
 
                     </form>
                 </div>

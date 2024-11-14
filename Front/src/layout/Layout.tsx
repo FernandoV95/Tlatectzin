@@ -1,5 +1,5 @@
 import { FaUser } from 'react-icons/fa';
-import { NavLink, Outlet, useLocation } from "react-router-dom"
+import { Link, NavLink, Outlet, useLocation } from "react-router-dom"
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Button, Layout, theme } from 'antd';
@@ -26,12 +26,12 @@ export default function AppLayout() {
     setDarkTheme(!darkTheme)
   }
 
-  const rutas=['/auth/login','/auth/user','/auth/forgot-pass']
+  const rutas = ['/auth/login', '/auth/user', '/auth/forgot-pass']
 
-  useEffect(() => { 
+  useEffect(() => {
     setIsLogin(!rutas.includes(pathname));
-  }, [pathname]); 
-  
+  }, [pathname]);
+
   return (
     <>
 
@@ -55,7 +55,7 @@ export default function AppLayout() {
               {isLogin && (
                 <div className='flex items-center'>
                   <NavLink to={"/auth/login"} className="no-underline flex items-center">
-                  <h4 className='text-lg mr-2 flex items-center'>Iniciar sesión</h4>
+                    <h4 className='text-lg mr-2 flex items-center'>Iniciar sesión</h4>
                     <FaUser className='text-2xl' />
                   </NavLink>
                 </div>
@@ -69,9 +69,29 @@ export default function AppLayout() {
           </main>
 
           <footer>
-            <p className="text-center mt-4">
+            <p className="text-center mt-1">
               &copy; Todos los derechos reservados {new Date().getFullYear()}
             </p>
+
+            <div className='flex w-1/2 m-auto justify-around text-3xl'>
+              <div className="contenedor facebook flex justify-center items-center">
+                <Link to={"https://www.facebook.com/vidanimalia?locale=es_LA"} target="_blank" className=' no-underline text-black'>
+                  <i className="fa-brands fa-facebook-f " />
+                </Link>
+              </div>
+
+              <div className="contenedor youtube flex justify-center items-center" >
+                <Link to={"https://www.youtube.com/watch?v=LZ9AKsUCcTI"} target="_blank" className=' no-underline text-black'>
+                  <i className="fa-brands fa-youtube" />
+                </Link>
+              </div>
+              <div className="contenedor instagram flex justify-center items-center">
+                <Link to={"https://www.instagram.com/peta/"} target="_blank" className=' no-underline text-black'>
+                  <i className="fa-brands fa-instagram" />
+
+                </Link>
+              </div>
+            </div>
           </footer>
 
         </Layout>

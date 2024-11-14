@@ -5,6 +5,7 @@ import { desEncrypPass, hashPass } from "../util/Hash";
 import Token from "../models/Token";
 import { generateToken } from "../util/GeneraToken";
 import { AuthEmail } from "../email/AuthUser";
+import { generateJWT } from "../util/JWT";
 
 export class Accounts {
     //Iniciamos sesion
@@ -38,7 +39,9 @@ export class Accounts {
                 return res.status(401).json({ error: error.message })
             }
 
-            res.send(`Bienvenid@ ${cuenta ? (exstUser ? cuenta.nombres : `Dr(a). ${cuenta.nombres}`) : ''}`);
+            const auth = generateJWT({id:cuenta.id })
+            res.send(auth);
+            
 
         } catch (error) {
             return res.status(404).json({ error: error.message })

@@ -1,6 +1,6 @@
 import mongoose, { Document, mongo, Schema } from "mongoose";
 
-interface IVeterinary extends Document {
+export interface IVeterinary extends Document {
     nombres: string
     apPat: string
     apMat: string

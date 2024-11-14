@@ -6,8 +6,11 @@ import ValidToken from './view/Auth/ValidToken'
 import ForgotPass from './view/Auth/ForgotPass'
 import ResetPass from './view/Auth/ResetPass'
 import Login from './view/Auth/Login'
-import RequestToken from './view/Auth/RequestToken'
-import NewMeeting from './view/metting/NewMeeting'
+import RequestToken from './view/Auth/RequestToken' 
+
+import Auxiliar from './view/Auxiliar/Auxiliar' 
+import NewCitas from './view/metting/newCitas'
+import UpdateCita from './view/metting/UpdateCita'
 
 //<Route element ={<Layout />} >
 //</Route>
@@ -24,8 +27,6 @@ export default function Router() {
                     <Route path='/auth/login' element={<Login />} />
                     {/*Crea un nuevo usuario */}
                     <Route path='/auth/user' element={<NewUser />} />
-                    {/*Crea una nueva cita*/}
-                    <Route path='/meeting' element={<NewMeeting />} />
                     {/*Validar la cuenta por token */}
                     <Route path='/auth/valAcct' element={<ValidToken />} />
                     {/*Solicita un nuevo token*/}
@@ -36,6 +37,14 @@ export default function Router() {
                     {/*Cambiar contraseña */}
                     <Route path='/auth/valTokn' element={<ResetPass />} />
 
+                    {/*Cambiar contraseña */}
+                    <Route path='/auxiliar' element={<Auxiliar />} />
+
+
+                    {/*Crea una nueva cita*/}
+                    <Route path='/mtng' element={<NewCitas />} />
+                    {/*Modificar tu cita*/} 
+                    <Route path='/mtng/:idM' element={<UpdateCita/>} />
 
                 </Route>
 

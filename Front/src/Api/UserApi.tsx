@@ -3,6 +3,7 @@ import { api } from "../lib/Axios"
 import { EmailForm, LoginForm, PassResetForm, RegisterUserForm, ValidTokenForm } from "../schema/RegisterUser"
 
 
+//Crea nuevos usuarios
  
 export async function newUser(formData: RegisterUserForm){
     try{
@@ -60,6 +61,7 @@ export async function login(formData:LoginForm){
     try{
         const url = `/auth/login`
         const { data } = await api.post<string>(url,formData)
+        localStorage.setItem('AUTH_TOKEN',data)
         return data
     }catch(error){
        if(isAxiosError(error) && error.response)

@@ -1,4 +1,6 @@
-import mongoose, { Schema, Document } from "mongoose";
+import mongoose, { Schema, Document, PopulatedDoc, Types } from "mongoose";
+import { IUser } from "./Users";
+import { IVeterinary } from "./Veterinary";
 
 const meetingStatus = {
     PENDING: 'pending',
@@ -8,18 +10,30 @@ const meetingStatus = {
 export type MeetingStatus  = typeof meetingStatus[keyof typeof meetingStatus]
 
 export interface IMeeting extends Document {
-    fecha: Date
+    N_cita:number
+    alias:string
+    fecha: string
     hora: string
     motivo:string
     comentarios: string
     status: MeetingStatus
+    usuario:PopulatedDoc<IUser & Document>
+    veterinario:PopulatedDoc<IVeterinary & Document>
     start:string
     end:string
 }
 
 const MeetingSchema: Schema = new Schema({
+    N_cita: {
+        type: Number,
+        required: true, 
+        unique:true,
+    },
+    alias:{
+        type: String,
+    },
     fecha: {
-        type: Date,
+        type: String,
         required: true, 
     },
     hora: {
@@ -32,6 +46,14 @@ const MeetingSchema: Schema = new Schema({
     },
     comentarios: {
         type:String
+    },
+    usuario:{
+        type:Types.ObjectId,
+        ref:'users'
+    },
+    veterinario:{
+        type:Types.ObjectId,
+        ref:'veterinarys'
     },
     start: {
         type: String,

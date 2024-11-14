@@ -23,7 +23,7 @@ function MenuList({ darkTheme }: darkThemeProps) {
         {
             key: 'agenda',
             icon: <FormOutlined />,
-            label: <NavLink to="" className="no-underline font-silkscreen">Agendar</NavLink>,
+            label: <NavLink to="/mtng" className="no-underline font-silkscreen">Agendar</NavLink>,
         },
         {
             key: 'we',
