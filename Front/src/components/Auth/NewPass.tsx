@@ -10,6 +10,7 @@ import { resetPass } from '../../Api/UserApi'
 import Errors from '../Errors'
 import { useState } from 'react'
 import { FaLock } from 'react-icons/fa'
+import styles from "../../modules/newPass.module.css"
 
 
 type NewPasswordFormProps = {
@@ -44,7 +45,7 @@ function NewPass({ token }: NewPasswordFormProps) {
     },
     onSuccess: (datos) => {
       toast.success(datos)
-      goMenu('/auth/login')
+      goMenu('/user/login')
     }
   })
 
@@ -95,7 +96,9 @@ function NewPass({ token }: NewPasswordFormProps) {
                 {errors.pass_confirm && <Errors>{errors.pass_confirm.message}</Errors>}
               </div>
             </div>
-            <input type="submit" value="Actualizar" className=" sub mt-2 w-full text-center text-black font-bold text-xl" />
+            <div className=" mt-3 mb-3 text-center">
+              <input type="submit" value="Actualizar" className={`${styles.sub} w-1/2 text-2xl  text-black font-bold `} />
+            </div>
           </form>
 
         </div>

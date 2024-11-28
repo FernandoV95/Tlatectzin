@@ -26,7 +26,7 @@ export default function AppLayout() {
     setDarkTheme(!darkTheme)
   }
 
-  const rutas = ['/auth/login', '/auth/user', '/auth/forgot-pass']
+  const rutas = ['/user/login', '/user/', '/user/forgotPass']
 
   useEffect(() => {
     setIsLogin(!rutas.includes(pathname));
@@ -54,7 +54,7 @@ export default function AppLayout() {
               />
               {isLogin && (
                 <div className='flex items-center'>
-                  <NavLink to={"/auth/login"} className="no-underline flex items-center">
+                  <NavLink to={"/user/login"} className="no-underline flex items-center">
                     <h4 className='text-lg mr-2 flex items-center'>Iniciar sesión</h4>
                     <FaUser className='text-2xl' />
                   </NavLink>

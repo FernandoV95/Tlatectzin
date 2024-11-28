@@ -54,7 +54,6 @@
   border-radius: 30px;
   outline: none;
   transition: .5 ease-in-out;
-  position: relative;
   z-index: 10;
 }
 
@@ -116,41 +115,4 @@
   margin-left: 15px;
 }
 
-/*********************/
 
-
-/*Fondo del Login*/
-.caja {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(/G.jpg);
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  background-position: right top;
-  min-height: 45vh;
-}
-
-/*Fondo para las citas*/
-.fondo{
-  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(/fondo2.jpg);
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  background-position: right top;
-  min-height: 45vh;
-}
-
-/*Boton de enviar Login*/
-.sub {
-  height: 45px;
-  border: none;
-  border-radius: 30px;
-  outline: none;
-  background: rgba(255, 255, 255, 0.7);
-  cursor: pointer;
-  transition: .3s ease-in-out;
-}
-
-.sub:hover {
-  scale: 1.1;
-  background: white
-}
-
-/*********************/

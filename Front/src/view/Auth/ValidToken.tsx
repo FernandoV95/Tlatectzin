@@ -1,10 +1,11 @@
 import { PinInput, PinInputField } from '@chakra-ui/pin-input'
 import { useMutation } from "@tanstack/react-query"
 import { useState } from "react"
-import { validateAccountToken } from "../../Api/UserApi"
+import { validCodAccnt } from "../../Api/UserApi"
 import { toast } from "react-toastify"
 import { ValidTokenForm } from "../../schema/RegisterUser"
 import { Link, useNavigate } from 'react-router-dom'
+import styles from "../../modules/validTkn.module.css"
 
 
 function ValidToken() {
@@ -13,13 +14,13 @@ function ValidToken() {
   const [token, setToken] = useState<ValidTokenForm['token']>('')
 
   const { mutate } = useMutation({
-    mutationFn: validateAccountToken,
+    mutationFn: validCodAccnt,
     onError: (error) => {
       toast.error(error.message)
     },
     onSuccess: (token) => {
       toast.success(token)
-      goMenu('/auth/login')
+      goMenu('/user/login')
     }
   })
 
@@ -35,7 +36,7 @@ function ValidToken() {
 
   return (
     <>
-      <div className='caja h-lvh '>
+      <div className={`${styles.cajita} h-lvh `}>
         <div className="pt-36">
           <h1 className="  font-fascinate text-center text-white">Ingresa tu codigo</h1>
           <PinInput type={'alphanumeric'} value={token} onChange={handlChange} onComplete={handleComplete}>
@@ -53,7 +54,7 @@ function ValidToken() {
             <p>¿Tu codigo ya expiro?</p>
             &nbsp;
             <Link
-              to={"/auth/ReqToken"}
+              to={"/user/reqCod"}
               className="no-underline text-white transform scale-90 hover:scale-100 transition-transform duration-200"
             >
               Solicita uno nuevo

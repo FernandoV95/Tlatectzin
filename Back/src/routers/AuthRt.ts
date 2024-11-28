@@ -1,29 +1,36 @@
 import { Router } from "express";
-import { Accounts } from "../controllers/AuthController";
+import { Accounts } from "../controllers/UsersCntlls";
 import { body } from "express-validator";
 import { InputErrors } from "../middleware/inputErrors";
 
 
 const AuthRt = Router()
+
+//Crear un nuevo usuario
+AuthRt.post('/',
+    InputErrors,
+    Accounts.newUser
+)
+
 //Logear cualquier cuenta
 AuthRt.post('/login',
     Accounts.login
 )
 
-//Validar el token de cualquier cuenta
+//Validar la cuenta mediante Codigo de cualquier cuenta
 AuthRt.post('/valAcct',
     InputErrors,
     Accounts.validateAccountToken
 )
 
-//Solicitar Token de cualquier cuenta para cambiar la contraseña
+//Solicitar CODIGO para cambiar la contraseña
 AuthRt.post('/forgotPass',
     InputErrors,
     Accounts.forgotPass
 )
 
-//Validar el token para cambiar contraseña
-AuthRt.post('/valTokn',
+//Validar el cODIGO para cambiar contraseña
+AuthRt.post('/valCod',
     InputErrors,
     Accounts.validateResetToken
 )
@@ -38,11 +45,11 @@ AuthRt.patch('/updtPss/:token',
         return true
     }),
     InputErrors,
-    Accounts.resetPass
+    Accounts.updatePass
 )
 
-//Solicitar un token
-AuthRt.post('/ReqToken',
+//Solicitar un nuevo codigo
+AuthRt.post('/reqCod',
     InputErrors,
     Accounts.requestToken
 )

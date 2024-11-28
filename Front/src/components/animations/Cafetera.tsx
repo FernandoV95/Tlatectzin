@@ -2,7 +2,7 @@
 
 export default function Cafetera() {
     return (
-        <>
+        <> 
             <div className="container mt-2">
                 <div className="coffee-header">
                     <div className="coffee-header__buttons coffee-header__button-one"></div>

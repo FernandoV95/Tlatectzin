@@ -1,9 +1,8 @@
 
 
-export default function TAza() {
+export default function Taza() {
     return (
-        <>
-            <div className=" containerTaza ">
+        <> 
                 <div className="steam" id="steam1"> </div>
                 <div className="steam" id="steam2"> </div>
                 <div className="steam" id="steam3"> </div>
@@ -18,8 +17,7 @@ export default function TAza() {
 
                 <div id="saucer"></div>
 
-                <div id="shadow"></div>
-            </div>
+                <div id="shadow"></div> 
         </>
     )
 }

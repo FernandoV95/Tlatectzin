@@ -1,0 +1,23 @@
+.cajita{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(/R.jpg);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: right top;
+    min-height: 85vh;
+}
+
+.sub { 
+    height: 45px;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: .3s ease-in-out;
+  }
+  
+  .sub:hover {
+    scale: 1.1;
+    background: white
+  }
+ 

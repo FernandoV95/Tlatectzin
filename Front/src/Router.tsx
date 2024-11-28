@@ -6,12 +6,10 @@ import ValidToken from './view/Auth/ValidToken'
 import ForgotPass from './view/Auth/ForgotPass'
 import ResetPass from './view/Auth/ResetPass'
 import Login from './view/Auth/Login'
-import RequestToken from './view/Auth/RequestToken' 
+import RequestToken from './view/Auth/RequestToken'
 
-import Auxiliar from './view/Auxiliar/Auxiliar' 
-import NewCitas from './view/metting/newCitas'
-import UpdateCita from './view/metting/UpdateCita'
-
+import Auxiliar from './view/Auxiliar/Auxiliar'
+import NewVetery from './view/veterinarios/newVetery'
 //<Route element ={<Layout />} >
 //</Route>
 
@@ -23,28 +21,39 @@ export default function Router() {
                 <Route element={<Layout />} >
                     <Route path='/' element={<App />} index />
 
-                    {/* Iniciar sesion usuarios/Veterinarios/administradores */}
-                    <Route path='/auth/login' element={<Login />} />
-                    {/*Crea un nuevo usuario */}
-                    <Route path='/auth/user' element={<NewUser />} />
-                    {/*Validar la cuenta por token */}
-                    <Route path='/auth/valAcct' element={<ValidToken />} />
-                    {/*Solicita un nuevo token*/}
-                    <Route path='/auth/ReqToken' element={<RequestToken />} />
+                    {/*Crea un nuevo usuario -*/}
+                    <Route path='/user' element={<NewUser />} />
 
-                    {/*Se envia un token mediante tu correo*/}
-                    <Route path='/auth/forgotPass' element={<ForgotPass />} />
+                    {/*Validar la cuenta por el codigo -*/}
+                    <Route path='/user/valAcct' element={<ValidToken />} />
+
+                    {/* Iniciar sesion usuarios/Veterinarios/administradores -*/}
+                    <Route path='/user/login' element={<Login />} />
+
+                    {/*Solicita cambiar la contraseña ingresando el correo -*/}
+                    <Route path='/user/forgotPass' element={<ForgotPass />} />
+
+                    {/*Ingresar el Codigo para cambiar la contraseña*/}
+                    <Route path='/user/valTokn' element={<ResetPass />} />
+
+                    {/*Solicita un nuevo Codigo*/}
+                    <Route path='/user/reqCod' element={<RequestToken />} />
+
+
+
+
+
+
                     {/*Cambiar contraseña */}
-                    <Route path='/auth/valTokn' element={<ResetPass />} />
-
-                    {/*Cambiar contraseña */}
-                    <Route path='/auxiliar' element={<Auxiliar />} />
-
+                    <Route path='/user/auxiliar' element={<Auxiliar />} />
 
                     {/*Crea una nueva cita*/}
-                    <Route path='/mtng' element={<NewCitas />} />
-                    {/*Modificar tu cita*/} 
-                    <Route path='/mtng/:idM' element={<UpdateCita/>} />
+                    <Route path='/mtng' element={""} />
+                    {/*Modificar tu cita*/}
+                    <Route path='/mtng/:idM' element={""} />
+
+                    {/*Nuevo Veterinario*/}
+                    <Route path='/veterinarios' element={<NewVetery />} />
 
                 </Route>
 
