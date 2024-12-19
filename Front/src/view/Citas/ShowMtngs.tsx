@@ -1,7 +1,5 @@
-
-import { useQuery } from "@tanstack/react-query";
-import { shwMtng } from "../../Api/MeetingApi";
-
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { cnclMtng, shwMtng } from "../../Api/MeetingApi";
 import { AiOutlineLike } from "react-icons/ai";
 import { FaHandHoldingHeart } from "react-icons/fa";
 import { GiDogHouse } from "react-icons/gi";
@@ -12,21 +10,38 @@ import styles from "../../modules/showCitas.module.css"
 
 import { Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { CloseCircleTwoTone, HighlightTwoTone } from "@ant-design/icons";
+import { toast } from "react-toastify"; 
 
 
-function Auxiliar() {
-
+const ShowMtngs = () => {
+    //Va a Mostrar los datos
     const { data, isLoading, isError } = useQuery({
         queryKey: ['Meetings'],
         queryFn: shwMtng,
         enabled: true
     });
 
+    //Va a cancelar la cita
+    const qc = useQueryClient();
+    const { mutate } = useMutation({
+        mutationFn: cnclMtng,
+        onError: (error) => {
+            toast.error(error.message)
+        },
+        onSuccess: (data: string) => {
+            toast.success(data)
+            qc.invalidateQueries({ queryKey: ['Meetings'] })
+        }
+    })
+
+
+
     if (isLoading)
         return (
-            <p>Cargando....</p>
+            <div className={`${styles.cajita}`}>
+            </div>
         )
 
     if (isError)
@@ -66,6 +81,7 @@ function Auxiliar() {
     ///////////////////////////////////////////////////////////////
     interface DataType {
         key: React.Key;
+        _id: string;
         Ncita: number;
         fecha: string;
         hora: string;
@@ -118,28 +134,32 @@ function Auxiliar() {
             dataIndex: '',
             key: 'x',
             render: () => (
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '1.5rem' }}>
-                    <Link to="" className=" cursor-pointer hover:scale-110 transition-all duration-300">
-                        <HighlightTwoTone />
-                    </Link>
+                <div
+                    className="flex justify-center items-center text-xl cursor-pointer hover:scale-110 transition-all duration-300"
+                >
+                    <HighlightTwoTone />
                 </div>
             )
         }, {
             title: <div style={{ textAlign: 'center' }}>Eliminar</div>,
             dataIndex: '',
             key: 'x',
-            render: () => (
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '1.5rem' }}>
-                    <Link to="" className=" cursor-pointer hover:scale-110 transition-all duration-300">
-                        <CloseCircleTwoTone/>
-                    </Link>
-                </div >
-            )
-        },
+            render: (record) => (
+                <div
+                    className="flex justify-center items-center text-xl cursor-pointer hover:scale-110 transition-all duration-300"
+                    onClick={() => mutate(record._id)} // Pasa el _id de la cita
+                >
+                    <CloseCircleTwoTone />
+                </div>
+            ),
+        }
+
+
     ];
 
     const Citas = data?.map((m) => ({
         key: m._id,
+        _id: m._id,
         Ncita: m.N_cita,
         fecha: m.fecha,
         hora: m.hora,
@@ -150,8 +170,6 @@ function Auxiliar() {
         motivo: m.motivo,
         comentario: m.comentarios,
     })) || [];
-
-
 
     if (data) return (
         <>
@@ -198,6 +216,6 @@ function Auxiliar() {
             </div >
         </>
     );
-}
+};
 
-export default Auxiliar;
+export default ShowMtngs

@@ -11,32 +11,32 @@ const MttngRt= Router()
 //MttngRt.use(Authenticate)
 
 //Crear una nueva cita
-MttngRt.post('/', 
+MttngRt.post('/new', 
     InputErrors,
     meetingControllers.newMeeting
 )
 
-//Muetsra todas las reuniones
-MttngRt.get('/',  
+//Muestra todas las reuniones
+MttngRt.get('/show',  
     InputErrors,
     meetingControllers.getAllMetting
 )
 
 //Busca la reunion por su Id
-MttngRt.get('/:idM', 
+MttngRt.get('/show/:idM', 
     InputErrors,
     meetingControllers.getByMttng
 )
 
 //Actualiza los datos de la reunion
-MttngRt.put('/:idM',
+MttngRt.patch('/update/:idM',
     InputErrors,
     meetingControllers.updateMttng
 )
 
 
 //Cancela la reunion
-MttngRt.delete('/:idM',
+MttngRt.patch('/cancel/:idM',
     InputErrors,
     meetingControllers.cancelledMttng
 )

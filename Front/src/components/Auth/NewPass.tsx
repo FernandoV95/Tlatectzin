@@ -1,20 +1,17 @@
 import { useMutation } from '@tanstack/react-query'
-
 import { toast } from 'react-toastify'
-
 import { useForm } from 'react-hook-form'
-
 import { useNavigate } from 'react-router-dom'
-import { PassResetForm, ValidTokenForm } from '../../schema/RegisterUser'
-import { resetPass } from '../../Api/UserApi'
 import Errors from '../Errors'
 import { useState } from 'react'
 import { FaLock } from 'react-icons/fa'
 import styles from "../../modules/newPass.module.css"
+import { UpdtPssForm, ValidCodForm } from '../../schema/Users'
+import { updtPss } from '../../Api/UserApi'
 
 
 type NewPasswordFormProps = {
-  token: ValidTokenForm['token'],
+  token: ValidCodForm['token']
 }
 
 
@@ -32,31 +29,31 @@ function NewPass({ token }: NewPasswordFormProps) {
   };
   const goMenu = useNavigate()
 
-  const initialValues: PassResetForm = {
+  const initialValues: UpdtPssForm = {
     pass: '',
     pass_confirm: ''
   }
   const { register, getValues, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues });
 
   const { mutate } = useMutation({
-    mutationFn: resetPass,
+    mutationFn: updtPss,
     onError: (error) => {
       toast.error(error.message)
     },
     onSuccess: (datos) => {
       toast.success(datos)
-      goMenu('/user/login')
+      goMenu('/auth/login')
     }
   })
 
-
-  const handleNewPassword = (formData: PassResetForm) => {
+  const handleNewPassword = (formData: UpdtPssForm) => {
     const datos = {
-      formData,
-      token
-    }
+      formData, token
+    };
+    console.log(datos)
     mutate(datos)
-  }
+  };
+
   return (
     <>
       <div className="caja h-lvh">

@@ -1,8 +1,9 @@
 import mongoose, { Schema, Document, PopulatedDoc, Types } from "mongoose";
 const meetingStatus = {
-    PENDING: 'pending',
-    IN_PROGRESS: 'inProgress',
-    COMPLETED: 'completed',
+    PENDING: 'Pendiente',
+    IN_PROGRESS: 'EnProgreso',
+    COMPLETED: 'Complato',
+    CANCELED: 'Cancelada',
 } as const
 export type MeetingStatus  = typeof meetingStatus[keyof typeof meetingStatus]
 

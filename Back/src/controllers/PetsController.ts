@@ -12,7 +12,8 @@ export class petsControllers {
             await newPet.save()
             res.status(201).send('Datos Almacenados')
         } catch (error) {
-            return res.status(404).json({ error: error.message })
+            res.status(500).json({ error: error.message })
+            return
         }
     }
 
@@ -21,11 +22,13 @@ export class petsControllers {
             const allPets = await Pets.find()
             if (!allPets) {
                 const error = new Error('No hay mascotas :( ')
-                return res.status(404).json({ error: error.message })
+                res.status(404).json({ error: error.message })
+                return
             }
-            res.json(allPets)
+            res.status(200).json(allPets)
         } catch (error) {
-            return res.status(404).json({ error: error.message })
+            res.status(500).json({ error: error.message })
+            return
         }
     }
 
@@ -35,11 +38,13 @@ export class petsControllers {
             const Pet = await Pets.findById(idPet)
             if (!Pet) {
                 const error = new Error('Mascota no registrada :( ')
-                return res.status(404).json({ error: error.message })
+                res.status(404).json({ error: error.message })
+                return
             }
-            res.json(Pet)
+            res.status(200).json(Pet)
         } catch (error) {
-            return res.status(404).json({ error: error.message })
+            res.status(500).json({ error: error.message })
+            return
         }
     }
 
@@ -51,11 +56,12 @@ export class petsControllers {
                 const error = new Error('Mascota no registrada :( ')
                 return res.status(404).json({ error: error.message })
             }
-            await Pets.findByIdAndUpdate (idPet, req.body, { new: true })
-            res.send('Datos Actualizados')
+            await Pets.findByIdAndUpdate(idPet, req.body, { new: true })
+            res.status(200).send('Datos Actualizados')
 
         } catch (error) {
-            return res.status(404).json({ error: error.message })
+            res.status(500).json({ error: error.message })
+            return 
         }
     }
 
@@ -69,14 +75,14 @@ export class petsControllers {
                 dltImg(ImgPtId.public_id)
                 await ImgPtId.deleteOne()
             }
-            
+
             //Borramos los datos de la mascota
             await Pets.deleteOne()
-            res.send('Mascota Eliminada')
- 
+            res.status(200).send('Mascota borrada')
 
         } catch (error) {
-            return res.status(404).json({ error: error.message })
+            res.status(500).json({ error: error.message })
+            return 
         }
     }
 

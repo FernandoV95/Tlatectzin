@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import NewUser from './view/Auth/NewUser'
+import NewUser from './view/Users/NewUser'
 import App from './view/App'
 import Layout from './layout/Layout'
 import ValidToken from './view/Auth/ValidToken'
@@ -8,8 +8,11 @@ import ResetPass from './view/Auth/ResetPass'
 import Login from './view/Auth/Login'
 import RequestToken from './view/Auth/RequestToken'
 
+import Meetings from './view/Citas/Meetings'
 import Auxiliar from './view/Auxiliar/Auxiliar'
-import NewVetery from './view/veterinarios/newVetery'
+import SendEmailVeter from './view/Adminds/SendEmailVeter'
+import NewVeterinary from './view/Users/NewVeterinary'
+import ShowMtngs from './view/Citas/ShowMtngs'
 //<Route element ={<Layout />} >
 //</Route>
 
@@ -21,39 +24,44 @@ export default function Router() {
                 <Route element={<Layout />} >
                     <Route path='/' element={<App />} index />
 
-                    {/*Crea un nuevo usuario -*/}
-                    <Route path='/user' element={<NewUser />} />
+                    {/*-------> Rutas de los usuarios <-------*/}
+                    {/*Registrar un nuevo usuario -*/}
+                    <Route path='/user/new' element={<NewUser />} />
+                    {/*Registrar un nuevo veterinario -*/}
+                    <Route path='/user/newVeter' element={<NewVeterinary />} />
 
-                    {/*Validar la cuenta por el codigo -*/}
-                    <Route path='/user/valAcct' element={<ValidToken />} />
-
-                    {/* Iniciar sesion usuarios/Veterinarios/administradores -*/}
-                    <Route path='/user/login' element={<Login />} />
-
-                    {/*Solicita cambiar la contraseña ingresando el correo -*/}
-                    <Route path='/user/forgotPass' element={<ForgotPass />} />
-
-                    {/*Ingresar el Codigo para cambiar la contraseña*/}
-                    <Route path='/user/valTokn' element={<ResetPass />} />
-
+                    {/*-------> Rutas de autenticacion <-------*/}
+                    {/* Iniciar sesion */}
+                    <Route path='/auth/login' element={<Login />} />
+                    {/*Validar la cuenta mediante el codigo -*/}
+                    <Route path='/auth/valAcct' element={<ValidToken />} />
+                    {/*Solicitar CODIGO por mensaje para cambiar la contraseña -*/}
+                    <Route path='/auth/sendCod' element={<ForgotPass />} />
+                    {/*Validar el Codigo para cambiar la contraseña*/}
+                    <Route path='/auth/valCodUpdtPss' element={<ResetPass />} />
                     {/*Solicita un nuevo Codigo*/}
-                    <Route path='/user/reqCod' element={<RequestToken />} />
+                    <Route path='/auth/reqCod' element={<RequestToken />} />
 
-
-
-
-
-
-                    {/*Cambiar contraseña */}
-                    <Route path='/user/auxiliar' element={<Auxiliar />} />
-
+                    {/*-------> Rutas para las citas <-------*/}
                     {/*Crea una nueva cita*/}
-                    <Route path='/mtng' element={""} />
+                    <Route path='/mtng/new' element={<Meetings />} />
+
+                    {/*Ver citas*/}
+                    <Route path='/mtng/show' element={<ShowMtngs />} />
+
                     {/*Modificar tu cita*/}
                     <Route path='/mtng/:idM' element={""} />
 
-                    {/*Nuevo Veterinario*/}
-                    <Route path='/veterinarios' element={<NewVetery />} />
+                    {/*Cancelar tu cita*/}
+                    <Route path='/mtng/cancel/:idM' element={""} />
+
+                    {/*-------------------------------------------------- */}
+                    {/*Enviar el correo al veterinario para registrarse*/}
+                    <Route path='/admind/sendEmailVeter' element={<SendEmailVeter />} />
+
+
+                    {/*PAginas Auxiliares */}
+                    <Route path='/Auxiliar' element={<Auxiliar />} />
 
                 </Route>
 

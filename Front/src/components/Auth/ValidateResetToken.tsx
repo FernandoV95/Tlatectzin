@@ -1,12 +1,12 @@
 import { useMutation } from "@tanstack/react-query"
 import { toast } from "react-toastify"
 import { PinInput, PinInputField } from "@chakra-ui/pin-input"
-import React from "react"
-import { ValidTokenForm } from "../../schema/RegisterUser"
-import { validateResetToken } from "../../Api/UserApi"
+import React from "react" 
+import { valCodUpdtPss } from "../../Api/AuthApi"
+import { ValidCodForm } from "../../schema/Users"
 
 type ValidateResetTokenProps = {
-  token: ValidTokenForm['token']
+  token: ValidCodForm['token']
   setToken: React.Dispatch<React.SetStateAction<string>>
   setIsVldTkn: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -15,7 +15,7 @@ type ValidateResetTokenProps = {
 export default function ValidateResetToken({ token, setToken, setIsVldTkn }: ValidateResetTokenProps) {
 
   const { mutate } = useMutation({
-    mutationFn: validateResetToken,
+    mutationFn: valCodUpdtPss,
     onError: (error) => {
       toast.error(error.message)
     },
@@ -25,11 +25,11 @@ export default function ValidateResetToken({ token, setToken, setIsVldTkn }: Val
     }
   })
 
-  const handlChange = (token: ValidTokenForm['token']) => {
+  const handlChange = (token: ValidCodForm['token']) => {
     setToken(token)
   }
 
-  const handleComplete = (token: ValidTokenForm['token']) => {
+  const handleComplete = (token: ValidCodForm['token']) => {
     mutate({ token })
   }
 

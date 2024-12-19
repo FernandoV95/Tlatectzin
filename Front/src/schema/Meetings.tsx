@@ -1,38 +1,38 @@
-
-
 import { z } from 'zod'
 
-const citaEsquema = z.object({
+export const citaSchema = z.object({
     _id: z.string(),
+    alias: z.string(),
     fecha: z.string(),
     hora: z.string(),
     motivo: z.string(),
     comentarios: z.string(),
-    N_cita: z.string(),
-    alias: z.string(),
+    status: z.string(),
+    N_cita: z.number(),
     start: z.string(),
     end: z.string(),
 })
 
 
-//Esto sirve para mostrar los datos con su tipado padrino
-export const dashboardCita = z.array(
-    citaEsquema.pick({
-        _id: true,
-        fecha: true,
-        hora: true,
-        motivo: true,
-        comentarios: true,
-        N_cita: true,
-        alias: true,
-        start: true,
-        end: true,
-    })
-)
-
-type Cita = z.infer<typeof citaEsquema>
+type Cita = z.infer<typeof citaSchema>
 export type idForm = Pick<Cita,"_id">
 export type CitaForm = Pick<Cita, "fecha" | "hora" | "motivo" | "comentarios" | "alias">
+
+//Esquema para MOSTRAR los datos 
+export const AllMtngSh = z.array(
+    citaSchema.pick({
+        _id:true,
+        alias:true,
+        fecha:true,
+        hora:true,
+        motivo:true,
+        comentarios:true,
+        status:true,
+        N_cita:true,
+        start:true,
+        end:true,
+    })
+)
 
 
 

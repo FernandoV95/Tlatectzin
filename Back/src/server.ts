@@ -8,6 +8,7 @@ import MttngRt from "./routers/MttngRt"
 import PetsRt  from "./routers/PetsRt"
 import AuthRt from "./routers/AuthRt"
 import AdmindRt from "./routers/AdmindRt"
+import UserRt from "./routers/UserRt"
 
 dotenv.config()
 conecctDB();
@@ -19,14 +20,21 @@ server.use(cors(corsConfig))
 server.use(express.json())
 
 //Rutas
+//Para autenticar cuentas
+server.use('/api/auth',AuthRt);
+
 //Para crear usuarios
-server.use('/api/user',AuthRt);
-//Para agendar reuniones
-server.use('/api/mtng',MttngRt)
-//Para agregar mascotas
-server.use('/api/pets',PetsRt)
+server.use('/api/user',UserRt);
+
 //Para la administracion
 server.use('/api/admind',AdmindRt)
+
+//Para agendar reuniones
+server.use('/api/mtng',MttngRt)
+
+
+//Para agregar mascotas
+server.use('/api/pets',PetsRt)
 
 
 

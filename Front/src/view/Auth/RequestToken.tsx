@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
-import { EmailForm } from "../../schema/RegisterUser";
+import { EmailForm } from "../../schema/Users";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import { requestToken } from "../../Api/UserApi";
+import { useMutation } from "@tanstack/react-query"; 
 import { toast } from "react-toastify";
 import { FaEnvelope } from 'react-icons/fa';
 import styles from '../../modules/requestTkn.module.css'
 import Errors from "../../components/Errors";
 import Cafetera from "../../components/animations/Cafetera";
+import { reqCod } from "../../Api/AuthApi";
 
 function RequestToken() {
 
@@ -21,14 +21,14 @@ function RequestToken() {
     });
 
     const { mutate } = useMutation({
-        mutationFn: requestToken,  //Esta es la función que se va a ejecutar cuando llamamos al mutation
+        mutationFn: reqCod,  //Esta es la función que se va a ejecutar cuando llamamos al mutation
         onError: (error) => {
             toast.error(error.message)
             reset()
         },
         onSuccess: (data) => {
             toast.success(data) //El data es del Backend y en front está en Servicios
-            goToken('/user/valAcct')
+            goToken('/auth/valAcct')
         }
     })
 

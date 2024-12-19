@@ -53,7 +53,7 @@ const UserSchema: Schema = new Schema({
         type: String,
         unique: true
     },
-    Rol: {
+    rol: {
         type: String,
         enum: Object.values(rol),
         default: rol.USER

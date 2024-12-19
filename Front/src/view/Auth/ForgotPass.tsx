@@ -1,13 +1,13 @@
 import { useForm } from "react-hook-form";
-import { EmailForm } from "../../schema/RegisterUser";
+import { EmailForm } from "../../schema/Users";
 import Errors from "../../components/Errors";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { forgotPass } from "../../Api/UserApi";
 import { useNavigate } from "react-router-dom";
 import { FaEnvelope } from "react-icons/fa";
 import Cafetera from "../../components/animations/Cafetera";
 import styles from "../../modules/forgotPss.module.css"
+import { sendCod } from "../../Api/AuthApi";
 
 
 
@@ -22,13 +22,13 @@ function ForgotPass() {
     });
 
     const { mutate } = useMutation({
-        mutationFn: forgotPass,  //Esta es la función que se va a ejecutar cuando llamamos al mutation
+        mutationFn: sendCod,  //Esta es la función que se va a ejecutar cuando llamamos al mutation
         onError: (error) => {
             toast.error(error.message)
         },
         onSuccess: (data) => {
             toast.success(data) //El data es del Backend y en front está en Servicios
-            goMenu('/user/valTokn')
+            goMenu('/auth/valCodUpdtPss')
         }
     })
 

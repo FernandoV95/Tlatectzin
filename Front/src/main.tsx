@@ -14,6 +14,5 @@ createRoot(document.getElementById('root')!).render(
       <Router>
       </Router> 
     </QueryClientProvider>
-
   </StrictMode>,
 )

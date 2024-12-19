@@ -1,35 +1,35 @@
 import { PinInput, PinInputField } from '@chakra-ui/pin-input'
 import { useMutation } from "@tanstack/react-query"
-import { useState } from "react"
-import { validCodAccnt } from "../../Api/UserApi"
-import { toast } from "react-toastify"
-import { ValidTokenForm } from "../../schema/RegisterUser"
+import { useState } from "react" 
+import { toast } from "react-toastify" 
 import { Link, useNavigate } from 'react-router-dom'
 import styles from "../../modules/validTkn.module.css"
+import { ValidCodForm } from '../../schema/Users'
+import { valAcct } from '../../Api/AuthApi'
 
 
 function ValidToken() {
   const goMenu = useNavigate()
 
-  const [token, setToken] = useState<ValidTokenForm['token']>('')
+  const [token, setToken] = useState<ValidCodForm['token']>('')
 
   const { mutate } = useMutation({
-    mutationFn: validCodAccnt,
+    mutationFn: valAcct,
     onError: (error) => {
       toast.error(error.message)
     },
     onSuccess: (token) => {
       toast.success(token)
-      goMenu('/user/login')
+      goMenu('/auth/login')
     }
   })
 
-  const handlChange = (token: ValidTokenForm['token']) => {
+  const handlChange = (token: ValidCodForm['token']) => {
     setToken(token)
   }
 
-  const handleComplete = (token: ValidTokenForm['token']) => {
-    mutate({ token })
+  const handleComplete = (token: ValidCodForm['token']) => {
+    mutate({ token }) 
   }
 
 
@@ -54,7 +54,7 @@ function ValidToken() {
             <p>¿Tu codigo ya expiro?</p>
             &nbsp;
             <Link
-              to={"/user/reqCod"}
+              to={"/auth/reqCod"}
               className="no-underline text-white transform scale-90 hover:scale-100 transition-transform duration-200"
             >
               Solicita uno nuevo

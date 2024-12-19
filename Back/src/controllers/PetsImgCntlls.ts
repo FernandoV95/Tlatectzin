@@ -37,10 +37,11 @@ export class petsImgControllers {
                 }
             }
 
-            res.send('Imagenes Alamacenadas')
+            res.status(201).send('Imagenes Alamacenadas')
 
         } catch (error) {
-            return res.status(404).send(error.message)
+            res.status(500).send(error.message)
+            return
         }
     }
 
@@ -50,7 +51,8 @@ export class petsImgControllers {
             //req.pet.imagenes <- Aqui estan almacenadas sus imagenes
             if (!req.pet.imagenes) {
                 const error = new Error('No hay imagenes')
-                return res.status(400).json({ error: error.message })
+                res.status(404).json({ error: error.message })
+                return
             }
 
 
@@ -59,11 +61,12 @@ export class petsImgControllers {
                 imgs = [...imgs, srchImg]
             }
 
-            res.json({ imgs })
+            res.status(200).json({ imgs })
 
 
         } catch (error) {
-            return res.status(404).send(error.message)
+            res.status(500).send(error.message)
+            return
         }
     }
 
@@ -74,14 +77,16 @@ export class petsImgControllers {
             const shcImg = await PetImgs.findById(idIP)
 
             if (!shcImg) {
-                return res.status(404).json({ error: 'Imagen no encontrada' });
+                res.status(404).json({ error: 'Imagen no encontrada' });
+                return
             }
 
             //Verficamos si el id de la mascota almacenanada en PetsImg
             //es igual al que pasamos por parametro
             if (shcImg.petId.toString() !== req.pet.id) {
                 const error = new Error('Accion no valida')
-                return res.status(404).json({ error: error.message })
+                res.status(403).json({ error: error.message })
+                return
             }
 
             //Eliminamos la referencia de imagen de Pets
@@ -90,10 +95,11 @@ export class petsImgControllers {
             //Guardamos cambios
             await Promise.allSettled([shcImg.deleteOne(), dltImg(shcImg.public_id), req.pet.save()])
 
-            res.send('Imagen Eliminada')
+            res.status(200).send('Imagen Eliminada')
 
         } catch (error) {
-            return res.status(404).send(error.message)
+            res.status(500).send(error.message)
+            return
         }
     }
 
@@ -108,13 +114,15 @@ export class petsImgControllers {
             //Verificamos si la mascota esta registrada
             if (!shcImg) {
                 const error = new Error('Mascota No registrada')
-                return res.status(404).json({ error: error.message })
+                res.status(404).json({ error: error.message })
+                return 
             }
 
             //verificar si hay imagenes
             if (shcImg.imagenes.length < 1) {
                 const error = new Error('No hay imagenes')
-                return res.status(404).json({ error: error.message })
+                res.status(404).json({ error: error.message })
+                return 
             }
 
             for (const i of shcImg.imagenes) {
@@ -128,17 +136,12 @@ export class petsImgControllers {
                 //Boramos las imagenes de couldinary dltImg(shcImg.public_id)
 
                 await Promise.allSettled([imgpet.deleteOne(), dltImg(imgpet.public_id), req.pet.save()])
-                
-
             }
 
-
-
-
-
-            res.send('Hasta qui todo bien UwU')
+            res.status(200).send('Hasta qui todo bien UwU')
         } catch (error) {
-            return res.status(404).send(error.message)
+            res.status(500).send(error.message)
+            return 
         }
     }
 

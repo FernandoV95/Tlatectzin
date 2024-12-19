@@ -1,8 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
-import { LoginForm } from "../../schema/RegisterUser";
+import { LoginForm } from "../../schema/Users";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import { login } from "../../Api/UserApi";
+import { useMutation } from "@tanstack/react-query"; 
 import { toast } from "react-toastify";
 import Errors from "../../components/Errors";
 import { useState } from "react";
@@ -10,6 +9,7 @@ import { FaLock, FaUser } from 'react-icons/fa';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import Taza from "../../components/animations/TAza";
 import styles from '../../modules/login.module.css'
+import { login } from "../../Api/AuthApi";
 
 
 
@@ -99,11 +99,11 @@ export default function Login() {
 
                 <div className=" w-1/2 m-auto ">
                     <div className=" w-4/5 m-auto flex justify-between text-white text-lg mt-4 relative">
-                        <Link to={"/user/forgotPass"}
+                        <Link to={"/auth/sendCod"}
                             className="no-underline text-white transform  hover:scale-110 transition-transform duration-200" >
                             ¿Olvidate tu contraseña?
                         </Link>
-                        <Link to={"/user/valAcct"}
+                        <Link to={"/auth/valAcct"}
                             className="no-underline text-white transform  hover:scale-110 transition-transform duration-200" >
                             Valida tu cuenta
                         </Link>
@@ -112,7 +112,7 @@ export default function Login() {
                     <div className="w-4/5 m-auto text-white text-lg flex justify-center">
                         <p>¿No tienes cuenta?&nbsp;&nbsp;</p>
                         <Link
-                            to="/user/"
+                            to="/user/new"
                             className="no-underline text-white transform hover:scale-110 transition-transform duration-200"
                         >
                             Crear cuenta
