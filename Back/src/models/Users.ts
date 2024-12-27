@@ -12,7 +12,7 @@ export interface IUser extends Document {
     nombres: string
     apPat: string
     apMat: string
-    tel: number
+    tel: string
     email: string
     pass: string
     universidad?: string
@@ -34,7 +34,7 @@ const UserSchema: Schema = new Schema({
         type: String
     },
     tel: {
-        type: Number,
+        type: String,
         required: true
     },
     email: {

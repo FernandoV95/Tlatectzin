@@ -96,7 +96,7 @@ export class meetingControllers {
                 res.status(400).json({ error: error.message })
                 return
             }
-            res.status(200).send('¡Datos actualizados!');
+            res.status(200).send('¡Cita modificada 😊!');
 
         } catch (error) {
             res.status(500).json({ error: error.message })
@@ -109,8 +109,17 @@ export class meetingControllers {
         try {
             const { idM } = req.params
             const mtng = await Meeting.findById(idM)
+
+            //Buscamos la cita
             if (!mtng) {
                 const error = new Error('¡Cita no encontrada!')
+                res.status(404).json({ error: error.message })
+                return
+            }
+
+            //Verificamos si la cita ya esta cancelada
+            if (mtng.status === "Cancelada") {
+                const error = new Error('¡Ya cancelaste esta cita 😡!')
                 res.status(404).json({ error: error.message })
                 return
             }

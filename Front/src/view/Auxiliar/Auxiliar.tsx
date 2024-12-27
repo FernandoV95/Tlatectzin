@@ -1,203 +1,216 @@
+import { useState } from "react";
+import { FaTimes } from "react-icons/fa";
+import styles from "../../modules/Auxiliar.module.css"
 
-import { useQuery } from "@tanstack/react-query";
-import { shwMtng } from "../../Api/MeetingApi";
+const Auxiliar = () => {
 
-import { AiOutlineLike } from "react-icons/ai";
-import { FaHandHoldingHeart } from "react-icons/fa";
-import { GiDogHouse } from "react-icons/gi";
-import { IoMdStopwatch } from "react-icons/io";
-import { MdLocalHospital } from "react-icons/md";
-import { TiCancel } from "react-icons/ti";
-import styles from "../../modules/showCitas.module.css"
+  const vacunas = [
+    "Rabia",
+    "Moquillo",
+    "Garrapatas",
+    "Parasitos",
+    "Pulgas",
+    "Diarreas",
+    "Neumonías neonatales",
+    "Otras"
+  ];
 
-import { Table } from 'antd';
-import { ColumnsType } from 'antd/es/table';
-import { Link, NavLink } from "react-router-dom";
-import { CloseCircleTwoTone, HighlightTwoTone } from "@ant-design/icons";
+  const [formData, setFormData] = useState({
+    alias: "",
+    tipo: "Perro",
+    descripcionCorta: "",
+    descripcionLarga: "",
+    imagen: null,
+    imagenPreview: null,
+    vacunasSeleccionadas: [],
+    otrasVacunas: [""],
+  });
 
+  const [modalVisible, setModalVisible] = useState(false); // Estado para mostrar/ocultar el modal
 
-function Auxiliar() {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ['Meetings'],
-        queryFn: shwMtng,
-        enabled: true
-    });
-
-    if (isLoading)
-        return (
-            <p>Cargando....</p>
-        )
-
-    if (isError)
-        return (
-            <p>Hubo problemas</p>
-        )
-
-
-    const IconMotive = (motivo: string): JSX.Element => {
-        switch (motivo) {
-            case 'Adoptar':
-                return <GiDogHouse className=" size-5" title="Adoptar" />;
-            case 'Dar en Adopción':
-                return <FaHandHoldingHeart className="size-5" title="Dar en adopcion" />;
-            case 'Veterinario':
-                return <MdLocalHospital className="size-5" title="Veterinario" />;
-            default:
-                return <span />;
-        }
-    };
-
-    const IconStatus = (status: string): JSX.Element => {
-        switch (status) {
-            case 'Pendiente':
-                return <IoMdStopwatch className="size-5" title="Pendiente" />;
-            case 'Cancelada':
-                return <TiCancel className="size-5" title="Cancelada" />;
-            case 'Concluida':
-                return <AiOutlineLike className="size-5" title="Concluida" />;
-            default:
-                return <span />;
-        }
-    };
-
-
-
-    ///////////////////////////////////////////////////////////////
-    interface DataType {
-        key: React.Key;
-        Ncita: number;
-        fecha: string;
-        hora: string;
-        status: string;
-        iconStatus: JSX.Element;
-        alias: string;
-        comentario: string;
-        iconMotivo: JSX.Element;
-        motivo: string;
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({ ...formData, imagen: file, imagenPreview: reader.result });
+      };
+      reader.readAsDataURL(file);
     }
+  };
 
-    const columns: ColumnsType<DataType> = [
-        {
-            title: <div style={{ textAlign: 'center' }}>Ncita</div>,
-            dataIndex: 'Ncita', key: 'Ncita', align: 'center'
-        },
-        {
-            title: <div style={{ textAlign: 'center' }}>Fecha</div>,
-            dataIndex: 'fecha', key: 'fecha', align: 'center'
-        },
-        {
-            title: <div style={{ textAlign: 'center' }}>Hora</div>,
-            dataIndex: 'hora', key: 'hora', align: 'center'
-        },
-        {
-            title: <div style={{ textAlign: 'center' }}>Status</div>,
-            align: 'center',
-            dataIndex: 'iconStatus',
-            key: 'iconStatus',
-            render: (icon) => (
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    {icon}
-                </div>)
-        },
-        {
-            title: <div style={{ textAlign: 'center' }}>Alias</div>,
-            dataIndex: 'alias', key: 'alias', align: 'center'
-        },
-        {
-            title: <div style={{ textAlign: 'center' }}>Motivo</div>,
-            align: 'center',
-            dataIndex: 'iconMotivo',
-            key: 'iconMotivo', render: (icon) => (
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    {icon}
-                </div>)
-        },
-        {
-            title: <div style={{ textAlign: 'center' }}>Editar</div>,
-            dataIndex: '',
-            key: 'x',
-            render: () => (
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '1.5rem' }}>
-                    <Link to="" className=" cursor-pointer hover:scale-110 transition-all duration-300">
-                        <HighlightTwoTone />
-                    </Link>
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formData);
+  };
+
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  };
+
+  const handleCheckboxChange = (e) => {
+    const { value, checked } = e.target;
+    setFormData((prev) => {
+      const vacunasSeleccionadas = checked
+        ? [...prev.vacunasSeleccionadas, value]
+        : prev.vacunasSeleccionadas.filter((vacuna) => vacuna !== value);
+      return { ...prev, vacunasSeleccionadas };
+    });
+  };
+  const handleOtraVacunaChange = (index, value) => {
+    const nuevasVacunas = [...formData.otrasVacunas];
+    nuevasVacunas[index] = value;
+    setFormData({ ...formData, otrasVacunas: nuevasVacunas });
+  };
+
+  const agregarOtraVacuna = () => {
+    setFormData({ ...formData, otrasVacunas: [...formData.otrasVacunas, ""] });
+  };
+
+  return (
+    <div className={`${styles.cajita}`}>
+
+      <div className="grid grid-cols-2 ">
+        {/*Formulario */}
+
+        <div className={`${styles.formSection} w-11/12  m-auto`}>
+          <h2>Agregar nueva mascota</h2>
+
+          <form onSubmit={handleSubmit} noValidate>
+
+            <div className=" grid grid-cols-2 justify-center items-center ">
+              <div className="mb-1 w-11/12 m-auto">
+                <label className="w-full text-center">Alias</label>
+                <input placeholder="Nombre de la mascota" className="border-2 border-cyan-500 rounded-lg p-2 text-lg"
+                  type="text" value={formData.alias} onChange={handleInputChange} />
+              </div>
+
+              <div className="mb-1 w-11/12 m-auto">
+                <label className="w-full text-center">Tipo</label>
+                <select className="border-2 border-cyan-500 rounded-lg p-2 text-lg"
+                  value={formData.tipo} onChange={handleInputChange} >
+                  <option>Perro</option>
+                  <option>Gato</option>
+                  <option>Roedor</option>
+                  <option>Pez</option>
+                  <option>Aves</option>
+                  <option>Reptiles</option>
+                  <option>Ganado</option>
+                  <option>Equinos</option>
+                  <option>Porcino</option>
+                  <option>Pokemones</option>
+                  <option>Animal Fantastico</option>
+                </select>
+              </div>
+            </div>
+
+
+            {/* Checkboxes de Vacunas */}
+            <div className=" mt-1 mb-1 w-11/12 m-auto p-2 border-2 border-cyan-500 rounded-lg">
+              <label className="w-full text-center">Vacunas</label>
+
+
+              <div className="grid grid-cols-2 gap-2">
+                {vacunas.map((vacuna, i) => (
+                  <div key={i} className="flex gap-2 items-center">
+                    <input type="checkbox" className="size-4" value={vacuna} onChange={handleCheckboxChange} />
+                    <label>{vacuna}</label>
+                  </div>
+                ))}
+              </div>
+
+
+              {/* Campo para "Otras" */}
+              {formData.vacunasSeleccionadas.includes("Otras") && (
+                <div className={styles.otrasVacunasGroup}>
+                  <label htmlFor="otrasVacunas">Especificar otra vacuna:</label>
+                  {formData.otrasVacunas.map((vacuna, index) => (
+                    <div key={index} className={styles.inputWrapper}>
+                      <input
+                        id={`otra-vacuna-${index}`} // Agregar un id único
+                        type="text"
+                        value={vacuna}
+                        onChange={(e) => handleOtraVacunaChange(index, e.target.value)}
+                      />
+                    </div>
+                  ))}
+                  <button className={`${styles.subm}`} type="button"
+                    onClick={agregarOtraVacuna} >
+                    Agregar otra vacuna
+                  </button>
                 </div>
-            )
-        }, {
-            title: <div style={{ textAlign: 'center' }}>Eliminar</div>,
-            dataIndex: '',
-            key: 'x',
-            render: () => (
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: '1.5rem' }}>
-                    <Link to="" className=" cursor-pointer hover:scale-110 transition-all duration-300">
-                        <CloseCircleTwoTone/>
-                    </Link>
-                </div >
-            )
-        },
-    ];
+              )}
+            </div>
 
-    const Citas = data?.map((m) => ({
-        key: m._id,
-        Ncita: m.N_cita,
-        fecha: m.fecha,
-        hora: m.hora,
-        status: m.status,
-        iconStatus: IconStatus(m.status),
-        alias: m.alias,
-        iconMotivo: IconMotive(m.motivo),
-        motivo: m.motivo,
-        comentario: m.comentarios,
-    })) || [];
+            <div className="mb-1 w-11/12 m-auto" >
+              <label className="w-full text-center">Descripción Corta:</label>
+              <input
+                placeholder="Danos una descripcion breve"
+                className="border-2 border-cyan-500 rounded-lg p-2 text-lg"
+                type="text"
+                name="descripcionCorta"
+                value={formData.descripcionCorta}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
 
+            <div className="mb-1 w-11/12 m-auto">
+              <label className="w-full text-center">Descripción Larga:</label>
+              <textarea
+                className="border-2 border-cyan-500 rounded-lg p-2 text-lg"
+                placeholder="Danos una descripion mas precisa"
+                name="descripcionLarga"
+                rows={3}
+                value={formData.descripcionLarga}
+                onChange={handleInputChange}
+              />
+            </div>
 
+            <div className=" text-center">
+              <input type="submit" value="Enviar" className={` w-1/2 text-2xl text-black font-bold`} />
+            </div>
 
-    if (data) return (
-        <>
-            <div className={`${styles.cajita} pt-8`}>
-                <div className=' bg-transparent backdrop-blur-[10rem] w-11/12 m-auto
-                shadow-[0 0 90px rgba(0, 0, 0,.2)] pt-2'>
-                    <h1 className="text-white text-center font-pacifico">Bienvenido Kim</h1>
+          </form>
+        </div>
 
+        {/*Vista previa*/}
+        <div>
+          <div className={`${styles.formSection} w-11/12  m-auto`}>
+            <h2>Vista Previa</h2>
+            <div className={`${styles.card}`}>
+              {formData.imagenPreview ? (
+                <img
+                  src={formData.imagenPreview}
+                  alt="Vista previa"
+                  className={`${styles.cardImage}`}
+                />
+              ) : (
+                <div className={`${styles.placeholder}`} >No hay imagen seleccionada</div>
+              )}
+              <h3>{formData.alias || "Nombre de la Mascota"}</h3>
+              <p><strong>Tipo:</strong> {formData.tipo}</p>
+              <p><strong>Descripción Corta:</strong> {formData.descripcionCorta || "Sin descripción"}</p>
 
-                    {Citas.length > 0 ? (
-                        <Table<DataType>
-                            columns={columns}
-                            expandable={{
-                                expandedRowRender: (record) => <p style={{ margin: 0 }}>{record.comentario}</p>,
-                                rowExpandable: (record) => record.status !== 'Cancelada',
-                            }}
-                            dataSource={Citas}
-                        />
-                    ) : (
-                        <>
-                            <Table<DataType>
-                                columns={columns}
-                                expandable={{
-                                    expandedRowRender: (record) => <p style={{ margin: 0 }}>{record.comentario}</p>,
-                                    rowExpandable: (record) => record.status !== 'Cancelada',
-                                }}
-                                dataSource={[]}
-                            />
-                            <div className="w-4/5 m-auto text-white text-lg flex justify-center pt-4">
-                                <p>No tienes citas agendadas &nbsp;&nbsp;</p>
-                                <Link
-                                    to="/mtng/new"
-                                    className="no-underline text-white transform hover:scale-110 transition-transform duration-200"
-                                >
-                                    ¿Quieres agendar?
-                                </Link>
-                            </div>
-                        </>
-                    )}
+              <button onClick={toggleModal} className={`${styles.viewButton}  text-black`}>
+                Ver Mascota
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
 
-                </div>
 
-            </div >
-        </>
-    );
+
+
+    </div>
+  );
 }
-
 export default Auxiliar;
+

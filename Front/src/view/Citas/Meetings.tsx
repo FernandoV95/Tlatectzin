@@ -160,7 +160,7 @@ export default function Meetings() {
                                     inline
                                     minDate={new Date(new Date().setDate(new Date().getDate() + 1))}
                                     minTime={new Date(0, 0, 0, 8, 0)}
-                                    maxTime={new Date(0, 0, 0, 20, 0)}
+                                    maxTime={new Date(0, 0, 0, 19, 30)}
                                 />
                                 <input className=" hidden " type="text" {...register('fecha', { required: true })} />
                                 <input className=" hidden " type="text" {...register('hora', { required: true })} />

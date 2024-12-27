@@ -1,5 +1,5 @@
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { RegisterUserForm, UserForm } from "../../schema/Users"; // Asegúrate de que UserForm esté actualizado
+import { NewUserForm} from "../../schema/Users"; 
 import Errors from "../../components/Errors";
 import styles from "../../modules/newUser.module.css";
 import { MdDriveFileRenameOutline } from "react-icons/md";
@@ -8,8 +8,8 @@ import { BsMailboxFlag } from "react-icons/bs";
 import { FaUserTie } from "react-icons/fa";
 
 type UserFormProps = {
-    register: UseFormRegister<RegisterUserForm>,  
-    errors: FieldErrors<UserForm>
+    register: UseFormRegister<NewUserForm>,  
+    errors: FieldErrors<NewUserForm>
 };
 
 function FormUser({ register, errors }: UserFormProps) {

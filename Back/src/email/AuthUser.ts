@@ -135,14 +135,18 @@ export class AuthEmail {
             </p>
 
             <p style="text-align: justify; font-size: 20px; color: #333;">
-             ¡Nos emociona que estes apunto de formar parte de esta comunidad!</p> 
+            ¡Nos emociona que estes apunto de formar parte de esta comunidad!</p> 
 
             <p style="text-align: justify; font-size: 20px; color: #333;">
             Para iniciar con su registro en nuestra plataforma, por favor, accede al siguiente enlace: </p>
 
-            <a href={"shhsdjsh"} style="font-size: 24px; font-weight: bold; color: #ff5733; text-decoration: none; background-color: #fff3cd; padding: 10px 15px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); transition: background-color 0.3s;">
-                bhjasdnasd
-            </a>
+            <div style="text-align: center; margin-top: 50px;">
+                <a href="http://localhost:5173/user/newVeter" style="font-size: 24px; font-weight: bold; color: #ff5733; text-decoration: none; background-color: #fff3cd; padding: 10px 15px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); transition: background-color 0.3s, transform 0.2s; display: inline-block;">
+                    <span style="color: #ff5733;">Inicia tu registro 😊</span>
+                </a>
+            </div>
+
+
             <p style="text-align: justify; font-size: 20px; color: #333;">
             Una vez que te registres y completes la validación, podrás acceder a todas las 
             funciones y servicios que ofrecemos, sin ninguna restricción.</p>
@@ -196,6 +200,6 @@ export class AuthEmail {
     }
 
 
-    
+
 
 }

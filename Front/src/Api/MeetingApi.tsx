@@ -32,7 +32,31 @@ export async function shwMtng() {
     }
 }
 
-//Ver mis citas cita
+//Ver una cita por ID
+export async function shwMtngId(id:idForm['_id']) {
+    try {
+        const { data } = await api(`/mtng/show/${id}`);
+        return data
+    } catch (error) {
+        if (isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error);
+        }
+    }
+}
+
+//Modificar la cita 
+export async function updtMtngId({formData,idCita}:{formData:CitaForm,idCita:idForm['_id']}) {
+    try {
+        const { data } = await api.patch(`/mtng/update/${idCita}`,formData);
+        return data
+    } catch (error) {
+        if (isAxiosError(error) && error.response) {
+            throw new Error(error.response.data.error);
+        }
+    }
+}
+
+//Cancelar la cita
 export async function cnclMtng(id:idForm['_id']) {
     try {
         const { data } = await api.patch(`/mtng/cancel/${id}`); 

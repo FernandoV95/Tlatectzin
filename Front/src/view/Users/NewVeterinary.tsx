@@ -26,7 +26,7 @@ function NewVeterinary() {
         nombres: '',
         apPat: '',
         apMat: '',
-        tel: undefined,
+        tel: '',
         email: '',
         pass: '',
         pass_confirm: '',
@@ -130,7 +130,7 @@ function NewVeterinary() {
                             <p className="text-sm text-white">Mostrar contraseña</p>
                         </div>
                         <div className=" text-center">
-                            <input type="submit" value="Enviar" className={` w-1/2 text-2xl text-black font-bold`} />
+                            <input type="submit" value="Enviar" className={` ${styles.sub} w-1/2 text-2xl text-black font-bold`} />
                         </div>
                     </form>
 

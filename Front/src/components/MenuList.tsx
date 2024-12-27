@@ -51,16 +51,12 @@ function MenuList({ darkTheme }: darkThemeProps) {
             children: [
                 {
                     key: 'users',
-                    label: <NavLink to="" className="no-underline font-silkscreen">Usuarios</NavLink>
+                    label: <NavLink to={'/admind/AllUsers'} className="no-underline font-silkscreen">Usuarios</NavLink>
                 },
                 {
                     key: 'pets2',
                     label: <NavLink to="" className="no-underline font-silkscreen">Mascotas</NavLink>
-                },
-                {
-                    key: 'newVeterinary',
-                    label: <NavLink to="/admind/sendEmailVeter" className="no-underline font-silkscreen">Incorporar</NavLink>
-                },
+                }, 
                 {
                     key: 'meetings',
                     label: <NavLink to="" className="no-underline font-silkscreen">Citas</NavLink>

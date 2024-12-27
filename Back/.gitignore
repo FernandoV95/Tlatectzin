@@ -1,5 +1,12 @@
+# Node modules
 node_modules/
 
+# Archivos de configuración de entorno
 .env
 
+# Archivos temporales generados por el sistema
 *.tmp
+*.log
+*.bak
+*.swp
+*.swo

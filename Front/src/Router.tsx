@@ -13,6 +13,8 @@ import Auxiliar from './view/Auxiliar/Auxiliar'
 import SendEmailVeter from './view/Adminds/SendEmailVeter'
 import NewVeterinary from './view/Users/NewVeterinary'
 import ShowMtngs from './view/Citas/ShowMtngs'
+import ShowUsers from './view/Adminds/ShowUsers'
+import ShowPets from './view/Pets/ShowPets'
 //<Route element ={<Layout />} >
 //</Route>
 
@@ -45,22 +47,30 @@ export default function Router() {
                     {/*-------> Rutas para las citas <-------*/}
                     {/*Crea una nueva cita*/}
                     <Route path='/mtng/new' element={<Meetings />} />
-
                     {/*Ver citas*/}
                     <Route path='/mtng/show' element={<ShowMtngs />} />
-
                     {/*Modificar tu cita*/}
-                    <Route path='/mtng/:idM' element={""} />
-
+                    <Route path='' element={""} />
                     {/*Cancelar tu cita*/}
                     <Route path='/mtng/cancel/:idM' element={""} />
 
-                    {/*-------------------------------------------------- */}
+
+                    {/*-------> Rutas para los admins <-------*/}
+                    {/*Ver a todos los usuarios*/}
+                    <Route path='/admind/AllUsers' element={<ShowUsers />} />
+
                     {/*Enviar el correo al veterinario para registrarse*/}
-                    <Route path='/admind/sendEmailVeter' element={<SendEmailVeter />} />
+                    <Route path='/admind/sendEmailVeter' element={''} />
+
+                    {/*-------> Rutas para las mascotas <-------*/}
+                    {/*Registrar una nueva mascota*/}
+                    <Route path='/pets/new' element={''} />
+
+                    {/*Ver todas las mascotas*/}
+                    <Route path='/pets/show' element={<ShowPets/>} />
 
 
-                    {/*PAginas Auxiliares */}
+                    {/*Paginas Auxiliares */}
                     <Route path='/Auxiliar' element={<Auxiliar />} />
 
                 </Route>

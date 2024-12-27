@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import PetImgs from "../models/PetsImg";
 import { dltImg, upldImg } from "../config/cloudinary";
-import fs, { promises } from "fs-extra";
+import fs from "fs-extra";
 import Pets from "../models/Pets";
 import PetsImg from "../models/PetsImg";
 
@@ -144,8 +144,4 @@ export class petsImgControllers {
             return 
         }
     }
-
-
-
-
 }

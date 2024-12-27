@@ -9,6 +9,7 @@ import PetsRt  from "./routers/PetsRt"
 import AuthRt from "./routers/AuthRt"
 import AdmindRt from "./routers/AdmindRt"
 import UserRt from "./routers/UserRt"
+import morgan from "morgan"
 
 dotenv.config()
 conecctDB();
@@ -16,7 +17,10 @@ conecctDB();
 const server = express()
 server.use(cors(corsConfig))
 
-//Leer en conosla...Recuerda Borrarlo en testing
+//morgan
+server.use(morgan('dev'))
+
+//Leer datos del formulario en consola
 server.use(express.json())
 
 //Rutas

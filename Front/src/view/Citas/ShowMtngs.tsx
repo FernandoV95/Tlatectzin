@@ -12,10 +12,17 @@ import { Table } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { Link } from "react-router-dom";
 import { CloseCircleTwoTone, HighlightTwoTone } from "@ant-design/icons";
-import { toast } from "react-toastify"; 
+import { toast } from "react-toastify";
+import { useState } from "react";
+import SmplMdl from "../../components/modals/SmplMdl";
+import UpdtMtgn from "../../components/meeting/UpdtMtng";
 
 
 const ShowMtngs = () => {
+
+    const [abrir, setAbrir] = useState(false);
+    const [idCita, setIdCita] = useState('')
+
     //Va a Mostrar los datos
     const { data, isLoading, isError } = useQuery({
         queryKey: ['Meetings'],
@@ -76,8 +83,6 @@ const ShowMtngs = () => {
         }
     };
 
-
-
     ///////////////////////////////////////////////////////////////
     interface DataType {
         key: React.Key;
@@ -92,6 +97,8 @@ const ShowMtngs = () => {
         iconMotivo: JSX.Element;
         motivo: string;
     }
+
+
 
     const columns: ColumnsType<DataType> = [
         {
@@ -133,9 +140,13 @@ const ShowMtngs = () => {
             title: <div style={{ textAlign: 'center' }}>Editar</div>,
             dataIndex: '',
             key: 'x',
-            render: () => (
+            render: (record) => (
                 <div
                     className="flex justify-center items-center text-xl cursor-pointer hover:scale-110 transition-all duration-300"
+                    onClick={() => {
+                        setAbrir(!abrir);
+                        setIdCita(record._id)
+                    }}
                 >
                     <HighlightTwoTone />
                 </div>
@@ -143,7 +154,7 @@ const ShowMtngs = () => {
         }, {
             title: <div style={{ textAlign: 'center' }}>Eliminar</div>,
             dataIndex: '',
-            key: 'x',
+            key: '_id',
             render: (record) => (
                 <div
                     className="flex justify-center items-center text-xl cursor-pointer hover:scale-110 transition-all duration-300"
@@ -209,11 +220,12 @@ const ShowMtngs = () => {
                             </div>
                         </>
                     )}
-
-
                 </div>
-
             </div >
+
+            <SmplMdl open={abrir} setVisible={setAbrir}>
+                <UpdtMtgn idCita={idCita} setVisible={setAbrir} />
+            </SmplMdl>
         </>
     );
 };

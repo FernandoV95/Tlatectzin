@@ -6,17 +6,20 @@ import { dltImg } from "../config/cloudinary";
 
 
 export class petsControllers {
+    
+    //Almacenar datos de la mascota
     static createPet = async (req: Request, res: Response) => {
         try {
             const newPet = new Pets(req.body)
             await newPet.save()
-            res.status(201).send('Datos Almacenados')
+            res.status(201).send('Mascota agregada 😊')
         } catch (error) {
             res.status(500).json({ error: error.message })
             return
         }
     }
 
+    //Ver los datos de todas las mascotas
     static getAllPets = async (req: Request, res: Response) => {
         try {
             const allPets = await Pets.find()
@@ -32,6 +35,7 @@ export class petsControllers {
         }
     }
 
+    //Ver los datos de la mascota por ID
     static getPetsById = async (req: Request, res: Response) => {
         try {
             const { idPet } = req.params
@@ -48,12 +52,13 @@ export class petsControllers {
         }
     }
 
+    //Actualizar datos la mascota
     static updatePet = async (req: Request, res: Response) => {
         try {
             const { idPet } = req.params
             const Pet = await Pets.findById(idPet)
             if (!Pet) {
-                const error = new Error('Mascota no registrada :( ')
+                const error = new Error('Mascota no registrada 😞 ')
                 return res.status(404).json({ error: error.message })
             }
             await Pets.findByIdAndUpdate(idPet, req.body, { new: true })
@@ -61,10 +66,11 @@ export class petsControllers {
 
         } catch (error) {
             res.status(500).json({ error: error.message })
-            return 
+            return
         }
     }
 
+    //Actualizar datos la mascota
     static deletePet = async (req: Request, res: Response) => {
         try {
             for (const i of req.pet.imagenes) {
@@ -82,7 +88,7 @@ export class petsControllers {
 
         } catch (error) {
             res.status(500).json({ error: error.message })
-            return 
+            return
         }
     }
 
