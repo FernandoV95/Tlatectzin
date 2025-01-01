@@ -4,7 +4,7 @@ import { IPetImg } from "./PetsImg";
 const status = {
     PENDING: 'pendiente',
     ADOPTED: 'adoptado',
-    PERISHED: 'Perecido'
+    PERISHED: 'perecio'
 } as const
 
 export type Status  = typeof status[keyof typeof status]

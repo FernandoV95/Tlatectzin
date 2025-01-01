@@ -27,7 +27,7 @@ function MenuList({ darkTheme }: darkThemeProps) {
         {
             key: 'pets',
             icon: <BaiduOutlined />,
-            label: <NavLink to="" className="no-underline font-silkscreen text-white">Mascotas</NavLink>,
+            label: <NavLink to={'/pets/catalog'} className="no-underline font-silkscreen text-white">Mascotas</NavLink>,
         },
         {
             key: 'meeting',
@@ -55,7 +55,7 @@ function MenuList({ darkTheme }: darkThemeProps) {
                 },
                 {
                     key: 'pets2',
-                    label: <NavLink to="" className="no-underline font-silkscreen">Mascotas</NavLink>
+                    label: <NavLink to={'/admind/pets/show'} className="no-underline font-silkscreen">Mascotas</NavLink>
                 }, 
                 {
                     key: 'meetings',

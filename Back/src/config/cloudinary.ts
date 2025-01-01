@@ -17,7 +17,7 @@ export const upldImg = async (filePath: string)  => {
         });
         return result;  
     } catch (error) {
-        console.error('NO se almacenaron las imagenes', error);
+        console.error('No se almacenaron las imagenes', error);
         throw error;  
     }
 };

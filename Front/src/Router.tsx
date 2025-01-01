@@ -10,11 +10,12 @@ import RequestToken from './view/Auth/RequestToken'
 
 import Meetings from './view/Citas/Meetings'
 import Auxiliar from './view/Auxiliar/Auxiliar'
-import SendEmailVeter from './view/Adminds/SendEmailVeter'
 import NewVeterinary from './view/Users/NewVeterinary'
 import ShowMtngs from './view/Citas/ShowMtngs'
 import ShowUsers from './view/Adminds/ShowUsers'
-import ShowPets from './view/Pets/ShowPets'
+import ShowPets from './view/Adminds/ShowPets' 
+import NewPet from './view/Pets/NewPet'
+import Catalogo from './view/Pets/Catalogo'
 //<Route element ={<Layout />} >
 //</Route>
 
@@ -62,12 +63,19 @@ export default function Router() {
                     {/*Enviar el correo al veterinario para registrarse*/}
                     <Route path='/admind/sendEmailVeter' element={''} />
 
-                    {/*-------> Rutas para las mascotas <-------*/}
                     {/*Registrar una nueva mascota*/}
-                    <Route path='/pets/new' element={''} />
+                    <Route path='/admind/pets/new' element={<NewPet/>} />
 
-                    {/*Ver todas las mascotas*/}
-                    <Route path='/pets/show' element={<ShowPets/>} />
+                    {/*Almacenar imagenes de la nueva mascota mascota*/} 
+
+                    {/*Ver todas las mascotas Para los Adminds*/}
+                    <Route path='/admind/pets/show' element={<ShowPets />} />
+
+
+                    {/*-------> Rutas para las mascotas <-------*/}
+
+                    {/*Ver Catalogo de  las mascotas */}
+                    <Route path='/pets/catalog' element={<Catalogo />} />
 
 
                     {/*Paginas Auxiliares */}

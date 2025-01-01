@@ -1,4 +1,4 @@
-import { Router } from "express"; 
+import { Router } from "express";
 import { InputErrors } from "../middleware/inputErrors";
 import { Admind } from "../controllers/AdmindCntlls";
 import validatePet from "../middleware/validatePet";
@@ -38,47 +38,46 @@ AdmindRt.put('/user/updt/:id',
 
 
 //-----------> Mascotas <------------
-//Rutas para las mascotas <-Adminds
+
+//Rutas para crear nueva mascotas <-Adminds
 AdmindRt.post('/pet/new',
     InputErrors,
     petsControllers.createPet
 )
+//Agrega imagenes a la amscota
+AdmindRt.post('/pet/add-img/:idPet',
+    InputErrors,
+    validatePet,
+    saveImg,
+    petsImgControllers.addImgPet
+)
+
 
 
 //Actualizar datos <- Adminds
-AdmindRt.put('/pet/updt/:idPet',
+AdmindRt.put('/pet/data/updt/:idPet',
     InputErrors,
     petsControllers.updatePet
 )
 
-//Cambiar status a adoptado <- Adminds
-AdmindRt.delete('/pet/adopted/:idPet',
+//Borra imagenes de la mascota
+AdmindRt.delete('/pet/:idPet/imgs/delete/:idIP',
     InputErrors,
     validatePet,
-    petsControllers.deletePet
-)
-
-
-//Rutas para las imagenes de las mascotas <- admind
-//Agregar imagnes
-AdmindRt.post('/pet/:idPet/imgs/',
-    saveImg,
-    InputErrors,
-    validatePet, 
-    petsImgControllers.createImg
-)
-
-//Borrar imagen por Id
-AdmindRt.delete('/pet/:idPet/imgs/:idIP',
-    InputErrors,
-    validatePet, 
     petsImgControllers.deleteImgPetById
 )
+
+ 
+
+//Rutas para las imagenes de las mascotas <- admind
+
+
+
 
 //Borrar todas las imagenes
 AdmindRt.delete('/pet/:idPet/imgs/',
     InputErrors,
-    validatePet, 
+    validatePet,
     petsImgControllers.deleteAllImg
 )
 

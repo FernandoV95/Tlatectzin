@@ -1,0 +1,33 @@
+.carouselContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 81%;
+  margin: auto;
+}
+
+.carouselImage img {
+  width: 100%;
+  height: auto;
+}
+
+.carouselButton {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 24px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.carouselButton:first-of-type {
+  left: 0;
+}
+
+.carouselButton:last-of-type {
+  right: 0;
+}

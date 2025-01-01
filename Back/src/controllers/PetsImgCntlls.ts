@@ -6,45 +6,8 @@ import Pets from "../models/Pets";
 import PetsImg from "../models/PetsImg";
 
 export class petsImgControllers {
-    static createImg = async (req: Request, res: Response) => {
-        try {
-            const imagenes = req.files?.imagenes;
 
-            let tempFilePaths = Array.isArray(imagenes)
-                ? imagenes.map(img => img.tempFilePath)
-                : imagenes ? [imagenes.tempFilePath] : [];
-
-            for (const i of tempFilePaths) {
-                if (imagenes) {
-                    const newImgnPet = new PetImgs();
-
-                    //almacenamos el id de la mascota en sus imagenes correspondientes
-                    newImgnPet.petId = req.pet.id
-
-                    //almacenamos los ids de las imagenes en la mascotas 
-                    req.pet.imagenes = [...req.pet.imagenes, newImgnPet.id]
-
-                    //esta es la función sube las imagenes al couldinary
-                    const aux = await upldImg(i);
-                    //Almacenamos los datos que requerimos en la BD
-                    newImgnPet.public_id = aux.public_id
-                    newImgnPet.secure_url = aux.secure_url
-
-                    //Eliminamos las imagenes que estan de forma local
-                    //Guardamos en la BD los datos de la imagen
-                    //Guardamos el ID de las imagenes de la mascota
-                    await Promise.allSettled([fs.unlink(i), newImgnPet.save(), req.pet.save()])
-                }
-            }
-
-            res.status(201).send('Imagenes Alamacenadas')
-
-        } catch (error) {
-            res.status(500).send(error.message)
-            return
-        }
-    }
-
+     //Traer todas las imagenes de la mascota correspondiente
     static getAllImgByPetID = async (req: Request, res: Response) => {
         try {
             let imgs = [];
@@ -70,6 +33,64 @@ export class petsImgControllers {
         }
     }
 
+    //Agrega imagenes nuevas a la mascota
+    static addImgPet = async (req: Request, res: Response) => {
+        try {
+            // Accede a los archivos enviados bajo el campo 'imagenes'
+            const imagenes = req.files?.imagenes;  //Obtiene los datos de las imagenes
+
+            let tempFilePaths = Array.isArray(imagenes) //Obtiene la direccion temp de la imagen(es)
+                ? imagenes.map(img => img.tempFilePath)
+                : imagenes ? [imagenes.tempFilePath] : [];
+
+            let successfulUploads = 0;
+            let failedUploads = 0;
+
+            for (const i of tempFilePaths) {
+                try {
+                    if (imagenes) {
+                        const newImgnPet = new PetImgs();
+
+                        // Almacenamos el id de la mascota en sus imágenes correspondientes
+                        newImgnPet.petId = req.pet.id;
+
+                        //Colamos las imagenes
+                        req.pet.imagenes = req.pet.imagenes ? [...req.pet.imagenes, newImgnPet.id] : [newImgnPet.id];
+
+                        // Esta es la función que sube las imágenes al Cloudinary
+                        const aux = await upldImg(i);
+
+                        // Almacenamos los datos que requerimos en la BD
+                        newImgnPet.public_id = aux.public_id;
+                        newImgnPet.secure_url = aux.secure_url;
+
+                        // Eliminamos las imágenes locales y guardamos los datos en la BD
+                        await Promise.allSettled([fs.unlink(i), newImgnPet.save(), req.pet.save()]);
+
+                        successfulUploads++; // Aumento si la imagen se sube correctamente
+                    }
+                } catch (error) {
+                    console.error('Error al procesar la imagen:', error);
+                    failedUploads++; // Aumento si ocurre un error en la subida de la imagen
+                }
+            }
+
+            // Respuesta final con control de errores
+            if (failedUploads > 0) {
+                res.status(500).send(`Algunas imágenes no se subieron correctamente. Errores: ${failedUploads}`);
+            } else {
+                res.status(201).send('Imagenes Guardadas 😊');
+            }
+
+        } catch (error) {
+            console.error('Error general en el proceso:', error);
+            res.status(500).send('Hubo un error al procesar las imágenes.');
+        }
+    };
+
+
+
+    //Borra una solo imagen de la mascota por su id 
     static deleteImgPetById = async (req: Request, res: Response) => {
         try {
             //Busca la imagen mediante su id
@@ -103,6 +124,7 @@ export class petsImgControllers {
         }
     }
 
+    //Borra todas las imagenes de la mascota
     static deleteAllImg = async (req: Request, res: Response) => {
         try {
             //Vamos a borrar todo asi que no necesitamos los ids
@@ -115,14 +137,14 @@ export class petsImgControllers {
             if (!shcImg) {
                 const error = new Error('Mascota No registrada')
                 res.status(404).json({ error: error.message })
-                return 
+                return
             }
 
             //verificar si hay imagenes
             if (shcImg.imagenes.length < 1) {
                 const error = new Error('No hay imagenes')
                 res.status(404).json({ error: error.message })
-                return 
+                return
             }
 
             for (const i of shcImg.imagenes) {
@@ -141,7 +163,7 @@ export class petsImgControllers {
             res.status(200).send('Hasta qui todo bien UwU')
         } catch (error) {
             res.status(500).send(error.message)
-            return 
+            return
         }
     }
 }

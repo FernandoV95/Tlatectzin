@@ -1,0 +1,32 @@
+.cajita {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(/mudkiq.jpg);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: right top;
+    min-height: 100vh;
+}
+
+.wrapper { 
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .2);
+    backdrop-filter: blur(30px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    color: #fff;
+    border-radius: 10px; 
+}
+
+
+.sub {
+ 
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: .3s ease-in-out;
+}
+
+.sub:hover {
+    scale: 1.1;
+    background: white
+}

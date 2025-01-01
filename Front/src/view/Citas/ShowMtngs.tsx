@@ -152,7 +152,7 @@ const ShowMtngs = () => {
                 </div>
             )
         }, {
-            title: <div style={{ textAlign: 'center' }}>Eliminar</div>,
+            title: <div style={{ textAlign: 'center' }}>Cancelar</div>,
             dataIndex: '',
             key: '_id',
             render: (record) => (

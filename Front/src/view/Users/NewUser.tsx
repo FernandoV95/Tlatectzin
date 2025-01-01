@@ -1,12 +1,12 @@
-import { useForm } from "react-hook-form"; 
+import { useForm } from "react-hook-form";
 import Errors from "../../components/Errors";
 import { useMutation } from "@tanstack/react-query";
 import { newUser } from "../../Api/UserApi";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import styles from "../../modules/newUser.module.css" 
-import { GiDialPadlock} from "react-icons/gi"; 
+import styles from "../../modules/newUser.module.css"
+import { GiDialPadlock } from "react-icons/gi";
 import FormUSer from "../../components/FormUser/FormUSer";
 import { NewUserForm } from "../../schema/Users";
 

@@ -141,8 +141,8 @@ function ShowUsers() {
     if (data) {
         return (
             <>
-                <div className={` ${styles.cajita} pt-8`}>
-                    <div className="w-11/12 flex justify-end mb-4 text-white">
+                <div className={` ${styles.cajita} pt-8 relative z-10`}>
+                    <div className="w-11/12 flex justify-end mb-4 text-white absolute z-20 my-3">
                         <Button type="primary" onClick={() =>
                             setOpenEmailRegister(!OpenEmailRegister)}>
                             <span className="text-xl py-2 " >Nuevo usuario</span>

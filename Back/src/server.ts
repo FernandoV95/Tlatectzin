@@ -18,7 +18,7 @@ const server = express()
 server.use(cors(corsConfig))
 
 //morgan
-server.use(morgan('dev'))
+//server.use(morgan('dev'))
 
 //Leer datos del formulario en consola
 server.use(express.json())

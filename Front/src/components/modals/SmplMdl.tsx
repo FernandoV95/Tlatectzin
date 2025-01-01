@@ -20,6 +20,7 @@ const SmplMdl = ({ open, setVisible, children}: mdlProps) => {
       open={open}
       onCancel={handleCancel}
       footer={null} 
+      maskClosable={false} 
     >
       {children}  
     </Modal>
