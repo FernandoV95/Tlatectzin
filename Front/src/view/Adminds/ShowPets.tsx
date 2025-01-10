@@ -14,6 +14,10 @@ export default function ShowPets() {
     const [idPet, setIdPet] = useState('');
     const [cambiarVentana, setCambiarVentana] = useState(false)
 
+    const tipos = [
+        'Perro', 'Gato', 'Roedor', 'Pez', 'Aves', 'Reptiles', 'Ganado', 'Equinos', 'Porcino', 'Pokemones', 'Animal Fantastico']
+
+
     const { data, isLoading, isError } = useQuery({
         queryKey: ['Pets'],
         queryFn: shwPets,
@@ -46,7 +50,21 @@ export default function ShowPets() {
     const columns: ColumnsType<DataType> = [
         {
             title: <div style={{ textAlign: 'center' }}>Estatus</div>,
-            dataIndex: 'status', key: 'status', align: 'center'
+            dataIndex: 'status', key: 'status', align: 'center',
+            filters: [
+                {
+                    text: 'Pendiente',
+                    value: 'pendiente',
+                },
+                {
+                    text: 'Adoptado',
+                    value: 'adoptado',
+                },
+                {
+                    text: 'Pereció',
+                    value: 'perecio',
+                }],
+            onFilter: (value, record) => record.status.indexOf(value as string) === 0,
         },
         {
             title: <div style={{ textAlign: 'center' }}>Alias</div>,
@@ -54,7 +72,12 @@ export default function ShowPets() {
         },
         {
             title: <div style={{ textAlign: 'center' }}>Tipo</div>,
-            dataIndex: 'tipo', key: 'tipo', align: 'center'
+            dataIndex: 'tipo', key: 'tipo', align: 'center',
+            filters: tipos.map(i => ({
+                text: i,
+                value: i.toLowerCase()
+            })),
+            onFilter: (value, record) => record.status.indexOf(value as string) === 0,
         },
         {
             title: <div style={{ textAlign: 'center' }}>Desc. Corta</div>,

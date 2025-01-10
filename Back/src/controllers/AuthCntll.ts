@@ -37,8 +37,8 @@ export class AuthController {
                 return
             }
 
-            //const auth = generateJWT({ id: usr.id })
-            res.status(200).send('Bienvenido');
+            const auth = generateJWT({ id: usr.id })
+            res.status(200).send(auth);
 
         } catch (error) {
             res.status(500).json({ error: error.message })
@@ -171,6 +171,11 @@ export class AuthController {
         }
     }
 
+
+    //Obtner datos al momento de inicar sesion
+    static usuario = async (req: Request, res: Response) => {
+        return res.json(req.user)
+    }
 
 
 }

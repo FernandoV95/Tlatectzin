@@ -10,6 +10,7 @@ import AuthRt from "./routers/AuthRt"
 import AdmindRt from "./routers/AdmindRt"
 import UserRt from "./routers/UserRt"
 import morgan from "morgan"
+import VetRt from "./routers/Vetery"
 
 dotenv.config()
 conecctDB();
@@ -36,6 +37,8 @@ server.use('/api/admind',AdmindRt)
 //Para agendar reuniones
 server.use('/api/mtng',MttngRt)
 
+//Para veterinarios
+server.use('/api/vet',VetRt)
 
 //Para agregar mascotas
 server.use('/api/pets',PetsRt)

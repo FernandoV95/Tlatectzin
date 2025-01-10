@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { LoginForm } from "../../schema/Users";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query"; 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import Errors from "../../components/Errors";
 import { useState } from "react";
@@ -16,6 +16,7 @@ import { login } from "../../Api/AuthApi";
 export default function Login() {
 
     const [hiden, setHiden] = useState<boolean>(false);
+    const queryClient = useQueryClient();
 
     const Show = () => {
         setHiden(prevHiden => !prevHiden);
@@ -39,6 +40,7 @@ export default function Login() {
         },
         onSuccess: () => {
             toast.success('Bienvenido')
+            queryClient.refetchQueries({ queryKey: ['perfil'] })
             goMenu('/')
         }
     })

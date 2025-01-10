@@ -37,14 +37,17 @@ export const AllUsrsSh = z.array(
 
 type Auth = z.infer<typeof userSchema>
 //Para usuarios
+export type idUserForm = Pick<Auth, '_id'>
 export type NewUserForm = Pick<Auth, 'nombres' | 'apPat' | 'apMat' | 'tel' | 'email' | 'pass' | 'pass_confirm'>
 export type NewVeterForm = Pick<Auth, 'nombres' | 'apPat' | 'apMat' | 'tel' | 'email' | 'pass' | 'pass_confirm' | 'universidad' | 'cedula'>
 export type UpdtPssForm = Pick<Auth, 'pass' | 'pass_confirm'>
+export type VeterFrom = Pick<Auth, '_id' | 'nombres'>
 
 //Para autenticacion
 export type LoginForm = Pick<Auth, 'email' | 'pass'>
 export type ValidCodForm = Pick<Auth, 'token'>
 export type EmailForm = Pick<Auth, 'email'> 
+export type AuthForm = Pick<Auth, 'nombres' | "rol">
 
 //Para la administracion
 export type UpdtUserForm = Pick<Auth,'_id' |'nombres' | 'apPat' | 'apMat' | 'tel' | 'email' | 'rol' | 'universidad'| 'cedula' >

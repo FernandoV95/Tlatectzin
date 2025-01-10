@@ -6,14 +6,16 @@ import SmplMdl from "../../components/modals/SmplMdl";
 import { useState } from "react";
 import ShwPtCtlg from "./ShwPtCtlg";
 import { idForm } from "../../schema/Pets";
+import { useNavigate } from "react-router-dom";
 
 function Catalogo() {
     const [currentPage, setCurrentPage] = useState(1);
-    const [abrir, setAbrir] = useState(false); 
+    const [abrir, setAbrir] = useState(false);
     const [itemsPerPage, setItemsPerPage] = useState(9);
     const [idPet, setIdPet] = useState<idForm['_id']>('');
     const [filtroTipo, setFiltroTipo] = useState('');
-    
+    const goAgendar = useNavigate()
+
     const { data, isLoading, isError } = useQuery({
         queryKey: ['catalogo'],
         queryFn: catalog,
@@ -44,7 +46,7 @@ function Catalogo() {
     // Abrir el modal y seleccionar la mascota
     const toggleModal = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         const idPet = e.target as HTMLElement;
-        setIdPet(idPet.id); 
+        setIdPet(idPet.id);
         setAbrir(true); // Abrir el modal
     };
 
@@ -66,7 +68,7 @@ function Catalogo() {
                                 1500, // Waits 4s
                                 'Mascotas', // Types 'Mascotas'
                                 1500, // Waits 3s
-                                () => {},
+                                () => { },
                             ]}
                             wrapper="span"
                             cursor={true}
@@ -113,13 +115,17 @@ function Catalogo() {
                                             >
                                                 Ver Mascota
                                             </button>
-                                            <button className={`${styles.adoptButton}`}>Adoptar</button>
+                                            <button onClick={ ()=> goAgendar('/mtng/new')} className={`${styles.adoptButton}`}>Adoptar</button>
                                         </div>
                                     </div>
                                 </div>
                             ))
                         ) : (
-                            <div>No se encontraron resultados</div>
+                            <div>
+                                <h3 className=" text-white w-full">
+                                    No se encontraron resultados
+                                </h3>
+                            </div>
                         )}
                     </div>
 

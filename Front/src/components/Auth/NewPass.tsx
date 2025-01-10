@@ -20,6 +20,35 @@ function NewPass({ token }: NewPasswordFormProps) {
   const [hiden, setHiden] = useState<boolean>(false);
   const [hiden2, setHiden2] = useState<boolean>(false);
 
+  const [mostrar, setMostrar] = useState(false);
+
+  const abcM = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  const num = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  const char = ['!', '@', '#', '$', '%', '^', '&', '*', '+', '-', '/', '<', '>', '|', ','];
+
+
+  const [parol, setParol] = useState({
+    mayuscula: false,
+    caracter: false,
+    numero: false
+  })
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.split('')
+
+    const hasM = value.some(M => abcM.includes(M));
+    const hasC = value.some(C => char.includes(C));
+    const hasN = value.some(N => num.includes(N));
+
+    setParol({
+      mayuscula: hasM,
+      caracter: hasC,
+      numero: hasN
+    });
+  };
+  const isPasswordValid = parol.mayuscula && parol.caracter && parol.numero;
+
+
   const Show = () => {
     setHiden(prevHiden => !prevHiden);
   };
@@ -50,8 +79,12 @@ function NewPass({ token }: NewPasswordFormProps) {
     const datos = {
       formData, token
     };
-    console.log(datos)
-    mutate(datos)
+    if (isPasswordValid) {
+      mutate(datos)
+    } else {
+      toast.error("¡La contraseña no es valida¡");
+      setMostrar(true)
+    }
   };
 
   return (
@@ -65,7 +98,12 @@ function NewPass({ token }: NewPasswordFormProps) {
 
             <div className=" flex flex-col mt-3 ">
               <div className="relative">
-                <input id="pass" type={hiden ? 'text' : 'password'} placeholder="Contraseña" className="input-field" {...register('pass', { required: true })} />
+                <input id="pass" type={hiden ? 'text' : 'password'}
+                  placeholder="Contraseña" className="input-field"
+                  {...register('pass', { required: true })}
+                  onChange={handleChange}
+                  maxLength={12}
+                />
                 <FaLock className="absolute left-4 top-5 text-white" />
                 {hiden ?
                   <i className="bi bi-eye-slash-fill absolute text-2xl top-2 right-2 hover:cursor-pointer" onClick={Show}></i>
@@ -73,6 +111,24 @@ function NewPass({ token }: NewPasswordFormProps) {
                   <i className="bi bi-eye-fill absolute text-2xl top-2 right-2 hover:cursor-pointer" onClick={Show}></i>
                 }
                 {errors.pass?.type === 'required' && <Errors>{'¡Tu contraseña es obligatoria!'}</Errors>}
+                {mostrar && (
+                  <table className=" m-auto table-auto border border-gray-300  ">
+                    <thead className="bg-gray-100">
+                      <tr>
+                        <th className="  text-left text-gray-700 ">May</th>
+                        <th className="  text-left text-gray-700 ">Car</th>
+                        <th className="  text-left text-gray-700 ">Num</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td className="  text-center ">{parol.mayuscula ? "✔️" : "❌"}</td>
+                        <td className="  text-center ">{parol.caracter ? "✔️" : "❌"}</td>
+                        <td className="  text-center ">{parol.numero ? "✔️" : "❌"}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                )}
               </div>
             </div>
 

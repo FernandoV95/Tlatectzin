@@ -13,7 +13,7 @@ type UpdtMtngProps = {
     setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const UpdtMtgn = ({ idCita, setVisible }: UpdtMtngProps) => {
+const UpdtMyMtgn = ({ idCita, setVisible }: UpdtMtngProps) => {
     //---------------> Controladores del UseMutation y useQuery <---------------
     const { data, isLoading, isError } = useQuery({
         queryKey: ['Mtng', idCita],
@@ -38,23 +38,27 @@ const UpdtMtgn = ({ idCita, setVisible }: UpdtMtngProps) => {
     const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<CitaForm>({
         defaultValues: {
             fecha: dayjs().format('YYYY-MM-DD'),
-            hora: "",
-            motivo: "Veterinario",
+            hora: dayjs().format('HH:mm'),
+            motivo: "veterinario",
             comentarios: "",
             alias: "",
         }
     });
 
+
+
+
     //---------------> useEffect para actualizar datos cuando 'data' cambie <---------------
     useEffect(() => {
         if (data) {
-            setValue("motivo", data.motivo || "Veterinario");
+            setValue("motivo", data.motivo!);
             setValue("fecha", dayjs(data.fecha).format('YYYY-MM-DD'));
-            setValue("hora", data.hora || "");
-            setValue("comentarios", data.comentarios || "");
-            setValue("alias", data.alias || "");
+            setValue('hora', dayjs(data.hora, ['h:mm A', 'h:mm']).format('HH:mm'));
+            setValue("comentarios", data.comentarios!);
+            setValue("alias", data.alias!);
         }
     }, [data, setValue]); // Solo depende de 'data'
+
 
     // Función de submit
     const onSub = (formData: CitaForm) => {
@@ -67,7 +71,7 @@ const UpdtMtgn = ({ idCita, setVisible }: UpdtMtngProps) => {
     // Mostrar mensajes de carga o error
     if (isLoading) return <div>Cargando...</div>;
     if (isError) return <p>Hubo problemas</p>;
-
+ 
     return (
         <div>
             <h2 className="text-center font-fascinate">Cambia tu cita</h2>
@@ -79,7 +83,7 @@ const UpdtMtgn = ({ idCita, setVisible }: UpdtMtngProps) => {
                         <label className="w-full text-center">Fecha</label>
                         <input
                             type="date"
-                            className="w-full border-2 border-cyan-500 rounded-lg p-1"
+                            className=" text-black w-full border-2 border-cyan-500 rounded-lg p-1"
                             {...register('fecha', {
                                 required: 'La fecha es obligatoria',
                                 validate: validateDate // Usamos la función importada para validar
@@ -93,7 +97,7 @@ const UpdtMtgn = ({ idCita, setVisible }: UpdtMtngProps) => {
                         <label className="w-full text-center">Hora</label>
                         <input
                             type="time"
-                            className="w-full border-2 border-cyan-500 rounded-lg p-1"
+                            className="text-black w-full border-2 border-cyan-500 rounded-lg p-1"
                             {...register('hora', {
                                 required: 'La hora es obligatoria',
                                 validate: validateTime
@@ -118,20 +122,20 @@ const UpdtMtgn = ({ idCita, setVisible }: UpdtMtngProps) => {
                         className="w-full border-2 border-cyan-500 p-1 rounded-lg"
                         {...register('motivo', { required: 'El motivo es obligatorio' })}
                     >
-                        <option value="Veterinario">Veterinario</option>
-                        <option value="Dar en Adopción">Dar en adopción</option>
-                        <option value="Adoptar">Adoptar</option>
+                        <option value="veterinario">Veterinario</option>
+                        <option value="dar en adopcion">Dar en adopción</option>
+                        <option value="adoptar">Adoptar</option>
                     </select>
                     {errors.motivo && <Errors>{errors.motivo.message}</Errors>}
 
                     {/* Alias */}
                     {watch('motivo') !== 'Dar en adopcion' && (
                         <div className="mt-1">
-                            <label className="w-full text-center">Mascota</label>
+                            <label className="text-black w-full text-center">Mascota</label>
                             <input
                                 type="text"
                                 placeholder="Nombre de la mascota"
-                                className="w-full border-2 border-cyan-500 rounded-lg p-1"
+                                className="text-black w-full border-2 border-cyan-500 rounded-lg p-1"
                                 {...register('alias', { required: 'El alias es obligatorio' })}
                             />
                             {errors.alias && <Errors>{errors.alias.message}</Errors>}
@@ -141,7 +145,7 @@ const UpdtMtgn = ({ idCita, setVisible }: UpdtMtngProps) => {
 
                 {/* Comentarios */}
                 <div className="mt-2">
-                    <label className="w-full text-center">Comentarios</label>
+                    <label className="text-black w-full text-center">Comentarios</label>
                     <textarea
                         placeholder="Escribe tu mensaje aquí..."
                         className="w-full border-2 border-cyan-500 rounded-lg p-1"
@@ -158,5 +162,5 @@ const UpdtMtgn = ({ idCita, setVisible }: UpdtMtngProps) => {
     );
 };
 
-export default UpdtMtgn;
+export default UpdtMyMtgn;
 

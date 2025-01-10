@@ -8,28 +8,32 @@ import { Authenticate } from "../middleware/Auth";
 const MttngRt= Router() 
 //-----------------Rutas para Agendar Cita -----------------
 
-//MttngRt.use(Authenticate)
+MttngRt.use(Authenticate)
 
 //Crear una nueva cita
-MttngRt.post('/new', 
+MttngRt.post('/new',
+    //Authenticate, 
     InputErrors,
     meetingControllers.newMeeting
 )
 
-//Muestra todas las reuniones
-MttngRt.get('/show',  
+//Muestrar mis reuniones agendadas
+MttngRt.get('/show', 
+    //Authenticate,
     InputErrors,
     meetingControllers.getAllMetting
 )
 
 //Busca la reunion por su Id
 MttngRt.get('/show/:idM', 
+    //Authenticate,
     InputErrors,
     meetingControllers.getByMttng
 )
 
 //Actualiza los datos de la reunion
 MttngRt.patch('/update/:idM',
+    //Authenticate,
     InputErrors,
     meetingControllers.updateMttng
 )
@@ -37,9 +41,9 @@ MttngRt.patch('/update/:idM',
 
 //Cancela la reunion
 MttngRt.patch('/cancel/:idM',
+    //Authenticate,
     InputErrors,
     meetingControllers.cancelledMttng
 )
-
 
 export default MttngRt

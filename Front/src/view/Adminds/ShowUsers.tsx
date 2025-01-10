@@ -1,54 +1,43 @@
 import { useQuery } from "@tanstack/react-query";
 import { shwUsrs } from "../../Api/AdmindApi";
-import Table, { ColumnsType } from "antd/es/table";
-import styles from "../../modules/ShowUser.module.css"
 import { CheckOutlined, CloseOutlined, HighlightTwoTone } from "@ant-design/icons";
 import { Button } from 'antd';
 import SmplMdl from "../../components/modals/SmplMdl";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SendEmailVeter from "./SendEmailVeter";
 import UpdtUser from "./UpdtUser";
-
+import Table, { ColumnsType } from "antd/es/table";
+import styles from "../../modules/ShowUser.module.css";
 
 function ShowUsers() {
-
     const [OpenEmailRegister, setOpenEmailRegister] = useState(false);
     const [OpenEditUser, setOpenEditUser] = useState(false);
-    const [idUser, setIdUser] = useState('')
+    const [idUser, setIdUser] = useState('');
+    const [filtroTipo, setFiltroTipo] = useState('');
 
-    //Va a traer todos los usuarios
     const { data, isLoading, isError } = useQuery({
         queryKey: ['usuarios'],
         queryFn: shwUsrs,
         enabled: true,
-        retry:2, 
+        retry: 2,
     });
 
-    useEffect(() => {
-    }, [data])
+    // Filtrar los datos en función del filtro de búsqueda
+    const datosFiltrados = data && data.filter((i) =>
+        i.email.toLowerCase().includes(filtroTipo.toLowerCase()) ||
+        i.cedula?.toLowerCase().includes(filtroTipo.toLowerCase()) 
+    ) || [];
 
-    if (isLoading)
-        return (
-            <div className={``}>
-                <p>Cargando....</p>
-            </div>
-        )
-
-    if (isError)
-        return (
-            <p>Hubo problemas con el servidor</p>
-        )
-
-    const IconConfirmed = (confirmed: boolean): JSX.Element => {
-        switch (confirmed) {
-            case true:
-                return <CheckOutlined className="size-5" title="Pendiente" />;
-            default:
-                return <CloseOutlined className="size-5" title="Pendiente" />;
-        }
+    // Manejo del cambio en el campo de búsqueda
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFiltroTipo(e.target.value);
     };
 
-    //////////////////////////////////////////
+    // Función para mostrar el ícono de "confirmado"
+    const IconConfirmed = (confirmed: boolean): JSX.Element => {
+        return confirmed ? <CheckOutlined className="size-5" title="Pendiente" /> : <CloseOutlined className="size-5" title="Pendiente" />;
+    };
+
     interface DataType {
         key: React.Key;
         _id: string;
@@ -77,7 +66,14 @@ function ShowUsers() {
         },
         {
             title: <div style={{ textAlign: 'center' }}>Rol</div>,
-            dataIndex: 'rol', key: 'rol', align: 'center'
+            dataIndex: 'rol', key: 'rol', align: 'center',
+            showSorterTooltip: { target: 'full-header' },
+            filters: [
+                { text: 'Administrador', value: 'administrador' },
+                { text: 'Veterinario', value: 'veterinario' },
+                { text: 'Usuario', value: 'usuario' },
+            ],
+            onFilter: (value, record) => record.rol.indexOf(value as string) === 0,
         },
         {
             title: <div style={{ textAlign: 'center' }}>Nombre(s)</div>,
@@ -102,7 +98,8 @@ function ShowUsers() {
         {
             title: <div style={{ textAlign: 'center' }}>Cedula</div>,
             dataIndex: 'cedula', key: 'cedula', align: 'center'
-        }, {
+        },
+        {
             title: <div style={{ textAlign: 'center' }}>Editar</div>,
             dataIndex: '',
             key: 'x',
@@ -111,17 +108,16 @@ function ShowUsers() {
                     className="flex justify-center items-center text-xl cursor-pointer hover:scale-110 transition-all duration-300"
                     onClick={() => {
                         setOpenEditUser(!OpenEditUser);
-                        setIdUser(record._id)
+                        setIdUser(record._id);
                     }}
                 >
                     <HighlightTwoTone />
                 </div>
             )
         },
-
     ];
 
-    const Usuarios = data?.map((u) => ({
+    const Usuarios = datosFiltrados.map((u) => ({
         key: u._id,
         _id: u._id,
         nombres: u.nombres,
@@ -136,70 +132,75 @@ function ShowUsers() {
         iconConfirmed: IconConfirmed(u.confirmed),
     })) || [];
 
-    //<CloseOutlined />
+    if (isLoading) return <p>Cargando....</p>;
+    if (isError) return <p>Hubo problemas con el servidor</p>;
 
-    if (data) {
-        return (
-            <>
-                <div className={` ${styles.cajita} pt-8 relative z-10`}>
-                    <div className="w-11/12 flex justify-end mb-4 text-white absolute z-20 my-3">
-                        <Button type="primary" onClick={() =>
-                            setOpenEmailRegister(!OpenEmailRegister)}>
-                            <span className="text-xl py-2 " >Nuevo usuario</span>
-                        </Button>
-                    </div>
-                    <div className=' bg-transparent backdrop-blur-[10rem] w-11/12 m-auto
-                shadow-[0 0 90px rgba(0, 0, 0,.2)] pt-2'>
-                        <h1 className="text-white text-center font-pacifico">Usuarios Registrados</h1>
+    return (
+        <>
+            <div className={` ${styles.cajita} pt-8 relative z-10`}>
+                <div className="w-11/12 flex justify-end mb-4 text-white absolute z-20 my-3">
+                    <Button type="primary" onClick={() => setOpenEmailRegister(!OpenEmailRegister)}>
+                        <span className="text-xl py-2">Nuevo usuario</span>
+                    </Button>
+                </div>
 
-                        {Usuarios.length > 0 ? (
-                            <Table<DataType>
-                                columns={columns}
-                                expandable={{
-                                    expandedRowRender: (record) =>
-                                        <>
-                                            <p className="text-lg text-black font-bold mr-2">Email: &nbsp;
-                                                <span className="text-black font-normal  ">{record.email}</span>
-                                            </p>
-                                        </>,
-                                    rowExpandable: (record) => record.confirmed !== false,
-                                }}
-                                dataSource={Usuarios}
-                            />
-                        ) : (
-                            <>
-                                <Table<DataType>
-                                    columns={columns}
-                                    expandable={{
-                                        expandedRowRender: (record) => <p style={{ margin: 0 }}>{record.rol}</p>,
-                                        rowExpandable: (record) => record.confirmed !== false,
-                                    }}
-                                    dataSource={[]}
-                                />
-                            </>
-                        )}
-                    </div>
-                </div >
+                <div className="w-11/12 flex text-white absolute my-3 left-20 z-20">
+                    {/* Campo de búsqueda */}
+                    <input
+                        type="text"
+                        placeholder="Busca por correo o cédula "
+                        value={filtroTipo}
+                        onChange={handleInputChange}
+                        className="w-1/4 p-1 border border-cyan-600 rounded-md"
+                    />
+                </div>
 
-                {/*//Modal para enviar el formulario de registro */}
-                <SmplMdl
-                    open={OpenEmailRegister}
-                    setVisible={setOpenEmailRegister}
-                    children={<SendEmailVeter setVisible={setOpenEmailRegister} />}>
-                </SmplMdl>
+                <div className='bg-transparent backdrop-blur-[10rem] w-11/12 m-auto shadow-[0 0 90px rgba(0, 0, 0,.2)] pt-2'>
+                    <h1 className="text-white text-center font-pacifico">Usuarios Registrados</h1>
 
+                    {Usuarios.length > 0 ? (
+                        <Table<DataType>
+                            columns={columns}
+                            expandable={{
+                                expandedRowRender: (record) => (
+                                    <>
+                                        <p className="text-lg text-black font-bold mr-2">Email: &nbsp;
+                                            <span className="text-black font-normal">{record.email}</span>
+                                        </p>
+                                    </>
+                                ),
+                                rowExpandable: (record) => record.confirmed !== false,
+                            }}
+                            dataSource={Usuarios}
+                        />
+                    ) : (
+                        <Table<DataType>
+                            columns={columns}
+                            expandable={{
+                                expandedRowRender: (record) => <p style={{ margin: 0 }}>{record.rol}</p>,
+                                rowExpandable: (record) => record.confirmed !== false,
+                            }}
+                            dataSource={[]}
+                        />
+                    )}
+                </div>
+            </div>
 
-                {/*//Modal para editar los datos del usuario */}
-                <SmplMdl
-                    open={OpenEditUser}
-                    setVisible={setOpenEditUser}
-                    children={<UpdtUser idUser={idUser} setVisible={setOpenEditUser} />}>
-                </SmplMdl>
+            {/* Modal para registro de usuario */}
+            <SmplMdl
+                open={OpenEmailRegister}
+                setVisible={setOpenEmailRegister}
+                children={<SendEmailVeter setVisible={setOpenEmailRegister} />}
+            />
 
-
-
-            </>
-        )
-    }
+            {/* Modal para editar usuario */}
+            <SmplMdl
+                open={OpenEditUser}
+                setVisible={setOpenEditUser}
+                children={<UpdtUser idUser={idUser} setVisible={setOpenEditUser} />}
+            />
+        </>
+    );
 }
-export default ShowUsers
+
+export default ShowUsers;

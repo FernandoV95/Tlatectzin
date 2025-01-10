@@ -1,5 +1,5 @@
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { NewUserForm} from "../../schema/Users"; 
+import { NewUserForm } from "../../schema/Users";
 import Errors from "../../components/Errors";
 import styles from "../../modules/newUser.module.css";
 import { MdDriveFileRenameOutline } from "react-icons/md";
@@ -8,17 +8,21 @@ import { BsMailboxFlag } from "react-icons/bs";
 import { FaUserTie } from "react-icons/fa";
 
 type UserFormProps = {
-    register: UseFormRegister<NewUserForm>,  
+    register: UseFormRegister<NewUserForm>,
     errors: FieldErrors<NewUserForm>
 };
 
 function FormUser({ register, errors }: UserFormProps) {
+
+
+
     return (
         <>
             {/* Fila de Nombre y Teléfono */}
             <div className="grid grid-cols-2 w-full gap-4 mb-3">
                 <div className={`${styles.inputBox} relative`}>
                     <input
+                        maxLength={20}
                         type="text"
                         placeholder="Nombre(s)"
                         {...register('nombres', { required: true })}
@@ -29,6 +33,7 @@ function FormUser({ register, errors }: UserFormProps) {
                 </div>
                 <div className={`${styles.inputBox} relative`}>
                     <input
+                        maxLength={10}
                         type="text"
                         placeholder="Teléfono"
                         {...register('tel', { required: true })}
@@ -43,6 +48,7 @@ function FormUser({ register, errors }: UserFormProps) {
             <div className="grid grid-cols-2 w-full gap-4 mb-4">
                 <div className={`${styles.inputBox} relative`}>
                     <input
+                        maxLength={20}
                         type="text"
                         placeholder="Apellido Paterno"
                         {...register('apPat', { required: true })}
@@ -53,6 +59,7 @@ function FormUser({ register, errors }: UserFormProps) {
                 </div>
                 <div className={`${styles.inputBox} relative`}>
                     <input
+                        maxLength={20}
                         type="text"
                         placeholder="Apellido Materno"
                         className="w-full"
@@ -66,6 +73,7 @@ function FormUser({ register, errors }: UserFormProps) {
             <div className="w-full mb-4">
                 <div className={`${styles.inputBox} relative`}>
                     <input
+                        maxLength={30}
                         type="email"
                         placeholder="Correo"
                         {...register("email", {

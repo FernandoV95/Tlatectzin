@@ -131,7 +131,7 @@ const NewDataPet = ({ setIdPet, setIsValidIdPet }: NewDatePetsProps) => {
                                 >
                                     <option value="" disabled>Selecciona un tipo</option>
                                     {opcionesTipo.map((tipo) => (
-                                        <option key={tipo} className="text-black" value={tipo}>{tipo}</option>
+                                        <option key={tipo} className="text-black" value={tipo.toLowerCase()}>{tipo}</option>
                                     ))}
                                 </select>
                                 {errors.tipo && <Errors>{errors.tipo.message}</Errors>}

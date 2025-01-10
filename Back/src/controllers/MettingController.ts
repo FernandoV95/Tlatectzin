@@ -22,6 +22,7 @@ export class meetingControllers {
             }
             //Asignamos los datos a la BD
             const nuevaCita = new Meeting(req.body)
+            nuevaCita.usuario = req.user.id
             nuevaCita.N_cita = ncita
             nuevaCita.start = inicio({ fecha, hora });
             nuevaCita.end = final({ fecha, hora });
@@ -42,10 +43,16 @@ export class meetingControllers {
         }
     }
 
-    //Ver todas las citas 
+    //Ver todas las citas del usuario
     static getAllMetting = async (req: Request, res: Response) => {
         try {
-            const mtng = await Meeting.find({})
+            const mtng = await Meeting.find({
+                $or: [
+                    { usuario: { $in: req.user.id } }
+                ]
+            })
+                .populate('usuario', 'nombres')
+                .populate('veterinario', 'nombres cedula')
             if (!mtng) {
                 const error = new Error('¡No hay citas agendadas!');
                 res.status(401).json({ error: error.message });
@@ -69,6 +76,12 @@ export class meetingControllers {
                 res.status(404).json({ error: error.message })
                 return
             }
+            if (MtngID.usuario.toString() !== req.user.id.toString()) {
+                const error = new Error('No puedes ver esta cita')
+                res.status(404).json({ error: error.message })
+                return
+            }
+
             res.status(200).json(MtngID)
         } catch (error) {
             res.status(500).json({ error: error.message })
@@ -82,8 +95,17 @@ export class meetingControllers {
             const { idM } = req.params
 
             const MtngID = await Meeting.findById(idM)
+
+            //Buscamos la cita
             if (!MtngID) {
                 const error = new Error('¡Cita no encontrado!')
+                res.status(404).json({ error: error.message })
+                return
+            }
+
+            //Verificamos quien creo esta cita
+            if (MtngID.usuario.toString() !== req.user.id.toString()) {
+                const error = new Error('No puedes acceder esta cita')
                 res.status(404).json({ error: error.message })
                 return
             }
@@ -117,6 +139,13 @@ export class meetingControllers {
                 return
             }
 
+            //Verificamos quien creo esta cita
+            if (mtng.usuario.toString() !== req.user.id.toString()) {
+                const error = new Error('No puedes cancelar esta cita esta cita')
+                res.status(404).json({ error: error.message })
+                return
+            }
+
             //Verificamos si la cita ya esta cancelada
             if (mtng.status === "Cancelada") {
                 const error = new Error('¡Ya cancelaste esta cita 😡!')
@@ -131,6 +160,29 @@ export class meetingControllers {
             await mtng.save()
 
             res.status(200).send('¡Cita cancelada 😔!');
+        } catch (error) {
+            res.status(500).json({ error: error.message })
+            return
+        }
+    }
+
+
+    //Ver citas asignadas de los veterinarios
+    static seePatients = async (req: Request, res: Response) => {
+        try {
+            const mtng = await Meeting.find({
+                $or: [
+                    { veterinario: { $in: req.user.id } }
+                ]
+            })
+                .populate('usuario', 'nombres')
+                .populate('veterinario', 'nombres')
+            if (!mtng) {
+                const error = new Error('¡No hay citas agendadas!');
+                res.status(401).json({ error: error.message });
+                return
+            }
+            res.status(200).json(mtng)
         } catch (error) {
             res.status(500).json({ error: error.message })
             return

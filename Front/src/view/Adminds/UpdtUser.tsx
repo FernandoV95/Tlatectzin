@@ -16,10 +16,10 @@ function UpdtUser({ idUser, setVisible }: UpdtUserProps) {
 
 
     // Va a buscar al usuario por Id
-    const { data, isLoading, isError} = useQuery({
+    const { data, isLoading, isError } = useQuery({
         queryKey: ['usuario', idUser], // Usando el idUser directamente como string
         queryFn: () => getUsrId(idUser),
-        retry: 3, 
+        retry: 3,
     });
 
     // Va actualizar los datos del usuario
@@ -32,12 +32,12 @@ function UpdtUser({ idUser, setVisible }: UpdtUserProps) {
         },
         onSuccess: (data) => {
             toast.success(data);
-            queryClient.invalidateQueries({ queryKey: ['usuarios']})
-            queryClient.invalidateQueries({queryKey:['usuario', idUser]});
+            queryClient.invalidateQueries({ queryKey: ['usuarios'] })
+            queryClient.invalidateQueries({ queryKey: ['usuario', idUser] });
             setVisible(false);
         }
     });
-    
+
 
     //---------------> Controladores para el FORM <---------------
     const { register, handleSubmit, setValue, formState: { errors } } = useForm<UpdtUserForm>({
@@ -122,9 +122,10 @@ function UpdtUser({ idUser, setVisible }: UpdtUserProps) {
                                     />
                                     {errors.tel && <Errors>{errors.tel.message}</Errors>}
                                 </td>
-                                
+
                                 <td className="py-4 border-b " >
                                     <input
+                                        maxLength={20}
                                         type="text"
                                         className="w-full border-1 border-cyan-500 rounded-lg p-1"
                                         {...register('universidad', { required: false })}
@@ -135,6 +136,7 @@ function UpdtUser({ idUser, setVisible }: UpdtUserProps) {
                                     <input
                                         type="text"
                                         className="w-full border-1 border-cyan-500 rounded-lg p-1"
+                                        maxLength={15}
                                         {...register('cedula', { required: false })}
                                     />
                                 </td>

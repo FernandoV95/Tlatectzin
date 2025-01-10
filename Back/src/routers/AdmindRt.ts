@@ -23,7 +23,6 @@ AdmindRt.get('/user/:id',
     Admind.getUsersId
 )
 
-
 //Mandar correo para que los veterinarios se registren
 AdmindRt.post('/sendEmailVeter',
     InputErrors,
@@ -35,6 +34,40 @@ AdmindRt.put('/user/updt/:id',
     InputErrors,
     Admind.ChngData
 )
+
+
+//-----------> Citas <------------
+
+//Ver todas las citas
+AdmindRt.get('/show/mtngs',
+    InputErrors,
+    Admind.getAllMeeting
+)
+
+//Ver cita por ID
+AdmindRt.get('/show/mtngs/:idM',
+    InputErrors,
+    Admind.getByMttng
+)
+
+//Ver a todos los veterinarios
+AdmindRt.get('/AllVeter',
+    InputErrors,
+    Admind.getAllVet
+)
+
+
+//Buscamos citas con fecha y hora similares pero con veterinarios disponibles
+AdmindRt.get('/show/mtng/:idM/veter-available/',
+    InputErrors,
+    Admind.vetersAvailable
+)
+
+AdmindRt.patch('/show/mtng/:idM/assign-veter/',
+    InputErrors,
+    Admind.assignVeter
+)
+
 
 
 //-----------> Mascotas <------------
@@ -67,7 +100,7 @@ AdmindRt.delete('/pet/:idPet/imgs/delete/:idIP',
     petsImgControllers.deleteImgPetById
 )
 
- 
+
 
 //Rutas para las imagenes de las mascotas <- admind
 

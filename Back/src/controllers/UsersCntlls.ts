@@ -23,7 +23,7 @@ export class UserController {
 
             const newUser = new User(req.body)
 
-            
+
             //Hasear la contraseña
             newUser.pass = await hashPass(pass)
 
@@ -36,9 +36,12 @@ export class UserController {
             // Guardar usuario y token
             const [TknScc, NuScc] = await Promise.allSettled([tkn.save(), newUser.save()]);
 
-            // Comprobar resultados
-            if (!TknScc || !NuScc) {
-                res.status(500).json({ error: 'Datos no almacenados' });
+            // Comprobar resultados 
+            if (TknScc.status !== 'fulfilled' || NuScc.status !== 'fulfilled') {
+                const errorMessages = [];
+                if (TknScc.status !== 'fulfilled') errorMessages.push('Error al generar tu codigo');
+                if (NuScc.status !== 'fulfilled') errorMessages.push('Error al guardar tus datos');
+                res.status(500).json({ error: errorMessages.join(', ') });
                 return;
             }
 

@@ -4,15 +4,14 @@ import { NavLink } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from "react";
 
-type darkThemeProps = {
-    darkTheme: boolean
+type MenuListProps = {
+    rol: string
 }
 
-
-function MenuList({ darkTheme }: darkThemeProps) {
+function MenuList({ rol }: MenuListProps) {
 
     const [openKeys, setOpenKeys] = useState<string[]>([]);
-    const onOpenChange = (keys: string[]) => { 
+    const onOpenChange = (keys: string[]) => {
         const latestOpenKey = keys.find(key => openKeys.indexOf(key) === -1);
         setOpenKeys(latestOpenKey ? [latestOpenKey] : []); //Abre y cierra
     };
@@ -29,7 +28,7 @@ function MenuList({ darkTheme }: darkThemeProps) {
             icon: <BaiduOutlined />,
             label: <NavLink to={'/pets/catalog'} className="no-underline font-silkscreen text-white">Mascotas</NavLink>,
         },
-        {
+        ...(rol === 'usuario' ? [{
             key: 'meeting',
             icon: <FormOutlined />,
             label: <NavLink to="" className="no-underline font-silkscreen text-white">Citas</NavLink>,
@@ -43,8 +42,21 @@ function MenuList({ darkTheme }: darkThemeProps) {
                     label: <NavLink to="/mtng/show" className="no-underline font-silkscreen">Mis citas</NavLink>
                 }
             ]
-        },
+        }] : []),
+
+        ...(rol === 'veterinario' ? [{
+            key: 'meeting',
+            icon: <FormOutlined />,
+            label: <NavLink to="/vet/meetings" className="no-underline font-silkscreen text-white">Pacientes</NavLink>,
+        }] : []),
         {
+            key: 'we',
+            icon: <UserAddOutlined />,
+            label: <NavLink to={"/nosotros"} className="no-underline font-silkscreen text-white">Nosotros</NavLink>,
+        },
+
+        // Aquí agregamos la condición para mostrar el ítem de 'rol' solo si el rol es 'administrador'
+        ...(rol === 'administrador' ? [{
             key: 'profiles',
             icon: <UsergroupAddOutlined />,
             label: <NavLink to="" className="no-underline font-silkscreen text-white">Perfiles</NavLink>,
@@ -56,23 +68,18 @@ function MenuList({ darkTheme }: darkThemeProps) {
                 {
                     key: 'pets2',
                     label: <NavLink to={'/admind/pets/show'} className="no-underline font-silkscreen">Mascotas</NavLink>
-                }, 
+                },
                 {
                     key: 'meetings',
-                    label: <NavLink to="" className="no-underline font-silkscreen">Citas</NavLink>
+                    label: <NavLink to={"/admind/show/mtngs"} className="no-underline font-silkscreen">Citas</NavLink>
                 }
             ]
-        },
-        {
-            key: 'we',
-            icon: <UserAddOutlined />,
-            label: <NavLink to="" className="no-underline font-silkscreen text-white">Nosotros</NavLink>,
-        },
+        }] : [])
     ];
 
     return (
         <Menu
-            theme={darkTheme ? 'dark' : 'light'}
+            theme={'dark'}
             mode="inline"
             className="menu-bar"
             items={items}

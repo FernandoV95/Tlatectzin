@@ -1,36 +1,39 @@
 import mongoose, { Schema, Document, PopulatedDoc, Types } from "mongoose";
+import { IUser } from "./Users";
 const meetingStatus = {
     PENDING: 'Pendiente',
     IN_PROGRESS: 'EnProgreso',
-    COMPLETED: 'Complato',
+    COMPLETED: 'Completado',
     CANCELED: 'Cancelada',
 } as const
-export type MeetingStatus  = typeof meetingStatus[keyof typeof meetingStatus]
+export type MeetingStatus = typeof meetingStatus[keyof typeof meetingStatus]
 
 export interface IMeeting extends Document {
-    N_cita:number
-    alias:string
+    N_cita: number
+    alias: string
     fecha: string
     hora: string
-    motivo:string
+    motivo: string
     comentarios: string
-    status: MeetingStatus 
-    start:string
-    end:string
+    status: MeetingStatus
+    usuario: PopulatedDoc<IUser & Document>
+    veterinario: PopulatedDoc<IUser & Document>
+    start: string
+    end: string
 }
 
 const MeetingSchema: Schema = new Schema({
     N_cita: {
         type: Number,
-        required: true, 
-        unique:true,
+        required: true,
+        unique: true,
     },
-    alias:{
+    alias: {
         type: String,
     },
     fecha: {
         type: String,
-        required: true, 
+        required: true,
     },
     hora: {
         type: String,
@@ -41,7 +44,7 @@ const MeetingSchema: Schema = new Schema({
         required: true
     },
     comentarios: {
-        type:String
+        type: String
     },
     start: {
         type: String,
@@ -49,12 +52,22 @@ const MeetingSchema: Schema = new Schema({
     end: {
         type: String,
     },
+    usuario: {
+        type: Types.ObjectId,
+        ref: 'user'
+    },
+    veterinario: {
+        type: Types.ObjectId,
+        ref: 'user',
+        default: null 
+    },
+
     status: {
         type: String,
         enum: Object.values(meetingStatus),
         default: meetingStatus.PENDING
     },
-},{ timestamps: true }
+}, { timestamps: true }
 )
 
 const Meeting = mongoose.model<IMeeting>('meeting', MeetingSchema)

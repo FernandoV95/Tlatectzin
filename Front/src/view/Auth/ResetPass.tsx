@@ -8,6 +8,7 @@ function ResetPass() {
     const [isVldTkn, setIsVldTkn] = useState(false)
     const [token, setToken] = useState<ValidCodForm['token']>('')
 
+
     return (
         <>
             <div className={`${styles.cajita}`}>
