@@ -1,0 +1,65 @@
+.cajita{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(/p.jpg);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: right top;
+    min-height: 85vh;
+}
+
+.sub { 
+    height: 45px;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: .3s ease-in-out;
+  }
+  
+  .sub:hover {
+    scale: 1.1;
+    background: white
+  }
+
+  .wrapper {  
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .2);
+    backdrop-filter: blur(30px); /* Asegúrate de que este filtro se vea bien en el navegador */
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    color: #fff;
+    border-radius: 10px;
+    padding: 1rem;  /* Añadido un pequeño padding para no tocar los bordes del contenedor */
+}
+
+.wrapper .inputBox { 
+    height: 50px;
+    background: transparent;
+    margin: 0.5rem 0;
+}
+
+.inputBox input {  
+    width: 100%;  /* Aseguramos que el input ocupe todo el espacio disponible */
+    height: 100%;  /* Que ocupe toda la altura del contenedor */
+    background: transparent;
+    border: none;
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 40px;
+    font-size: 16px;
+    color: #fff;
+    padding: 0 45px 0 20px;  /* Ajuste en el padding para que sea más eficiente */
+    box-sizing: border-box; /* Esto incluye el padding dentro del tamaño total del input */
+}
+
+.inputBox input::placeholder {
+    color: #fff;
+}
+
+.inputBox .icon {  
+    top: 50%;  /* Centrado vertical */ 
+    transform: translateY(-50%); /* Ajuste para centrar verticalmente */
+    font-size: 24px;  /* Tamaño del ícono */
+    color: #fff;
+}
+
+
+ 

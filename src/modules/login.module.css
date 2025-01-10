@@ -1,0 +1,43 @@
+.cajita{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(/bulbasaur.jpg);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: right top;
+    min-height: 85vh;
+}
+
+.inputField{
+  font-size: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  height: 50px;
+  width: 100%;
+  padding: 0 10px 0 45px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.50);
+  border-radius: 30px;
+  outline: none;
+  transition: .5 ease-in-out;
+  z-index: 10;
+}
+
+.input-field:hover,
+.input-field:focus {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.sub { 
+    height: 45px;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: .3s ease-in-out;
+  }
+  
+  .sub:hover {
+    scale: 1.1;
+    background: white
+  }
+ 
