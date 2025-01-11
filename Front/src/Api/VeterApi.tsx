@@ -2,7 +2,7 @@
 
 import { isAxiosError } from "axios"
 import { api } from "../lib/Axios"
-import { AllMtngSh, CitaForm, idForm } from "../schema/Meetings"
+import { AllMtngSh} from "../schema/Meetings"
 
 
 //Ver mis citas cita

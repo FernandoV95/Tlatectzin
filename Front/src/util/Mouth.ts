@@ -6,7 +6,8 @@ const meses = [
 
 export function obtFch(fecha: string) {
     let aux = fecha.slice(0, 15); 
-    const [diaNom,mes,diaNum,anio]=aux.split(' ')
+    const [,mes,diaNum,anio]=aux.split(' ')
+
     let Mes = ''
     const auxMes = meses.indexOf(mes) + 1
     if (auxMes < 10) {
@@ -22,8 +23,5 @@ export function obtHora(fecha: string) {
     return fecha.slice(16, 21); 
 }
 
-
-export function validarecha(fecha:string){
-    
-}
+ 
 

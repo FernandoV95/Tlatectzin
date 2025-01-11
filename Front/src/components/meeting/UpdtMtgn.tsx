@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 import { validateDate, validateTime } from "../../util/Valid";
 import { toast } from "react-toastify";
 import { getMtngId } from "../../Api/AdmindApi";
+import { updtMtngId } from "../../Api/MeetingApi";
 
 type UpdtMtngProps = {
     idCita: string;
@@ -24,7 +25,7 @@ const UpdtMtgn = ({ idCita, setVisible }: UpdtMtngProps) => {
     //Va a actualizar los datos
     const qc = new QueryClient();
     const { mutate } = useMutation({
-        mutationFn: getMtngId,
+        mutationFn: updtMtngId,
         onError: (error) => {
             toast.error(error.message)
         },
@@ -61,7 +62,8 @@ const UpdtMtgn = ({ idCita, setVisible }: UpdtMtngProps) => {
     const onSub = (formData: CitaForm) => {
         const datos = {
             formData, idCita
-        }; 
+        };  
+        mutate(datos)
     };
 
     // Mostrar mensajes de carga o error

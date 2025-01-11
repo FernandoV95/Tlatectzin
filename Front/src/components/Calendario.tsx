@@ -9,7 +9,7 @@ type CalendarioProps = {
     validHour: string;
 }
 
-function Calendario({ value, setValue, fechaInicial, validHour }: CalendarioProps) {
+function Calendario({setValue, fechaInicial, validHour }: CalendarioProps) {
     const [currentHour, setCurrentHour] = useState(validHour);
 
     const initialValue = dayjs(fechaInicial, 'YYYY-MM-DD HH:mm');

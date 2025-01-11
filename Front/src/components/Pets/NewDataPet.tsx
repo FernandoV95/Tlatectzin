@@ -8,15 +8,12 @@ import Errors from "../../components/Errors";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { newPetForm } from "../../schema/Pets";
 
-
 type NewDatePetsProps = {
-    setIdPet: React.Dispatch<React.SetStateAction<string>>
-    setIsValidIdPet: React.Dispatch<React.SetStateAction<boolean>>
-}
-
+    setIdPet: React.Dispatch<React.SetStateAction<string>>;
+    setIsValidIdPet: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 const NewDataPet = ({ setIdPet, setIsValidIdPet }: NewDatePetsProps) => {
-
     const vacunas = [
         "Ninguna", "Rabia", "Moquillo", "Garrapatas", "Parasitos", "Pulgas", "Diarreas", "Neumonías neonatales"
     ];
@@ -25,8 +22,6 @@ const NewDataPet = ({ setIdPet, setIsValidIdPet }: NewDatePetsProps) => {
         'Perro', 'Gato', 'Roedor', 'Pez', 'Aves', 'Reptiles', 'Ganado', 'Equinos', 'Porcino', 'Pokemones', 'Animal Fantastico'
     ];
 
-    const [Vacunas, setVacunas] = useState<string[]>([]);
-
     const [formData, setFormData] = useState<{
         vacunasSeleccionadas: string[];
         otrasVacunas: string[];
@@ -34,8 +29,6 @@ const NewDataPet = ({ setIdPet, setIsValidIdPet }: NewDatePetsProps) => {
         vacunasSeleccionadas: [""],
         otrasVacunas: [""],
     });
-
-
 
     // Manejo de envío del formulario
     const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,8 +47,6 @@ const NewDataPet = ({ setIdPet, setIsValidIdPet }: NewDatePetsProps) => {
         const nueva = [...formData.otrasVacunas];
         nueva[index] = value;
         setFormData({ ...formData, otrasVacunas: nueva });
-        const nuevasVacunas = [...formData.vacunasSeleccionadas, ...nueva];
-        setVacunas(nuevasVacunas);
     };
 
     // Agregar otro campo de "Otra vacuna"
@@ -91,10 +82,10 @@ const NewDataPet = ({ setIdPet, setIsValidIdPet }: NewDatePetsProps) => {
             toast.error(error.message);
         },
         onSuccess: (data) => {
-            reset()
+            reset();
             toast.success(`Datos Almacenados 😊`);
-            setIdPet(data)
-            setIsValidIdPet(true)
+            setIdPet(data);
+            setIsValidIdPet(true);
         }
     });
 
@@ -104,7 +95,6 @@ const NewDataPet = ({ setIdPet, setIsValidIdPet }: NewDatePetsProps) => {
 
     return (
         <div className={`${styles.wrapper} w-11/12 m-auto`}>
-
             <form onSubmit={handleSubmit(onSub)} noValidate>
                 <div className="grid grid-cols-2 justify-center">
                     {/*Derecho */}
