@@ -4,8 +4,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Layout, theme } from 'antd';
 import Logo from '../components/Logo';
 import MenuList from '../components/MenuList';
-import NavMenu from '../components/NavMenu';
-import { useQueryClient } from '@tanstack/react-query';
+import NavMenu from '../components/NavMenu'; 
 import { useEffect, useState } from 'react';
 
 

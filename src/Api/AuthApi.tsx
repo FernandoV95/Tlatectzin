@@ -1,8 +1,7 @@
 
 import { isAxiosError } from "axios"
 import { api } from "../lib/Axios"
-import { EmailForm, LoginForm, ValidCodForm } from "../schema/Users"
-import { useQueryClient } from "@tanstack/react-query";
+import { EmailForm, LoginForm, ValidCodForm } from "../schema/Users" 
 
 
 //Iniciar sesion

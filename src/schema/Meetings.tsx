@@ -36,7 +36,8 @@ export const citaSchema = z.object({
 type Cita = z.infer<typeof citaSchema>
 export type idForm = Pick<Cita, "_id">
 export type CitaForm = Pick<Cita, "fecha" | "hora" | "motivo" | "comentarios" | "alias">
-export type CitaAdmindForm = Pick<Cita, "_id" | "fecha" | "hora" | "veterinario" >
+export type CitaAdmindForm = Pick<Cita, "_id" | "fecha" | "hora" | "veterinario">;
+
 
 //Esquema para MOSTRAR los datos 
 export const AllMtngSh = z.array(

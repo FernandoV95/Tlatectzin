@@ -1,5 +1,5 @@
 
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery} from "@tanstack/react-query";
 import { AiOutlineLike } from "react-icons/ai";
 import { FaHandHoldingHeart } from "react-icons/fa";
 import { GiDogHouse } from "react-icons/gi";

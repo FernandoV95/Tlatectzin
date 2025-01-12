@@ -2,7 +2,7 @@
 import { isAxiosError } from "axios"
 import { api } from "../lib/Axios"
 import { AllUsrsSh, EmailForm, idUserForm, UpdtUserForm } from "../schema/Users"
-import { AllMtngSh, CitaAdmindForm, disponibles, idForm, } from "../schema/Meetings";
+import { AllMtngSh, disponibles, idForm, } from "../schema/Meetings";
 
 
 
@@ -88,22 +88,26 @@ export async function getMtngId(id: idForm['_id']) {
 export async function vetersAvailable({ idCita }: { idCita: idUserForm['_id'] }) {
     try {
         const { data } = await api(`/admind/show/mtng/${idCita}/veter-available/`);
-        const response = disponibles.safeParse(data)
+        const response = disponibles.safeParse(data);
+
         if (response.success) {
-            return response.data
+            return response.data;
+        } else {
+            // En caso de error, retornar una estructura vacía válida o manejar el error.
+            return { veterAvlbl: [], fecha: '', hora: '' };
         }
-        return []
     } catch (error) {
         if (isAxiosError(error) && error.response) {
             throw new Error(error.response.data.error);
         }
+        throw error;  // Asegúrate de lanzar el error si no es un error de Axios
     }
 }
 
 //Asignamos el veterinario
-export async function assignVeter({formData, idCita }: {formData:CitaAdmindForm, idCita: idUserForm['_id'] }) {
+export async function assignVeter({ formData, idCita }: { formData: any, idCita: idUserForm['_id'] }) {
     try {
-        const { data } = await api.patch(`/admind/show/mtng/${idCita}/assign-veter/`,formData);
+        const { data } = await api.patch(`/admind/show/mtng/${idCita}/assign-veter/`, formData);
         return data
     } catch (error) {
         if (isAxiosError(error) && error.response) {

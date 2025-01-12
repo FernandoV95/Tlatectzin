@@ -1,6 +1,5 @@
-import { QueryClient, useQuery } from "@tanstack/react-query"
-import { getUSer } from "../Api/AuthApi"
-import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query"
+import { getUSer } from "../Api/AuthApi" 
 
 
 

@@ -17,8 +17,7 @@ import ShowPets from './view/Adminds/ShowPets'
 import NewPet from './view/Pets/NewPet'
 import Catalogo from './view/Pets/Catalogo' 
 import ShowUsrsMtgn from './view/Adminds/ShwUsrsMtgn'
-import Nosotros from './view/Nosotros'
-import AsigVeter from './components/meeting/AsigVeter'
+import Nosotros from './view/Nosotros' 
 import ShowMtgn from './view/Veters/ShowMtgn'
 //<Route element ={<Layout />} >
 //</Route>

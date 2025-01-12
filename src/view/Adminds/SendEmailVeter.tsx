@@ -2,8 +2,7 @@
 import { FaEnvelope } from 'react-icons/fa'
 import Errors from '../../components/Errors'
 import { EmailForm } from '../../schema/Users';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form'; 
 import { useMutation } from '@tanstack/react-query';
 import { sendEmail } from '../../Api/AdmindApi';
 import { toast } from 'react-toastify';
@@ -16,8 +15,7 @@ type UpdtMtngProps = {
 
 
 export default function SendEmailVeter({ setVisible }: UpdtMtngProps) {
-  const goMenu = useNavigate()
-
+ 
   const datos: EmailForm = {
     email: ""
   };

@@ -9,10 +9,7 @@ import { TiCancel } from "react-icons/ti";
 import styles from "../../modules/showCitas.module.css"
 
 import { Table } from 'antd';
-import { ColumnsType } from 'antd/es/table';
-import { Link } from "react-router-dom";
-import { HighlightTwoTone } from "@ant-design/icons";
-import { useState } from "react";
+import { ColumnsType } from 'antd/es/table';  
 import { shwMtngVeter } from "../../Api/VeterApi";
 
 type MisCitasProp = {
@@ -20,9 +17,6 @@ type MisCitasProp = {
 }
 
 const MisPcientes = ({ name }: MisCitasProp) => {
-
-
-    const [abrir, setAbrir] = useState(false); 
 
     //Va a Mostrar los datos
 const qc = new QueryClient()

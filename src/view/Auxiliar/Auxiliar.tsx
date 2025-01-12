@@ -1,6 +1,4 @@
-import NavMenu from "../../components/NavMenu"
-
-
+ 
 
 function Auxiliar() {
   return (

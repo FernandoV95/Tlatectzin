@@ -11,10 +11,9 @@ import { useNavigate } from "react-router-dom";
 function Catalogo() {
     const [currentPage, setCurrentPage] = useState(1);
     const [abrir, setAbrir] = useState(false);
-    const [itemsPerPage, setItemsPerPage] = useState(9);
     const [idPet, setIdPet] = useState<idForm['_id']>('');
     const [filtroTipo, setFiltroTipo] = useState('');
-    const goAgendar = useNavigate()
+    const goAgendar = useNavigate();
 
     const { data, isLoading, isError } = useQuery({
         queryKey: ['catalogo'],
@@ -34,6 +33,7 @@ function Catalogo() {
     };
 
     // Calcular las paginas necesarias para las mascotas filtradas
+    const itemsPerPage = 9;  // Cantidad de elementos por página
     const paginasTotales = Math.ceil(datosFiltrados.length / itemsPerPage);
 
     // Cambiar de página
@@ -99,7 +99,7 @@ function Catalogo() {
                                     <div className={`${styles.card}`}>
                                         <div className={`${styles.cardImagePlaceholder}`}>
                                             {mascota.imagenes[0] ? (
-                                                <img src={mascota.imagenes[0].secure_url} alt={mascota.alias} />
+                                                <img className=" w-full h-full" src={mascota.imagenes[0].secure_url} alt={mascota.alias} />
                                             ) : (
                                                 <div>No hay imagen</div>
                                             )}

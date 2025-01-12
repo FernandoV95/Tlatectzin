@@ -1,7 +1,7 @@
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
-import { assignVeter, getMtngId, vetersAvailable } from "../../Api/AdmindApi";
+import { assignVeter, vetersAvailable } from "../../Api/AdmindApi";
 import { CitaAdmindForm, idForm } from "../../schema/Meetings";
-import Table, { ColumnsType } from "antd/es/table";
+
 import dayjs from "dayjs";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
@@ -18,6 +18,7 @@ type AsigVeterProp = {
 export default function AsigVeter({ idCita, setVisible }: AsigVeterProp) {
 
     //vamos a traer los datos de esta cita
+
     const { data, isLoading, isError } = useQuery({
         queryKey: ['mtgnAdmind', idCita],
         queryFn: () => vetersAvailable({ idCita }),
@@ -25,13 +26,18 @@ export default function AsigVeter({ idCita, setVisible }: AsigVeterProp) {
     });
 
     // Controladores para el formulario
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm({
+    const { register, handleSubmit, setValue, formState: { errors } } = useForm<CitaAdmindForm>({
         defaultValues: {
+            _id: '',  // Dejamos _id vacío porque lo estableceremos después
             fecha: dayjs().format('YYYY-MM-DD'),
             hora: dayjs().format('HH:mm'),
-            veterinario: ''
+            veterinario: {
+                _id: '',
+                nombres: ''
+            }
         }
     });
+
 
     //Va a actualizar los datos
     const qc = new QueryClient();
@@ -48,14 +54,19 @@ export default function AsigVeter({ idCita, setVisible }: AsigVeterProp) {
         }
     })
 
-    const [toastDisplayed, setToastDisplayed] = useState(false); // Controla la visualización de toast
+    const [toastDisplayed, setToastDisplayed] = useState(false);
 
 
     useEffect(() => {
         if (data) {
             setValue("fecha", dayjs(data?.fecha).format('YYYY-MM-DD'));
             setValue("hora", dayjs(data?.hora, ['h:mm A', 'h:mm']).format('HH:mm'));
-            setValue('veterinario', data?.veterAvlbl[0]._id);
+            const veterinario = data?.veterAvlbl[0] ? {
+                _id: data.veterAvlbl[0]._id,
+                nombres: data.veterAvlbl[0].nombres
+            } : { _id: '', nombres: '' };
+
+            setValue('veterinario', veterinario);
         }
     }, [data, setValue]);
 
@@ -71,13 +82,14 @@ export default function AsigVeter({ idCita, setVisible }: AsigVeterProp) {
     if (isError) return <p>Hubo problemas al cargar los datos</p>;
 
     const onSub = (formData: CitaAdmindForm) => {
-        const datos = {
-            formData, idCita
-        }
-        mutate(datos)
+        // Aquí ya tienes el _id dentro de formData
+        mutate({ formData, idCita });
     };
 
- 
+
+
+
+
     if (data) return (
         <>
             <form noValidate onSubmit={handleSubmit(onSub)}>

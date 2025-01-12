@@ -181,7 +181,7 @@ export default function ShowPets() {
                     setVisible={setAbrir}
                     children={
                         !cambiarVentana ? (
-                            <UpdtPet idPet={idPet} setCambiarVentana={setCambiarVentana} />
+                            <UpdtPet idPet={idPet}   setCambiarVentana={ setCambiarVentana}  />
                         ) : (
                             <UpdtImgPet idPet={idPet} setVisible={setAbrir} setCambiarVentana={setCambiarVentana} />
                         )

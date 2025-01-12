@@ -62,7 +62,7 @@ function ShwPtCtlg({ idPet }: ShwPtCtlgProps) {
 
                         {/* Catálogo de imágenes */}
                         <div className="grid grid-cols-3 gap-2">
-                            {imagenes?.map((imagen: { secure_url: string }, index: number) => (
+                            {imagenes?.map((imagen: { secure_url: string } ) => (
                                 <div
                                     key={imagen.secure_url}
                                     className="w-40 h-40 hover:cursor-pointer hover:scale-110 hover:transition-transform hover:duration-300"

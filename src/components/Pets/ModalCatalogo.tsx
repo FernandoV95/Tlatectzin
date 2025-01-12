@@ -12,7 +12,7 @@ type ShwPtCtlgProps = {
 function ModalCatalogo({ idPet, setCambiarVentana }: ShwPtCtlgProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
 
-    const { data, isLoading, isError } = useQuery({
+    const { data} = useQuery({
         queryKey: ['imgs', idPet],
         queryFn: () => showPetImgsId(idPet),
         enabled: !!idPet,
