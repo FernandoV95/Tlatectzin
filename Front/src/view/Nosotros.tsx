@@ -1,3 +1,6 @@
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";  // Mueve estas líneas al principio
+
 import image1 from "../../public/H1.jpg";
 import image2 from "../../public/H2.jpg";
 import image3 from "../../public/H3.jpg";
@@ -13,9 +16,6 @@ import image12 from "../../public/T5.jpg";
 import styles from "../modules/nosotros.module.css";
 import { TypeAnimation } from "react-type-animation";
 import { useState } from "react";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-
 import Slider from "react-slick";
 import SmplMdl from "../components/modals/SmplMdl";
 import Veterinarios from "../components/Tarjetas/Veterinarios";

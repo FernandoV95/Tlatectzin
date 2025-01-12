@@ -99,7 +99,7 @@ function Catalogo() {
                                     <div className={`${styles.card}`}>
                                         <div className={`${styles.cardImagePlaceholder}`}>
                                             {mascota.imagenes[0] ? (
-                                                <img src={mascota.imagenes[0].secure_url} alt={mascota.alias} />
+                                                <img className=" w-full h-full" src={mascota.imagenes[0].secure_url} alt={mascota.alias} />
                                             ) : (
                                                 <div>No hay imagen</div>
                                             )}
