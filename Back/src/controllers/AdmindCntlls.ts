@@ -187,7 +187,7 @@ export class Admind {
                 fecha,
                 hora
             })
- 
+
         } catch (error) {
             res.status(500).json({ error: error.message })
             return
@@ -195,22 +195,29 @@ export class Admind {
     }
 
     static assignVeter = async (req: Request, res: Response) => {
-        try {
-            const { idM } = req.params
-            const cita = await Meeting.findById(idM)
+        const { idM } = req.params;
+        const { veterinario } = req.body; // Los datos que estás pasando en formData
 
+        try {
+
+
+            // Buscar la cita
+            const cita = await Meeting.findById(idM);
             if (!cita) {
-                res.status(404).json({ error: '¡Cita no encontrada!' });
-                return;
+                return res.status(404).json({ error: '¡Cita no encontrada!' });
             }
-            await Meeting.findByIdAndUpdate(idM, req.body, { new: true });
+ 
+            cita.veterinario = veterinario; // Si la cita tiene un veterinario
+
+            await cita.save();
 
             res.status(200).send('¡Veterinario Asignado 😊!');
         } catch (error) {
-            res.status(500).json({ error: error.message })
-            return
+            console.error(error);
+            res.status(500).json({ error: 'Hubo un problema al asignar el veterinario' });
         }
-    }
+    };
+
 
 
 }

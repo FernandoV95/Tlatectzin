@@ -18,7 +18,6 @@ type AsigVeterProp = {
 export default function AsigVeter({ idCita, setVisible }: AsigVeterProp) {
 
     //vamos a traer los datos de esta cita
-
     const { data, isLoading, isError } = useQuery({
         queryKey: ['mtgnAdmind', idCita],
         queryFn: () => vetersAvailable({ idCita }),
@@ -28,7 +27,7 @@ export default function AsigVeter({ idCita, setVisible }: AsigVeterProp) {
     // Controladores para el formulario
     const { register, handleSubmit, setValue, formState: { errors } } = useForm<CitaAdmindForm>({
         defaultValues: {
-            _id: '',  // Dejamos _id vacío porque lo estableceremos después
+            _id: '',
             fecha: dayjs().format('YYYY-MM-DD'),
             hora: dayjs().format('HH:mm'),
             veterinario: {
@@ -44,16 +43,15 @@ export default function AsigVeter({ idCita, setVisible }: AsigVeterProp) {
     const { mutate } = useMutation({
         mutationFn: assignVeter,
         onError: (error) => {
-            toast.error(error.message)
+            toast.error(error.message);
         },
         onSuccess: (data) => {
-            toast.success(data)
-            qc.invalidateQueries({ queryKey: ['getMeetings'] })
-            qc.invalidateQueries({ queryKey: ['Mtng', idCita] })
+            toast.success(data);
+            qc.invalidateQueries({ queryKey: ['mtgnAdmind', idCita] });
+            qc.refetchQueries({ queryKey: ['getMeetings'] });
             setVisible(false);
         }
-    })
-
+    }); 
     const [toastDisplayed, setToastDisplayed] = useState(false);
 
 
@@ -77,56 +75,27 @@ export default function AsigVeter({ idCita, setVisible }: AsigVeterProp) {
         }
     }, [errors.hora, toastDisplayed]);
 
+    useEffect(() => {
+
+    }, [])
+
     if (isLoading) return <div><p className="text-white">Cargando....</p></div>;
 
     if (isError) return <p>Hubo problemas al cargar los datos</p>;
 
     const onSub = (formData: CitaAdmindForm) => {
-        // Aquí ya tienes el _id dentro de formData
-        mutate({ formData, idCita });
+         const datos = {
+            formData, idCita
+         }
+         //console.log(datos)
+        mutate(datos)
     };
-
-
-
-
 
     if (data) return (
         <>
             <form noValidate onSubmit={handleSubmit(onSub)}>
                 <h2 className=" text-center">Asignar Veterinario</h2>
-                <div className="grid grid-cols-2 gap-4">
-                    {/* Fecha */}
-                    <div>
-                        <label className="w-full text-center">Fecha</label>
-                        <input
-                            type="date"
-                            className="text-black w-full border-2 border-cyan-500 rounded-lg p-1"
-                            {...register('fecha', {
-                                required: 'La fecha es obligatoria',
-                                validate: validateDate
-                            })}
-                        />
-                        {errors.fecha && <Errors>{errors.fecha.message}</Errors>}
-                    </div>
 
-                    {/* Hora */}
-                    <div>
-                        <label className="w-full text-center">Hora</label>
-                        <input
-                            type="time"
-                            className="text-black w-full border-2 border-cyan-500 rounded-lg p-1"
-                            {...register('hora', {
-                                required: 'La hora es obligatoria',
-                                validate: validateTime
-                            })}
-                        />
-                        {errors.hora && (
-                            <>
-                                <Errors>{errors.hora.message}</Errors>
-                            </>
-                        )}
-                    </div>
-                </div>
 
                 {/* Asignar Veterinario */}
                 <div>
@@ -134,9 +103,10 @@ export default function AsigVeter({ idCita, setVisible }: AsigVeterProp) {
                     <select
                         className="text-black w-full border-2 border-cyan-500 p-1 rounded-lg"
                         {...register('veterinario', { required: 'El veterinario es obligatorio' })}
+                        onChange={(e) => {}}
                     >
                         {data?.veterAvlbl.map(({ _id, nombres }: VeterFrom, index: number) => (
-                            <option key={index} value={_id}>
+                            <option key={index} value={_id} >
                                 {nombres}
                             </option>
                         ))}

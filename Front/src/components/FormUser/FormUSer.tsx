@@ -73,7 +73,7 @@ function FormUser({ register, errors }: UserFormProps) {
             <div className="w-full mb-4">
                 <div className={`${styles.inputBox} relative`}>
                     <input
-                        maxLength={30}
+                        maxLength={50}
                         type="email"
                         placeholder="Correo"
                         {...register("email", {

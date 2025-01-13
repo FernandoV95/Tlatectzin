@@ -51,7 +51,6 @@ const UserSchema: Schema = new Schema({
     },
     cedula: {
         type: String,
-        unique: true
     },
     rol: {
         type: String,

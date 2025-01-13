@@ -63,6 +63,7 @@ AdmindRt.get('/show/mtng/:idM/veter-available/',
     Admind.vetersAvailable
 )
 
+//Asignamos el veterinario
 AdmindRt.patch('/show/mtng/:idM/assign-veter/',
     InputErrors,
     Admind.assignVeter

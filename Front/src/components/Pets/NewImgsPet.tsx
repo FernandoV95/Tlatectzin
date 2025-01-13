@@ -80,7 +80,10 @@ function NewImgPet({ idPet }: petImgProps) {
                                         />
                                         <button
                                             className='absolute p-1 top-2 left-32 bg-red-800 text-white rounded-full hover:scale-110 transition duration-300'
-                                            onClick={() => handleDelete(index)}
+                                            onClick={(e) => {
+                                                e.preventDefault(); // Previene que el formulario se envíe
+                                                handleDelete(index); // Llama a la función de eliminar
+                                            }}
                                         >
                                             <DeleteOutlined style={{ fontSize: '1.3rem' }} />
                                         </button>

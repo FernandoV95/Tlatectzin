@@ -3,7 +3,7 @@ import User from "../models/Users";
 import { hashPass } from "../util/Hash";
 import Token from "../models/Token";
 import { generateToken } from "../util/GeneraToken";
-import { AuthEmail } from "../email/AuthUser"; 
+import { AuthEmail } from "../email/AuthUser";
 
 export class UserController {
 
@@ -22,7 +22,6 @@ export class UserController {
 
             const newUser = new User(req.body)
 
-
             //Hasear la contraseña
             newUser.pass = await hashPass(pass)
 
@@ -34,30 +33,16 @@ export class UserController {
 
             // Guardar usuario y codigo 
             const [usrRstl, tknRslt] = await Promise.all([
-                newUser.save().catch(err => err),
-                tkn.save().catch(err => err)
+                newUser.save(),
+                tkn.save()
             ]);
 
-            // Verificar si ambas operaciones fueron exitosas
-            if (usrRstl instanceof Error || tknRslt instanceof Error) {
-                const errorMessages = [];
-                if (usrRstl instanceof Error) errorMessages.push('Error al guardar los datos del usuario');
-                if (tknRslt instanceof Error) errorMessages.push('Error al generar el codigo');
-                return res.status(500).json({ error: errorMessages.join(', ') });
-            }
 
-            // Enviar el correo de confirmación solo si ambas operaciones fueron exitosas
-            try {
-                await AuthEmail.sendConfirAccnt({
-                    email: newUser.email,
-                    name: newUser.nombres,
-                    token: tkn.token
-                });
-            } catch (emailError) {
-                console.error('Error al enviar el correo:', emailError);
-                return res.status(500).json({ error: 'Hubo un error al enviar el correo de confirmación.' });
-            }
-
+            await AuthEmail.sendConfirAccnt({
+                email: newUser.email,
+                name: newUser.nombres,
+                token: tkn.token
+            });
 
             res.status(201).send('Hemos enviado tu codigo a tu correo')
 

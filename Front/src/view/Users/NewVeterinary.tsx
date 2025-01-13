@@ -71,7 +71,7 @@ function NewVeterinary() {
         },
         onSuccess: (data) => {
             toast.success(data)
-            goToken('/user/newVeter')
+            goToken('/auth/valAcct')
         }
     })
 

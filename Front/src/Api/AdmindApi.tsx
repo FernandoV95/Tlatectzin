@@ -2,7 +2,7 @@
 import { isAxiosError } from "axios"
 import { api } from "../lib/Axios"
 import { AllUsrsSh, EmailForm, idUserForm, UpdtUserForm } from "../schema/Users"
-import { AllMtngSh, disponibles, idForm, } from "../schema/Meetings";
+import { AllMtngSh, CitaAdmindForm, disponibles, idForm, } from "../schema/Meetings";
 
 
 
@@ -60,6 +60,7 @@ export async function getMtng() {
     try {
         const { data } = await api(`/admind/show/mtngs`);
         const response = AllMtngSh.safeParse(data)
+        console.log(data)
         if (response.success) {
             return response.data
         }
@@ -105,9 +106,9 @@ export async function vetersAvailable({ idCita }: { idCita: idUserForm['_id'] })
 }
 
 //Asignamos el veterinario
-export async function assignVeter({ formData, idCita }: { formData: any, idCita: idUserForm['_id'] }) {
+export async function assignVeter({ formData, idCita  }: { formData: CitaAdmindForm, idCita:idForm['_id']  }) {
     try {
-        const { data } = await api.patch(`/admind/show/mtng/${idCita}/assign-veter/`, formData);
+        const { data } = await api.patch(`/admind/show/mtng/${idCita}/assign-veter/ `, formData);
         return data
     } catch (error) {
         if (isAxiosError(error) && error.response) {

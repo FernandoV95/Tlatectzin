@@ -17,7 +17,7 @@ export async function newUser(formData: NewUserForm){
 //Crea nuevos veterinario
 export async function newVeter(formData: NewVeterForm){
     try{
-        const { data } = await api.post('/user/new',formData)
+        const { data } = await api.post('/user/newVeter',formData)
         return data
     }catch(error){
        if(isAxiosError(error) && error.response)

@@ -181,8 +181,7 @@ const ShowUsrsMtgn = () => {
         motivo: m.motivo,
         comentario: m.comentarios,
     })) || [];
-
-    console.log(data)
+ 
  
     if (data) return (
         <>
